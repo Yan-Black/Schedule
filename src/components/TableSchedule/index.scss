@@ -1,0 +1,27 @@
+@import '~antd/dist/antd.css';
+
+.ant-table-thead > tr > th {
+    background: #2196f333;
+}
+
+.currentWeek1 {
+    background: #5bfa2733;
+}
+
+.materials-link {
+    display: block;
+}
+
+.rating-positive {
+    & .ant-badge-count {
+        background: #52c41a;    
+    }   
+}
+
+.no-rating {
+    & .ant-badge-count {
+        background-color: #fff;
+        color: #999;
+        box-shadow: 0 0 0 1px #d9d9d9 inset; 
+    }
+}
