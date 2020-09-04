@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import ToolBar from 'components/Header/ToolBar';
 import ToggleUser from 'components/ToggleUser';
+import logoImg from '../../assets/icons/logo-rsschool.png';
 import NavBar from './NavBar';
 
 import './index.scss';
@@ -10,9 +11,11 @@ import './index.scss';
 const Header: React.FC = () => {
   return (
     <>
-      <div className="header">
+      <div className="header  container">
         <Link to="/">
-          <h1>Logo</h1>
+          <h1>
+            <img src={logoImg} alt=" " />
+          </h1>
         </Link>
         <NavBar />
         <ToggleUser />
