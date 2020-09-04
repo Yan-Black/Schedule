@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Table, Badge, Menu, Dropdown, Space, Typography } from 'antd';
+import { Table, Badge, Menu, Dropdown, Space, Typography, Tooltip } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './index.scss';
 
@@ -118,12 +118,12 @@ const TableSchedule: React.FC = () => {
         key: 'lector',
         render: (text, row, index) => {
           const rating = (-1) ** 2 * index - 1;
-          console.log((rating > 0 && 'rating-positive') || (rating === 0 && 'no-rating'));
           return (
             <div>
               <Badge
                 showZero
                 size="small"
+                offset={[3, -2]}
                 count={rating}
                 overflowCount={99}
                 className={(rating > 0 && 'rating-positive') || (rating === 0 && 'no-rating')}
@@ -145,22 +145,35 @@ const TableSchedule: React.FC = () => {
         },
       },
       {
-        title: 'Task action',
-        dataIndex: 'operation',
-        key: 'operation',
-        render: () => (
-          <Space size="middle">
-            <a href="https://ant.design">Start</a>
-            <a href="https://ant.design">Stop</a>
-            <Dropdown overlay={menu}>
-              <a href="https://ant.design">
-                More
-                <DownOutlined />
-              </a>
-            </Dropdown>
-          </Space>
+        title: 'Comments',
+        dataIndex: 'comments',
+        key: 'comments',
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (address) => (
+          <Tooltip placement="topLeft" title={address}>
+            {address}
+          </Tooltip>
         ),
       },
+      // {
+      //   title: 'Task action',
+      //   dataIndex: 'operation',
+      //   key: 'operation',
+      //   render: () => (
+      //     <Space size="middle">
+      //       <a href="https://ant.design">Start</a>
+      //       <a href="https://ant.design">Stop</a>
+      //       <Dropdown overlay={menu}>
+      //         <a href="https://ant.design">
+      //           More
+      //           <DownOutlined />
+      //         </a>
+      //       </Dropdown>
+      //     </Space>
+      //   ),
+      // },
     ];
 
     const data = [];
@@ -172,9 +185,11 @@ const TableSchedule: React.FC = () => {
         name: `Task number ${i + 1}`,
         deadlineDay: new Date().toLocaleDateString(),
         deadlineTime: new Date().toLocaleTimeString(),
+        comments:
+          'Решения всех заданий доступны после 20-минутной паузы. Для проверки самостоятельности решения  заданий нужно посмотреть и послушать как студент решает пройденные им таски',
       });
     }
-    return <Table bordered columns={columns} dataSource={data} pagination={false} />;
+    return <Table bordered columns={columns} dataSource={data} pagination={false} scroll={{ y: 450 }} />;
   };
 
   const columns = [
@@ -182,13 +197,6 @@ const TableSchedule: React.FC = () => {
       title: 'RS School Schedule',
       dataIndex: 'name',
       key: 'name',
-      // render: (text, row, index) => {
-      //   console.log(row, index);
-      // return(
-      //   index === 1 && <span className='currentWeek'>{text}</span>
-      //     || <span>{text}</span>
-      // );
-      // }
     },
   ];
 
@@ -224,7 +232,7 @@ const TableSchedule: React.FC = () => {
         className="components-table-demo-nested"
         columns={columns}
         expandable={{ expandedRowRender }}
-        defaultExpandedRowKeys={[1]}
+        defaultExpandedRowKeys={[2]}
         dataSource={data}
         rowClassName={(record, index) => `currentWeek${index}`}
       />
