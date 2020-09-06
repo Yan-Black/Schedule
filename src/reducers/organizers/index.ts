@@ -1,0 +1,32 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchOrganizres } from 'requests';
+import { InitialOrganizerState } from './models';
+
+const initialState: InitialOrganizerState = {
+  data: [],
+  loading: false,
+  error: null,
+};
+
+const organizersSlice = createSlice({
+  name: 'organizers',
+  initialState,
+  reducers: {
+    deleteOrganizer: (state, { payload }) => {
+      state.data.splice(payload, 1);
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchOrganizres.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchOrganizres.fulfilled, (state, { payload }) => {
+      state.data = payload;
+    });
+    builder.addCase(fetchOrganizres.rejected, (state, { payload }) => {
+      state.error = payload;
+    });
+  },
+});
+
+export default organizersSlice.reducer;

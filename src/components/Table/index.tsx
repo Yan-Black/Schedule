@@ -9,6 +9,7 @@ const Table: React.FC = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const events = useSelector((state: RootState) => state.events.data);
+  const organizers = useSelector((state: RootState) => state.organizers.data);
 
   const handleClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLButtonElement;
@@ -20,16 +21,30 @@ const Table: React.FC = () => {
   }
 
   return (
-    <ul>
-      {events.map(({ place }, i) => (
-        <li key={Math.random()}>
-          {place}
-          <button type="button" onClick={handleClick} id={`${i}`}>
-            X
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {events.map(({ place }, i) => (
+          <li key={Math.random()}>
+            {place}
+            {'  '}
+            <button type="button" onClick={handleClick} id={`${i}`}>
+              X
+            </button>
+          </li>
+        ))}
+      </ul>
+      <ul>
+        {organizers.map(({ name }, i) => (
+          <li key={Math.random()}>
+            {name}
+            {'  '}
+            <button type="button" onClick={handleClick} id={`${i}`}>
+              X
+            </button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
