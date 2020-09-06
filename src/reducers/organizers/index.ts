@@ -29,4 +29,5 @@ const organizersSlice = createSlice({
   },
 });
 
+export const { deleteOrganizer } = organizersSlice.actions;
 export default organizersSlice.reducer;
