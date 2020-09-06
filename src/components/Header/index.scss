@@ -1,7 +1,16 @@
+@import '../../styles/variables';
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  background-color: #7dbbea;
+  background-color: $cyan !important;
+  // background-image: linear-gradient(#54b4eb, $cyan 60%, #1d9ce5);
+  background-image: linear-gradient(white, #e9ecef 60%, #e3e7eb);
+  background-repeat: no-repeat;
+
+  img {
+    height: 30px;
+  }
 }
