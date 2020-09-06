@@ -3,6 +3,11 @@ import { Table, Badge, Menu, Dropdown, Space, Typography, Tooltip } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './index.scss';
 
+interface User {
+  key: number;
+  name: string;
+}
+
 const { Text, Link } = Typography;
 
 const menu = (
@@ -16,19 +21,14 @@ const TableSchedule: React.FC = () => {
   const expandedRowRender = () => {
     const columns = [
       {
-        title: 'Start',
-        children: [
-          {
-            title: 'Date',
-            dataIndex: 'startDay',
-            key: 'startDay',
-          },
-          {
-            title: 'Time',
-            dataIndex: 'startTime',
-            key: 'startTime',
-          },
-        ],
+        title: 'Date',
+        dataIndex: 'startDay',
+        key: 'startDay',
+      },
+      {
+        title: 'Time',
+        dataIndex: 'startTime',
+        key: 'startTime',
       },
       {
         title: 'Name',
@@ -61,21 +61,21 @@ const TableSchedule: React.FC = () => {
           );
         },
       },
-      {
-        title: 'Deadline',
-        children: [
-          {
-            title: 'Date',
-            dataIndex: 'deadlineDay',
-            key: 'deadlineDay',
-          },
-          {
-            title: 'Time',
-            dataIndex: 'deadlineTime',
-            key: 'deadlineTime',
-          },
-        ],
-      },
+      // {
+      //   title: 'Deadline',
+      //   children: [
+      //     {
+      //       title: 'Date',
+      //       dataIndex: 'deadlineDay',
+      //       key: 'deadlineDay',
+      //     },
+      //     {
+      //       title: 'Time',
+      //       dataIndex: 'deadlineTime',
+      //       key: 'deadlineTime',
+      //     },
+      //   ],
+      // },
       {
         title: 'Place',
         dataIndex: 'place',
@@ -157,23 +157,23 @@ const TableSchedule: React.FC = () => {
           </Tooltip>
         ),
       },
-      // {
-      //   title: 'Task action',
-      //   dataIndex: 'operation',
-      //   key: 'operation',
-      //   render: () => (
-      //     <Space size="middle">
-      //       <a href="https://ant.design">Start</a>
-      //       <a href="https://ant.design">Stop</a>
-      //       <Dropdown overlay={menu}>
-      //         <a href="https://ant.design">
-      //           More
-      //           <DownOutlined />
-      //         </a>
-      //       </Dropdown>
-      //     </Space>
-      //   ),
-      // },
+      {
+        title: 'Task action',
+        dataIndex: 'operation',
+        key: 'operation',
+        render: () => (
+          <Space size="middle">
+            <a href="https://ant.design">Edit</a>
+            <a href="https://ant.design">Delete</a>
+            {/* <Dropdown overlay={menu}>
+              <a href="https://ant.design">
+                More
+                <DownOutlined />
+              </a>
+            </Dropdown> */}
+          </Space>
+        ),
+      },
     ];
 
     const data = [];
@@ -189,7 +189,7 @@ const TableSchedule: React.FC = () => {
           'Решения всех заданий доступны после 20-минутной паузы. Для проверки самостоятельности решения  заданий нужно посмотреть и послушать как студент решает пройденные им таски',
       });
     }
-    return <Table bordered columns={columns} dataSource={data} pagination={false} scroll={{ y: 450 }} />;
+    return <Table<User> bordered columns={columns} dataSource={data} pagination={false} scroll={{ y: 450 }} />;
   };
 
   const columns = [
@@ -200,7 +200,7 @@ const TableSchedule: React.FC = () => {
     },
   ];
 
-  const data = [];
+  const data: User[] = [];
 
   const millisecondsInWeek = 604800000;
 
@@ -209,7 +209,7 @@ const TableSchedule: React.FC = () => {
     const currDay = currDate.getDate();
     const currMonth = currDate.getMonth();
     const currYear = currDate.getFullYear();
-    const nextDate = new Date(currYear, currMonth, currDay + 7);
+    const nextDate = new Date(Date.now() + millisecondsInWeek * i + millisecondsInWeek);
     const nextDay = nextDate.getDate();
     const nextMonth = nextDate.getMonth();
     const nextYear = nextDate.getFullYear();
@@ -218,17 +218,12 @@ const TableSchedule: React.FC = () => {
       name: `Week ${i + 1}
             (${currDay}.${currMonth}.${currYear}
             - ${nextDay}.${nextMonth}.${nextYear})`,
-      platform: 'iOS',
-      version: '10.3.4.5654',
-      upgradeNum: 500,
-      creator: 'Jack',
-      createdAt: '2014-12-24 23:12:00',
     });
   }
 
   return (
     <>
-      <Table
+      <Table<User>
         className="components-table-demo-nested"
         columns={columns}
         expandable={{ expandedRowRender }}
