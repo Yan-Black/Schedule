@@ -4,7 +4,7 @@ import { InitiaiStudyEventState } from './models';
 
 const initialState: InitiaiStudyEventState = {
   data: [],
-  loading: true,
+  loading: false,
   error: null,
 };
 
@@ -25,6 +25,7 @@ const eventsSlice = createSlice({
       state.data = payload;
     });
     builder.addCase(fetchStudyEvents.rejected, (state, { payload }) => {
+      state.loading = false;
       state.error = payload;
     });
   },

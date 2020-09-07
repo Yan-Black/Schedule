@@ -21,9 +21,11 @@ const organizersSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchOrganizres.fulfilled, (state, { payload }) => {
+      state.loading = false;
       state.data = payload;
     });
     builder.addCase(fetchOrganizres.rejected, (state, { payload }) => {
+      state.loading = false;
       state.error = payload;
     });
   },
