@@ -1,39 +1,49 @@
 import * as React from 'react';
-import { Table, Badge, Menu, Dropdown, Space, Typography, Tooltip } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Table, Badge, Space, Typography, Tooltip } from 'antd';
 import './index.scss';
+import { ColumnsType } from 'antd/lib/table/Table';
 
 interface User {
   key: number;
   name: string;
 }
 
-const { Text, Link } = Typography;
+interface ScheduleData {
+  comments: string;
+  deadlineDay: string;
+  deadlineTime: string;
+  key: number;
+  name: string;
+  startDay: string;
+  startTime: string;
+  type: string;
+}
 
-const menu = (
-  <Menu>
-    <Menu.Item>Edit</Menu.Item>
-    <Menu.Item>Delete</Menu.Item>
-  </Menu>
-);
+const { Text, Link } = Typography;
 
 const TableSchedule: React.FC = () => {
   const expandedRowRender = () => {
-    const columns = [
+    const columns: ColumnsType<User> = [
       {
         title: 'Date',
         dataIndex: 'startDay',
         key: 'startDay',
+        width: 100,
+        fixed: 'left',
       },
       {
         title: 'Time',
         dataIndex: 'startTime',
         key: 'startTime',
+        width: 100,
+        fixed: 'left',
       },
       {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        width: 150,
+        fixed: 'left',
         render: (text) => (
           <Link href="https://ant.design" target="_blank">
             {text}
@@ -42,44 +52,40 @@ const TableSchedule: React.FC = () => {
       },
       {
         title: 'Type',
+        dataIndex: 'type',
         key: 'type',
-        render: (text, row, index) => {
-          const taskType =
-            ((index === 1 || index === 3 || index === 7) && 'Lection') ||
-            ((index === 2 || index === 6 || index === 8 || index === 12) && 'Test') ||
-            'Task';
+        width: 100,
+        filters: [
+          {
+            text: 'Task',
+            value: 'Task',
+          },
+          {
+            text: 'Lection',
+            value: 'Lection',
+          },
+          {
+            text: 'Test',
+            value: 'Test',
+          },
+        ],
+        onFilter: (value: string, record: ScheduleData) => record.type.indexOf(value) === 0,
+        render: (text: string) => {
           return (
             <span>
-              <Badge status={(taskType === 'Lection' && 'warning') || (taskType === 'Test' && 'error') || 'success'} />
-              <Text
-                type={(taskType === 'Lection' && 'warning') || (taskType === 'Test' && 'danger') || 'success'}
-                keyboard
-              >
-                {taskType}
+              <Badge status={(text === 'Lection' && 'warning') || (text === 'Test' && 'error') || 'success'} />
+              <Text type={(text === 'Lection' && 'warning') || (text === 'Test' && 'danger') || 'success'} keyboard>
+                {text}
               </Text>
             </span>
           );
         },
       },
-      // {
-      //   title: 'Deadline',
-      //   children: [
-      //     {
-      //       title: 'Date',
-      //       dataIndex: 'deadlineDay',
-      //       key: 'deadlineDay',
-      //     },
-      //     {
-      //       title: 'Time',
-      //       dataIndex: 'deadlineTime',
-      //       key: 'deadlineTime',
-      //     },
-      //   ],
-      // },
       {
         title: 'Place',
         dataIndex: 'place',
         key: 'place',
+        width: 100,
         render: (text, row, index) => {
           const place =
             ((index === 1 || index === 3 || index === 7) && 'Online') ||
@@ -98,6 +104,7 @@ const TableSchedule: React.FC = () => {
         title: 'Materials',
         dataIndex: 'materials',
         key: 'materials',
+        width: 150,
         render: () => (
           <>
             <Link className="materials-link" href="https://ant.design" target="_blank">
@@ -116,6 +123,7 @@ const TableSchedule: React.FC = () => {
         title: 'Lector',
         dataIndex: 'lector',
         key: 'lector',
+        width: 150,
         render: (text, row, index) => {
           const rating = (-1) ** 2 * index - 1;
           return (
@@ -148,29 +156,44 @@ const TableSchedule: React.FC = () => {
         title: 'Comments',
         dataIndex: 'comments',
         key: 'comments',
+        width: 200,
         ellipsis: {
           showTitle: false,
         },
-        render: (address) => (
+        render: (address: React.ReactElement) => (
           <Tooltip placement="topLeft" title={address}>
             {address}
           </Tooltip>
         ),
       },
       {
-        title: 'Task action',
+        title: 'Additional',
+        dataIndex: 'additional',
+        key: 'additional',
+        width: 100,
+      },
+      {
+        title: 'Additional',
+        dataIndex: 'additional',
+        key: 'additional',
+        width: 100,
+      },
+      {
+        title: 'Additional',
+        dataIndex: 'additional',
+        key: 'additional',
+        width: 100,
+      },
+      {
+        title: 'Action',
         dataIndex: 'operation',
         key: 'operation',
+        width: 100,
+        fixed: 'right',
         render: () => (
           <Space size="middle">
             <a href="https://ant.design">Edit</a>
             <a href="https://ant.design">Delete</a>
-            {/* <Dropdown overlay={menu}>
-              <a href="https://ant.design">
-                More
-                <DownOutlined />
-              </a>
-            </Dropdown> */}
           </Space>
         ),
       },
@@ -178,6 +201,10 @@ const TableSchedule: React.FC = () => {
 
     const data = [];
     for (let i = 0; i < 15; ++i) {
+      const taskType =
+        ((i === 1 || i === 3 || i === 7) && 'Lection') ||
+        ((i === 2 || i === 6 || i === 8 || i === 12) && 'Test') ||
+        'Task';
       data.push({
         key: i,
         startDay: new Date().toLocaleDateString(),
@@ -187,9 +214,11 @@ const TableSchedule: React.FC = () => {
         deadlineTime: new Date().toLocaleTimeString(),
         comments:
           'Решения всех заданий доступны после 20-минутной паузы. Для проверки самостоятельности решения  заданий нужно посмотреть и послушать как студент решает пройденные им таски',
+        type: taskType,
       });
     }
-    return <Table<User> bordered columns={columns} dataSource={data} pagination={false} scroll={{ y: 450 }} />;
+
+    return <Table<User> bordered columns={columns} pagination={false} dataSource={data} scroll={{ y: 450 }} />;
   };
 
   const columns = [
@@ -222,16 +251,16 @@ const TableSchedule: React.FC = () => {
   }
 
   return (
-    <>
-      <Table<User>
-        className="components-table-demo-nested"
-        columns={columns}
-        expandable={{ expandedRowRender }}
-        defaultExpandedRowKeys={[2]}
-        dataSource={data}
-        rowClassName={(record, index) => `currentWeek${index}`}
-      />
-    </>
+    <Table<User>
+      className="components-table-demo-nested"
+      columns={columns}
+      expandable={{ expandedRowRender }}
+      defaultExpandedRowKeys={[2]}
+      dataSource={data}
+      // pagination={false}
+      rowClassName={(record, index) => `currentWeek${index}`}
+      scroll={{ y: 600 }}
+    />
   );
 };
 
