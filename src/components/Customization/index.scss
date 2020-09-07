@@ -1,0 +1,135 @@
+.schedule-customizations {
+  max-width: 600px;
+  margin: auto;
+  outline: none;
+}
+
+.schedule-customizations__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  font-size: 18px;
+}
+
+.schedule-customizations__button-icon {
+  font-size: 30px;
+  margin-left: 10px;
+}
+
+.schedule-customizations__window {
+  max-width: 550px;
+  margin: auto;
+  border: solid 1px #000;
+  border-radius: 10px;
+  padding: 20px;
+  outline: none;
+}
+
+.schedule-customizations__options {
+  font-size: 18px;
+}
+
+.schedule-customizations__color-description {
+  margin: 10px 0px 10px;
+  max-width: 250px;
+}
+
+.schedule-customizations__option {
+  cursor: pointer;
+  list-style: none;
+  padding: 0px;
+}
+
+.schedule-customizations__submenu {
+  padding: 10px;
+}
+
+.schedule-customizations__submenu:not(.ant-menu-submenu-open) {
+  height: 27px;
+}
+
+.schedule-customizations__submenu .ant-menu-submenu-title {
+  padding: 0px !important;
+}
+
+.schedule-customizations__submenu:hover,
+.schedule-customizations__option-fontheight:hover,
+.schedule-customizations__button:hover {
+  background-color: lemonchiffon;
+}
+
+.schedule-customizations__option-path {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.schedule-customizations__icon {
+  margin: 0px 10px;
+  font-size: 25px;
+}
+
+.schedule-customizations__option-title {
+  list-style: none;
+  padding: 0px !important;
+}
+
+.schedule-customizations__option-color {
+  position: relative;
+  cursor: pointer;
+}
+
+.schedule-customizations__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 10px;
+  cursor: pointer;
+  height: 25px;
+}
+
+.schedule-customizations__option-type {
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
+.schedule-customizations__option-select {
+  width: 200px;
+  cursor: pointer;
+}
+
+.schedule-customizations__window .ant-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ant-modal-wrap {
+  outline: none;
+}
+
+.schedule-customizations__window .ant-modal-footer span {
+  font-size: 16px;
+  margin: 10px;
+}
+
+.schedule-customizations__window .ant-modal-footer .ant-btn {
+  background-color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px;
+  margin-top: 30px;
+}
+
+.schedule-customizations__colors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}

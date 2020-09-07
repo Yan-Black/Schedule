@@ -5,9 +5,9 @@ import App from 'components/App';
 import store from 'store';
 
 const Index: React.FC = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+        <App />
+    </Provider>
 );
 
 render(<Index />, document.getElementById('root'));
