@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import ToolBar from 'components/Header/ToolBar';
-import ToggleUser from 'components/ToggleUser';
+import RoleSwitcher from 'components/Header/RoleSwitcher';
 import logoImg from '../../assets/icons/logo-rsschool.png';
 import NavBar from './NavBar';
 
@@ -18,7 +18,7 @@ const Header: React.FC = () => {
           </h1>
         </Link>
         <NavBar />
-        <ToggleUser />
+        <RoleSwitcher />
       </div>
       <ToolBar />
     </>

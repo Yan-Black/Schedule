@@ -1,2 +1,4 @@
 
-export type Role = 'student' | 'mentor';
+export interface Role {
+    currentRole: 'student' | 'mentor';
+} 

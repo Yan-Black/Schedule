@@ -1,0 +1,10 @@
+@import '../../../styles/variables';
+
+.header {
+  &__roleSwitcher {
+    cursor: pointer;
+    user-select: none;
+    color: $white;
+    text-shadow: 0 0 1px $black, 0 0 4px $cyan;
+  }
+}

@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Role } from './modules';
 
-const initialState: Role = 'student';
+const initialState: Role = { currentRole: 'student' };
 
 const roleSlice = createSlice({
     name: 'role',
     initialState,
     reducers: {
         switchRole: (state: Role) => {
-            state = state === 'student' ? 'mentor' : 'student';
+            state.currentRole = state.currentRole === 'student' ? 'mentor' : 'student'
         }
     }
 })
