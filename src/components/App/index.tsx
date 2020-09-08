@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
 import Header from 'components/Header';
@@ -7,9 +9,17 @@ import Calendar from 'components/Calendar';
 import List from 'components/List';
 import Footer from 'components/Footer';
 
+import fetchStudyEvents, { fetchOrganizres } from 'requests';
+
 import './index.scss';
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchStudyEvents());
+    dispatch(fetchOrganizres());
+  }, []);
+
   return (
     <>
       <Header />
