@@ -1,14 +1,17 @@
-@import '../../../styles//variables';
+@import '../../styles/variables';
 
-.navbar {
-  display: flex;
-  justify-content: center;
+.ant-btn-round.ant-btn-lg {
+  border-color: $black;
+  color: $black;
 
-  &-item {
-    padding: 10px;
+  &:hover {
+    border-color: $white;
+    color: $white;
   }
 }
 
-.active {
-  color: red;
+@media (max-width: 440px) {
+  .ant-tabs-nav {
+    flex-direction: column;
+  }
 }
