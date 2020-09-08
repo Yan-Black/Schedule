@@ -30,3 +30,11 @@
         box-shadow: 0 0 0 1px #d9d9d9 inset; 
     }
 }
+
+.ant-table-container {
+    font-family: 'system-ui';
+    & .ant-table {
+        font-size: 12px;    
+    }
+}
+
