@@ -1,0 +1,14 @@
+@import '../../../styles//variables';
+
+.navbar {
+  display: flex;
+  justify-content: center;
+
+  &-item {
+    padding: 10px;
+  }
+}
+
+.active {
+  color: red;
+}
