@@ -113,9 +113,6 @@ const TableSchedule: React.FC = () => {
             <Link className="materials-link" href="https://ant.design" target="_blank">
               Link to materials
             </Link>
-            <Link className="materials-link" href="https://ant.design" target="_blank">
-              Link to materials
-            </Link>
           </>
         ),
       },
@@ -170,19 +167,19 @@ const TableSchedule: React.FC = () => {
         title: 'Additional',
         dataIndex: 'additional',
         key: 'additional',
-        width: 100,
+        width: 105,
       },
       {
         title: 'Additional',
         dataIndex: 'additional',
         key: 'additional',
-        width: 100,
+        width: 105,
       },
       {
         title: 'Additional',
         dataIndex: 'additional',
         key: 'additional',
-        width: 100,
+        width: 105,
       },
       {
         title: 'Action',
@@ -218,7 +215,7 @@ const TableSchedule: React.FC = () => {
       });
     }
 
-    return <Table<User> bordered columns={columns} pagination={false} dataSource={data} scroll={{ y: 450 }} />;
+    return <Table<User> bordered columns={columns} pagination={false} dataSource={data} scroll={{ y: 400 }} />;
   };
 
   const columns = [
@@ -257,9 +254,9 @@ const TableSchedule: React.FC = () => {
       expandable={{ expandedRowRender }}
       defaultExpandedRowKeys={[2]}
       dataSource={data}
-      // pagination={false}
+      pagination={false}
       rowClassName={(record, index) => `currentWeek${index}`}
-      scroll={{ y: 600 }}
+      scroll={{ y: 500 }}
     />
   );
 };
