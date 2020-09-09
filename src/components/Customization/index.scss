@@ -21,6 +21,10 @@
 }
 
 .schedule-customizations__window {
+  position: absolute;
+  top: 0px;
+  left: 35%;
+  background-color: #fff;
   max-width: 550px;
   margin: auto;
   border: solid 1px #000;
@@ -91,7 +95,7 @@
   flex-wrap: nowrap;
   padding: 10px;
   cursor: pointer;
-  height: 25px;
+  height: 50px;
 }
 
 .schedule-customizations__option-type {

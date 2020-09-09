@@ -43,7 +43,8 @@
       "@typescript-eslint/no-unsafe-call": "warn",
       "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
       "linebreak-style": "warn",
-      "no-param-reassign": "warn",
+      "prettier/prettier": ["warn", { "endOfLine": "auto" }],
+      "no-param-reassign": "off",
       "no-underscore-dangle": "warn",
       "jsx-a11y/label-has-associated-control": [
         "error",
