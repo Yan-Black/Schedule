@@ -1,4 +1,4 @@
-const timeZone: Array<string> = [
+const timeZone: string[] = [
     'UTC−12:00',
     'UTC−11:00',
     'UTC−10:00',
@@ -27,9 +27,9 @@ const timeZone: Array<string> = [
     'UTC+14:00',
 ];
 
-const backgrounds: Array<string> = ['#000', '#fff', '#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#5300EB'];
+const backgrounds: string[] = ['#000', '#fff', '#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#5300EB'];
 
-const tasks: Array<string> = [
+const tasks: string[] = [
     'Online lection',
     'Task start',
     'Optional task start',

@@ -1,26 +1,19 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Modal, Button } from 'antd';
-import {
-    FormatPainterOutlined,
-    ZoomInOutlined,
-    ReadOutlined,
-    SettingOutlined,
-    FieldTimeOutlined,
-    DownloadOutlined,
-    TeamOutlined,
-    ShareAltOutlined,
-} from '@ant-design/icons';
+import { FormatPainterOutlined, ZoomInOutlined, SettingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { GithubPicker } from 'react-color';
 import Switch from 'react-switch';
-import { timeZone, backgrounds, tasks } from '../../constants';
+import { backgrounds, tasks } from '../../constants';
+import selectList from './list';
 import './index.scss';
 
 const Customization: React.FC = () => {
-    const [visible, setVisible] = React.useState<boolean>(false);
-    const [visual, setVisual] = React.useState<boolean>(false);
-    const [mergeSchedule, setMergeSchedule] = React.useState<boolean>(false);
-    const [stage, setStage] = React.useState<string>('general-setting');
-    const [color, setColor] = React.useState<string>('000');
+    const [visible, setVisible] = useState<boolean>(false);
+    const [visual, setVisual] = useState<boolean>(false);
+    const [mergeSchedule, setMergeSchedule] = useState<boolean>(false);
+    const [stage, setStage] = useState<string>('general-setting');
+    const [color, setColor] = useState<string>('000');
     const showCustomizations = () => {
         if (visible) {
             setVisible(false);
@@ -32,25 +25,6 @@ const Customization: React.FC = () => {
     const handleChangeColor = (value: { hex: string }) => {
         setColor(value.hex);
     };
-    const showIconTeam = (): JSX.Element => <TeamOutlined className="schedule-customizations__icon" />;
-    const showIconDownload = (): JSX.Element => <DownloadOutlined className="schedule-customizations__icon" />;
-    const showIconTimaZone = (): JSX.Element => <FieldTimeOutlined className="schedule-customizations__icon" />;
-    const showIconView = (): JSX.Element => <ReadOutlined className="schedule-customizations__icon" />;
-    const showIconVisual = (): JSX.Element => <ZoomInOutlined className="schedule-customizations__icon" />;
-    const showIconAlt = (): JSX.Element => <ShareAltOutlined className="schedule-customizations__icon" />;
-    const list = (title: string, array: Array<string>, callback: () => JSX.Element) => (
-        <label className="schedule-customizations__item">
-            <span>
-                {callback()}
-                {title}
-            </span>
-            <select className="schedule-customizations__option-type schedule-customizations__option-select">
-                {array.map((value) => (
-                    <option key={value}>{value}</option>
-                ))}
-            </select>
-        </label>
-    );
     const settings = () => {
         if (stage === 'general-setting') {
             return (
@@ -62,13 +36,25 @@ const Customization: React.FC = () => {
                     closable={false}
                 >
                     <form className="schedule-customizations__options">
-                        {list('Select view', ['List', 'Calendar'], showIconView)}
-                        {list('Select timezone', timeZone, showIconTimaZone)}
-                        {list('Select format', ['txt', 'pdf', 'csv'], showIconDownload)}
-                        {list('Select format meeting', ['Online and offline', 'Online', 'Offline'], showIconTeam)}
-                        <label className="schedule-customizations__item">
+                        {selectList.map((obj) => {
+                            const { title, options, icon } = obj;
+                            return (
+                                <label className="schedule-customizations__item" key={title}>
+                                    <span>
+                                        {icon()}
+                                        {title}
+                                    </span>
+                                    <select className="schedule-customizations__option-type schedule-customizations__option-select">
+                                        {options.map((value) => (
+                                            <option key={value}>{value}</option>
+                                        ))}
+                                    </select>
+                                </label>
+                            );
+                        })}
+                        <label className="schedule-customizations__item" htmlFor="visiall">
                             <span>
-                                {showIconVisual()}
+                                <ZoomInOutlined className="schedule-customizations__icon" />
                                 Version for the visually impaired
                             </span>
                             <Switch
@@ -78,11 +64,12 @@ const Customization: React.FC = () => {
                                 checkedIcon={false}
                                 height={20}
                                 width={60}
+                                id="visiall"
                             />
                         </label>
-                        <label className="schedule-customizations__item">
+                        <label className="schedule-customizations__item" htmlFor="merge">
                             <span>
-                                {showIconAlt()}
+                                <ShareAltOutlined className="schedule-customizations__icon" />
                                 Merge schedule
                             </span>
                             <Switch
@@ -92,6 +79,7 @@ const Customization: React.FC = () => {
                                 checkedIcon={false}
                                 height={20}
                                 width={60}
+                                id="merge"
                             />
                         </label>
                         <div
