@@ -1,10 +1,17 @@
 @import '../../../styles/variables';
 
-.header {
-  &__roleSwitcher {
+.roleSwitcher {
     cursor: pointer;
     user-select: none;
-    color: $white;
-    text-shadow: 0 0 1px $black, 0 0 4px $cyan;
+    padding: 5px;
+    font-size: 15px;
+    text-shadow: 0 0 5px $primary;
+    color: $primary;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    &:focus{
+      border : 1px solid $primary !important;
+    }
   }
-}
+
