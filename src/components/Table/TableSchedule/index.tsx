@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { Table, Badge, Space, Typography, Tooltip } from 'antd';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import 'antd/dist/antd.css';
 import './index.scss';
 import { ColumnsType } from 'antd/lib/table/Table';
 
@@ -9,19 +12,20 @@ interface User {
 }
 
 interface ScheduleData {
-  comments: string;
-  deadlineDay: string;
-  deadlineTime: string;
+  comments?: string;
+  deadlineDay?: string;
+  deadlineTime?: string;
   key: number;
   name: string;
-  startDay: string;
-  startTime: string;
-  type: string;
+  startDay?: string;
+  startTime?: string;
+  type?: string;
 }
 
 const { Text, Link } = Typography;
 
 const TableSchedule: React.FC = () => {
+  const eventTypeColors = useSelector((state: RootState) => state.eventTypeColors);
   const expandedRowRender = () => {
     const columns: ColumnsType<User> = [
       {
@@ -54,7 +58,7 @@ const TableSchedule: React.FC = () => {
         title: 'Type',
         dataIndex: 'type',
         key: 'type',
-        width: 100,
+        width: 120,
         filters: [
           {
             text: 'Task',
@@ -74,7 +78,10 @@ const TableSchedule: React.FC = () => {
           return (
             <span>
               <Badge status={(text === 'Lection' && 'warning') || (text === 'Test' && 'error') || 'success'} />
-              <Text type={(text === 'Lection' && 'warning') || (text === 'Test' && 'danger') || 'success'} keyboard>
+              <Text
+                // type={(text === 'Lection' && 'warning') || (text === 'Test' && 'danger') || 'success'}
+                keyboard
+              >
                 {text}
               </Text>
             </span>
@@ -135,12 +142,12 @@ const TableSchedule: React.FC = () => {
               >
                 <Text
                   code
-                  type={
-                    ((index === 1 || index === 3 || index === 7) && 'success') ||
-                    ((index === 2 || index === 4 || index === 10) && 'danger') ||
-                    ((index === 5 || index === 6 || index === 12) && 'warning') ||
-                    'secondary'
-                  }
+                  // type={
+                  //   ((index === 1 || index === 3 || index === 7) && 'success') ||
+                  //   ((index === 2 || index === 4 || index === 10) && 'danger') ||
+                  //   ((index === 5 || index === 6 || index === 12) && 'warning') ||
+                  //   'secondary'
+                  // }
                 >
                   Some lector
                 </Text>
@@ -215,7 +222,16 @@ const TableSchedule: React.FC = () => {
       });
     }
 
-    return <Table<User> bordered columns={columns} pagination={false} dataSource={data} scroll={{ y: 400 }} />;
+    return (
+      <Table<ScheduleData>
+        bordered
+        columns={columns}
+        pagination={false}
+        dataSource={data}
+        scroll={{ y: 400 }}
+        rowClassName={(record) => `${eventTypeColors[record.type.toLowerCase()]}`}
+      />
+    );
   };
 
   const columns = [
@@ -226,7 +242,7 @@ const TableSchedule: React.FC = () => {
     },
   ];
 
-  const data: User[] = [];
+  const data: ScheduleData[] = [];
 
   const millisecondsInWeek = 604800000;
 
@@ -248,7 +264,7 @@ const TableSchedule: React.FC = () => {
   }
 
   return (
-    <Table<User>
+    <Table<ScheduleData>
       className="components-table-demo-nested"
       columns={columns}
       expandable={{ expandedRowRender }}
