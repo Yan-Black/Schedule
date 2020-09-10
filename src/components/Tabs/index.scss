@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+
+.ant-btn-round.ant-btn-lg {
+  border-color: $black;
+  color: $black;
+
+  &:hover {
+    border-color: $white;
+    color: $white;
+  }
+}
+
+@media (max-width: 440px) {
+  .ant-tabs-nav {
+    flex-direction: column;
+  }
+}
