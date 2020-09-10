@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Table, Badge, Space, Typography, Tooltip } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import 'antd/dist/antd.css';
 import './index.scss';
 import { ColumnsType } from 'antd/lib/table/Table';
 
