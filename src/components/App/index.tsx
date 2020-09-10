@@ -8,6 +8,7 @@ import Table from 'components/Table';
 import Calendar from 'components/Calendar';
 import List from 'components/List';
 import Footer from 'components/Footer';
+import Map from 'components/Map';
 
 import fetchStudyEvents, { fetchOrganizres } from 'requests';
 
@@ -26,7 +27,8 @@ const App: React.FC = () => {
       <Switch>
         <Route exact path="/" component={Table} />
         <Route path="/calendar" component={Calendar} />
-        <Route path="/list" component={List} />
+        {/* <Route path="/list" component={List} /> */}
+        <Route path="/list" component={Map} />
       </Switch>
       <Footer />
     </>
