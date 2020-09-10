@@ -7,8 +7,8 @@ const roleSlice = createSlice({
     name: 'role',
     initialState,
     reducers: {
-        switchRole: (state: Role) => {
-            state.currentRole = state.currentRole === 'student' ? 'mentor' : 'student'
+        switchRole: (state: Role, { payload }) => {
+            state.currentRole = payload;
         }
     }
 })
