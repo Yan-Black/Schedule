@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
 
 import Header from 'components/Header';
-import Table from 'components/Table';
-import CalendarComponent from 'components/Calendar';
-import List from 'components/List';
+import Tabs from 'components/Tabs';
 import Footer from 'components/Footer';
 
 import fetchStudyEvents, { fetchOrganizres } from 'requests';
@@ -23,11 +20,7 @@ const App: React.FC = () => {
   return (
     <>
       <Header />
-      <Switch>
-        <Route exact path="/" component={Table} />
-        <Route path="/calendar" component={CalendarComponent} />
-        <Route path="/list" component={List} />
-      </Switch>
+      <Tabs />
       <Footer />
     </>
   );
