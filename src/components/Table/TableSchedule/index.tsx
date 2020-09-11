@@ -63,16 +63,48 @@ const TableSchedule: React.FC = () => {
         width: 120,
         filters: [
           {
+            text: 'Online lection',
+            value: 'Online lection',
+          },
+          {
             text: 'Task start',
             value: 'Task start',
           },
           {
-            text: 'Lection',
-            value: 'Lection',
+            text: 'Task deadline',
+            value: 'Task deadline',
           },
           {
-            text: 'Test',
-            value: 'Test',
+            text: 'Optional task start',
+            value: 'Optional task deadline',
+          },
+          {
+            text: 'Self education',
+            value: 'Self education',
+          },
+          {
+            text: 'Test with grade',
+            value: 'Test with grade',
+          },
+          {
+            text: 'Test without grade',
+            value: 'Test without grade',
+          },
+          {
+            text: 'Cross-check start',
+            value: 'Cross-check start',
+          },
+          {
+            text: 'Cross-check deadline',
+            value: 'Cross-check deadline',
+          },
+          {
+            text: 'Meetup',
+            value: 'Meetup',
+          },
+          {
+            text: 'Interview start',
+            value: 'Interview start',
           },
         ],
         onFilter: (value: string, record: ScheduleData) => record.type.indexOf(value) === 0,
