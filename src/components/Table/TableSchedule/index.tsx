@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Table, Badge, Space, Typography, Tooltip } from 'antd';
+import { Table, Badge, Space, Typography, Tooltip, Button } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import './index.scss';
 import { ColumnsType } from 'antd/lib/table/Table';
 import { getKeyByValue } from 'utils';
+import { DeleteOutlined, EditTwoTone } from '@ant-design/icons';
 import { eventTypes } from '../../../constants';
 
 interface User {
@@ -233,8 +234,12 @@ const TableSchedule: React.FC = () => {
         fixed: 'right',
         render: () => (
           <Space size="middle">
-            <a href="https://ant.design">Edit</a>
-            <a href="https://ant.design">Delete</a>
+            <Tooltip title="Edit">
+              <Button type="dashed" icon={<EditTwoTone />} />
+            </Tooltip>
+            <Tooltip title="Delete">
+              <Button danger icon={<DeleteOutlined />} />
+            </Tooltip>
           </Space>
         ),
       },
@@ -276,18 +281,24 @@ const TableSchedule: React.FC = () => {
     }
 
     return (
-      <Table<ScheduleData>
-        bordered
-        columns={filteredColumns}
-        pagination={false}
-        dataSource={data}
-        scroll={{ y: 400 }}
-        rowClassName={(record) => {
-          const type = getKeyByValue(eventTypes, record.type);
-          const rowClass = eventTypeColors[type] as string;
-          return rowClass;
-        }}
-      />
+      <>
+        <div className="add-row-button-wrapper">
+          <Button type="primary">Add event</Button>
+        </div>
+
+        <Table<ScheduleData>
+          bordered
+          columns={filteredColumns}
+          pagination={false}
+          dataSource={data}
+          scroll={{ y: 400 }}
+          rowClassName={(record) => {
+            const type = getKeyByValue(eventTypes, record.type);
+            const rowClass = eventTypeColors[type] as string;
+            return rowClass;
+          }}
+        />
+      </>
     );
   };
 

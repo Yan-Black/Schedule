@@ -40,26 +40,12 @@
     }
 }
 
-// .vanilla-ice .ant-table-cell {
-//     background: $vanilla-ice;
-//     width: 100%;
-//     height: 100%;
-// }
-
-// .blue-chalk .ant-table-cell {
-//     background: $blue-chalk;
-//     width: 100%;
-//     height: 100%;
-// }
-
-// .white-ice .ant-table-cell {
-//     background: $white-ice;
-//     width: 100%;
-//     height: 100%;
-//     &:hover {
-//       background: black;  
-//     }     
-// }
+.add-row-button-wrapper {
+    display: flex;
+    & button {
+        margin: 0 0 10px auto;
+    }
+}
 
 .vanilla-ice .ant-table-cell {
     background-color: $vanilla-ice;
@@ -150,11 +136,5 @@
     background: #f0eded;
     text-align: center;
 }
-
-// .ant-table-expanded-row .ant-table-row {
-//     &:hover {
-//       background: black;  
-//     }    
-// }
 
 
