@@ -137,3 +137,14 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.schedule-customizations__color-select {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.schedule-customizations__color-select:hover {
+  background-color: lightness($color: #000000);
+}
