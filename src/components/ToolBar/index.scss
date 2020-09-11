@@ -1,0 +1,18 @@
+@import '../../styles/variables';
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+
+  a {
+    margin: 10px;
+  }
+
+  span {
+    font-size: 18px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
