@@ -1,5 +1,6 @@
 @import '~antd/dist/antd.css';
 @import '../../../styles/event-type-colors';
+@import '../../../styles/event-bg';
 
 .ant-table-thead > tr > th {
     background: #d2ecf8;
@@ -39,25 +40,115 @@
     }
 }
 
-.green-light .ant-table-cell {
-    background: $green-light;
+// .vanilla-ice .ant-table-cell {
+//     background: $vanilla-ice;
+//     width: 100%;
+//     height: 100%;
+// }
+
+// .blue-chalk .ant-table-cell {
+//     background: $blue-chalk;
+//     width: 100%;
+//     height: 100%;
+// }
+
+// .white-ice .ant-table-cell {
+//     background: $white-ice;
+//     width: 100%;
+//     height: 100%;
+//     &:hover {
+//       background: black;  
+//     }     
+// }
+
+.vanilla-ice .ant-table-cell {
+    background-color: $vanilla-ice;
+    width: 100%;
+    height: 100%;
+}
+.remy .ant-table-cell {
+    background-color: $remy;
+    width: 100%;
+    height: 100%;
+}
+.white-lilac .ant-table-cell {
+    background-color: $white-lilac;
+    width: 100%;
+    height: 100%;
+}
+.blue-chalk .ant-table-cell {
+    background-color: $blue-chalk;
+    width: 100%;
+    height: 100%;
+}
+.pattens-blue-light .ant-table-cell {
+    background-color: $pattens-blue-light;
+    width: 100%;
+    height: 100%;
+}
+.pattens-blue .ant-table-cell {
+    background-color: $pattens-blue;
+    width: 100%;
+    height: 100%;
+}
+.humming-bird .ant-table-cell {
+    background-color: $humming-bird;
+    width: 100%;
+    height: 100%;
+}
+.foam .ant-table-cell {
+    background-color: $foam;
+    width: 100%;
+    height: 100%;
+}
+.white-ice-light .ant-table-cell {
+    background-color: $white-ice-light;
+    width: 100%;
+    height: 100%;
+}
+.white-ice .ant-table-cell {
+    background-color: $white-ice;
+    width: 100%;
+    height: 100%;
+}
+.china-ivory .ant-table-cell {
+    background-color: $china-ivory;
+    width: 100%;
+    height: 100%;
+}
+.blanched-almond .ant-table-cell {
+    background-color: $blanched-almond;
+    width: 100%;
+    height: 100%;
+}
+.serenade .ant-table-cell {
+    background-color: $serenade;
+    width: 100%;
+    height: 100%;
+}
+.sazerac .ant-table-cell {
+    background-color: $sazerac;
+    width: 100%;
+    height: 100%;
+}
+.azure .ant-table-cell {
+    background-color: $azure;
     width: 100%;
     height: 100%;
 }
 
-.red-light .ant-table-cell {
-    background: $red-light;
-    width: 100%;
-    height: 100%;
+.disable {
+  display: none;
 }
 
-.yellow-light .ant-table-cell {
-    background: $yellow-light;
-    width: 100%;
-    height: 100%;
-    &:hover {
-      background: black;  
-    }     
+.event-type {
+    margin: auto;
+    width: fit-content;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 2px 3px;
+    background: #f0eded;
+    text-align: center;
 }
 
 // .ant-table-expanded-row .ant-table-row {

@@ -3,6 +3,7 @@ import appReducer from 'reducers/app';
 import eventsReducer from 'reducers/events';
 import organizersReducer from 'reducers/organizers';
 import eventTypeColorsReducer from 'reducers/eventTypeColors';
+import columnVisibilityReducer from 'reducers/columnVisibility';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     events: eventsReducer,
     organizers: organizersReducer,
     eventTypeColors: eventTypeColorsReducer,
+    columnVisibility: columnVisibilityReducer,
   },
 });
 

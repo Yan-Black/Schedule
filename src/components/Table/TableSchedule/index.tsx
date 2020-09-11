@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import './index.scss';
 import { ColumnsType } from 'antd/lib/table/Table';
+import { getKeyByValue } from 'utils';
+import { eventTypes } from '../../../constants';
 
 interface User {
   key: number;
@@ -24,6 +26,7 @@ interface ScheduleData {
 const { Text, Link } = Typography;
 
 const TableSchedule: React.FC = () => {
+  const columnVisibility = useSelector((state: RootState) => state.columnVisibility);
   const eventTypeColors = useSelector((state: RootState) => state.eventTypeColors);
   const expandedRowRender = () => {
     const columns: ColumnsType<User> = [
@@ -60,8 +63,8 @@ const TableSchedule: React.FC = () => {
         width: 120,
         filters: [
           {
-            text: 'Task',
-            value: 'Task',
+            text: 'Task start',
+            value: 'Task start',
           },
           {
             text: 'Lection',
@@ -75,15 +78,18 @@ const TableSchedule: React.FC = () => {
         onFilter: (value: string, record: ScheduleData) => record.type.indexOf(value) === 0,
         render: (text: string) => {
           return (
-            <span>
-              <Badge status={(text === 'Lection' && 'warning') || (text === 'Test' && 'error') || 'success'} />
-              <Text
-                // type={(text === 'Lection' && 'warning') || (text === 'Test' && 'danger') || 'success'}
+            <div className="event-type">
+              <span>
+                {text}
+                {/* <Badge status={(text === 'Lection' && 'warning') || (text === 'Test' && 'error') || 'success'} /> */}
+                {/* <Text
+                type={(text === 'Lection' && 'warning') || (text === 'Test' && 'danger') || 'success'}
                 keyboard
               >
                 {text}
-              </Text>
-            </span>
+              </Text> */}
+              </span>
+            </div>
           );
         },
       },
@@ -171,19 +177,19 @@ const TableSchedule: React.FC = () => {
       },
       {
         title: 'Additional',
-        dataIndex: 'additional',
+        dataIndex: 'additional1',
         key: 'additional',
         width: 105,
       },
       {
         title: 'Additional',
-        dataIndex: 'additional',
+        dataIndex: 'additional2',
         key: 'additional',
         width: 105,
       },
       {
         title: 'Additional',
-        dataIndex: 'additional',
+        dataIndex: 'additional3',
         key: 'additional',
         width: 105,
       },
@@ -202,12 +208,28 @@ const TableSchedule: React.FC = () => {
       },
     ];
 
+    const filteredColumns = [];
+    columns.map((col) => {
+      if (columnVisibility[col.key]) filteredColumns.push(col);
+      return col;
+    });
+
     const data = [];
     for (let i = 0; i < 15; ++i) {
       const taskType =
-        ((i === 1 || i === 3 || i === 7) && 'Lection') ||
-        ((i === 2 || i === 6 || i === 8 || i === 12) && 'Test') ||
-        'Task';
+        ((i === 1 || i === 13) && 'Online lection') ||
+        ((i === 2 || i === 14) && 'Self education') ||
+        (i === 3 && 'Task start') ||
+        (i === 4 && 'Cross-check start') ||
+        (i === 5 && 'Task deadline') ||
+        (i === 6 && 'Optional task start') ||
+        (i === 7 && 'Meetup') ||
+        (i === 8 && 'Test with grade') ||
+        (i === 9 && 'Optional task deadline') ||
+        (i === 10 && 'Cross-check deadline') ||
+        (i === 11 && 'Test without grade') ||
+        (i === 12 && 'Interview start') ||
+        'Task start';
       data.push({
         key: i,
         startDay: new Date().toLocaleDateString(),
@@ -224,11 +246,15 @@ const TableSchedule: React.FC = () => {
     return (
       <Table<ScheduleData>
         bordered
-        columns={columns}
+        columns={filteredColumns}
         pagination={false}
         dataSource={data}
         scroll={{ y: 400 }}
-        rowClassName={(record) => `${eventTypeColors[record.type.toLowerCase()]}`}
+        rowClassName={(record) => {
+          const type = getKeyByValue(eventTypes, record.type);
+          const rowClass = eventTypeColors[type] as string;
+          return rowClass;
+        }}
       />
     );
   };
