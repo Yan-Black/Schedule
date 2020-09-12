@@ -17,7 +17,6 @@ const Settings: React.FC = () => {
   const mergeState = useSelector((state: RootState) => state.settings.merge);
   const visualState = useSelector((state: RootState) => state.settings.visual);
   const colorsState = useSelector((state: RootState) => state.colors);
-
   const dispatch = useDispatch();
 
   const showCustomizations = () => {
@@ -61,8 +60,8 @@ const Settings: React.FC = () => {
           onCancel={close}
           closable={false}
           footer={
-            <Button type="primary" onClick={close} block>
-              OK
+            <Button type="primary" onClick={close} block className="settings__control">
+              <span className="setting__control-text">Ok</span>
             </Button>
           }
         >
@@ -153,8 +152,8 @@ const Settings: React.FC = () => {
         onCancel={() => setStage('general-setting')}
         closable={false}
         footer={
-          <Button type="primary" onClick={() => setStage('general-setting')} block>
-            OK
+          <Button type="primary" onClick={() => setStage('general-setting')} className="settings__control" block>
+            <span className="setting__control-text">Ok</span>
           </Button>
         }
       >

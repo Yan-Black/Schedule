@@ -1,20 +1,33 @@
 .settings {
   max-width: 820px;
-  margin: auto;
   outline: none;
-}
-
-.settings__button {
-  display: inline-block;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-  outline: none;
-  font-size: 18px;
-  & .settings__button-icon {
-    font-size: 30px;
+  height: 18px;
+  & .settings__button {
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    color: #000;
+    background-color: transparent;
+    outline: none;
+    font-size: 18px;
+    height: 0px;
+    padding: 0px;
+    margin: 0px;
+    &:focus {
+      background-color: transparent;
+      color: #000;
+    }
     &:hover {
-      opacity: 0.5;
+      background-color: transparent;
+      color: #000;
+    }
+    & .anticon {
+      margin: 10px;
+    }
+    & .settings__button-icon {
+      &:hover {
+        scale: 1.1;
+      }
     }
   }
 }
@@ -22,7 +35,6 @@
 .settings__window {
   position: absolute;
   top: 0px;
-  left: 25%;
   background-color: #fff;
   width: 720px !important;
   max-width: 820px;
@@ -31,13 +43,21 @@
   border-radius: 10px;
   padding: 20px;
   outline: none;
+  & .settings__control {
+    background-color: #aad4ff;
+    margin: 0px;
+    & .setting__control-text {
+      margin: 0px;
+    }
+  }
   & .ant-modal-content {
     & .ant-modal-footer {
       & .ant-btn {
         width: 100%;
-        background-color: #5DADE2;
+        background-color: #aad4ff;
         border: none;
         outline: none;
+        margin: 0px;
         &:hover {
           opacity: 0.5;
         }
@@ -55,9 +75,11 @@
     flex-wrap: nowrap;
     padding: 10px;
     cursor: pointer;
-    height: 50px;
     border: none;
     outline: none;
+    & p {
+      margin-bottom: 0px;
+    }
     &:hover {
       outline: 1px solid #000;
     }
