@@ -10,7 +10,6 @@ import List from 'components/List';
 import Footer from 'components/Footer';
 
 import fetchStudyEvents, { fetchOrganizres } from 'requests';
-import Customization from '../Customization';
 
 import './index.scss';
 
@@ -24,7 +23,6 @@ const App: React.FC = () => {
   return (
     <>
       <Header />
-      <Customization />
       <Switch>
         <Route exact path="/" component={Table} />
         <Route path="/calendar" component={Calendar} />

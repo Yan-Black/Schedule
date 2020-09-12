@@ -13,8 +13,8 @@ const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    changeSettings: (state, { payload }) => {
-      const { event, value }: EventSettings = payload;
+    changeSettings: (state, action: { payload: EventSettings }) => {
+      const { event, value } = action.payload;
       state[event] = value;
     },
   },

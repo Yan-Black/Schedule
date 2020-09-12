@@ -11,11 +11,12 @@ import { backgrounds, eventTypes } from '../../constants';
 import selectList from './list';
 import './index.scss';
 
-const Customization: React.FC = () => {
+const Settings: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [stage, setStage] = useState<string>('general-setting');
   const mergeState = useSelector((state: RootState) => state.settings.merge);
   const visualState = useSelector((state: RootState) => state.settings.visual);
+  const colorsState = useSelector((state: RootState) => state.colors);
 
   const dispatch = useDispatch();
 
@@ -34,8 +35,8 @@ const Customization: React.FC = () => {
     const colorValue = event.target as HTMLSpanElement;
     dispatch(
       changeEventColor({
-        event: eventValue,
-        color: colorValue,
+        event: eventValue.dataset.name,
+        color: colorValue.dataset.color,
       }),
     );
   };
@@ -50,27 +51,32 @@ const Customization: React.FC = () => {
     event.preventDefault();
   };
 
-  const settings = () => {
+  const showSettings = () => {
     if (stage === 'general-setting') {
       return (
         <Modal
-          className="schedule-customizations__window"
+          className="settings__window"
           visible={visible}
           onOk={close}
           onCancel={close}
           closable={false}
+          footer={
+            <Button type="primary" onClick={close} block>
+              OK
+            </Button>
+          }
         >
-          <form className="schedule-customizations__options">
+          <form className="settings__options">
             {selectList.map((obj) => {
               const { title, name, options, icon } = obj;
               return (
-                <label className="schedule-customizations__item" key={title}>
+                <label className="settings__item" key={title}>
                   <span>
                     {icon()}
                     {title}
                   </span>
                   <select
-                    className="schedule-customizations__option-type schedule-customizations__option-select"
+                    className="settings__option-type settings__option-select"
                     onChange={handleSelectSettings}
                     name={name}
                   >
@@ -81,9 +87,9 @@ const Customization: React.FC = () => {
                 </label>
               );
             })}
-            <label className="schedule-customizations__item" htmlFor="visiall">
+            <label className="settings__item" htmlFor="visiall">
               <span>
-                <ZoomInOutlined className="schedule-customizations__icon" />
+                <ZoomInOutlined className="settings__icon" />
                 Version for the visually impaired
               </span>
               <Switch
@@ -102,9 +108,9 @@ const Customization: React.FC = () => {
                 id="visiall"
               />
             </label>
-            <label className="schedule-customizations__item" htmlFor="merge">
+            <label className="settings__item" htmlFor="merge">
               <span>
-                <ShareAltOutlined className="schedule-customizations__icon" />
+                <ShareAltOutlined className="settings__icon" />
                 Merge schedule
               </span>
               <Switch
@@ -126,12 +132,12 @@ const Customization: React.FC = () => {
             <div
               onClick={() => setStage('color-setting')}
               onKeyDown={(event) => (event.key === 'Enter' ? setStage('color-setting') : null)}
-              className="schedule-customizations__item"
+              className="settings__item"
               role="button"
               tabIndex={0}
             >
               <p>
-                <FormatPainterOutlined className="schedule-customizations__icon" />
+                <FormatPainterOutlined className="settings__icon" />
                 Select color
               </p>
             </div>
@@ -141,33 +147,44 @@ const Customization: React.FC = () => {
     }
     return (
       <Modal
-        className="schedule-customizations__window"
+        className="settings__window"
         visible={visible}
         onOk={() => setStage('general-setting')}
         onCancel={() => setStage('general-setting')}
         closable={false}
+        footer={
+          <Button type="primary" onClick={() => setStage('general-setting')} block>
+            OK
+          </Button>
+        }
       >
-        <form className="schedule-customizations__options schedule-customizations__colors">
-          {Object.entries(eventTypes).map((item) => {
+        <form className="settings__options settings__colors">
+          {Object.entries(eventTypes).map((item: string[], index: number) => {
             const [key, value] = item;
+            const colorName: string = Object.values(colorsState)[index] as string;
             return (
-              <div className="schedule-customizations__option-color" key={value}>
-                <p className="schedule-customizations__color-description">{value}</p>
-                {backgrounds.map((classOfColor: string) => {
-                  return (
-                    <span
-                      key={classOfColor}
-                      role="button"
-                      tabIndex={0}
-                      aria-label="Mute volume"
-                      className={`schedule-customizations__color-select ${classOfColor}`}
-                      onClick={handleChangeColor}
-                      onKeyDown={handleFocusKeyboard}
-                      data-name={key}
-                      data-color={classOfColor}
-                    />
-                  );
-                })}
+              <div className="settings__option-color" key={value}>
+                <p className="settings__color-description">{value}</p>
+                <div className="settings__colors-wrapper">
+                  <div className="settings__color-option">
+                    {backgrounds.map((classOfColor: string) => {
+                      return (
+                        <span
+                          key={classOfColor}
+                          role="button"
+                          tabIndex={0}
+                          aria-label="Mute volume"
+                          className={`settings__color-select ${classOfColor}`}
+                          onClick={handleChangeColor}
+                          onKeyDown={handleFocusKeyboard}
+                          data-name={key}
+                          data-color={classOfColor}
+                        />
+                      );
+                    })}
+                  </div>
+                  <span className={`settings__color-deafult ${colorName}`}>Hello</span>
+                </div>
               </div>
             );
           })}
@@ -176,14 +193,13 @@ const Customization: React.FC = () => {
     );
   };
   return (
-    <div className="schedule-customizations">
-      <Button type="primary" className="schedule-customizations__button" onClick={showCustomizations} title="Settings">
-        <span>Settings</span>
-        <SettingOutlined className="schedule-customizations__button-icon" />
+    <div className="settings">
+      <Button type="primary" className="settings__button" onClick={showCustomizations} title="Settings">
+        <SettingOutlined className="settings__button-icon" />
       </Button>
-      {settings()}
+      {showSettings()}
     </div>
   );
 };
 
-export default Customization;
+export default Settings;
