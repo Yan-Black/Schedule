@@ -29,6 +29,8 @@ const { Text, Link } = Typography;
 const TableSchedule: React.FC = () => {
   const columnVisibility = useSelector((state: RootState) => state.columnVisibility);
   const eventTypeColors = useSelector((state: RootState) => state.eventTypeColors);
+  const events = useSelector((state: RootState) => state.events.data);
+
   const expandedRowRender = () => {
     const columns: ColumnsType<User> = [
       {
@@ -112,16 +114,7 @@ const TableSchedule: React.FC = () => {
         render: (text: string) => {
           return (
             <div className="event-type">
-              <span>
-                {text}
-                {/* <Badge status={(text === 'Lection' && 'warning') || (text === 'Test' && 'error') || 'success'} /> */}
-                {/* <Text
-                type={(text === 'Lection' && 'warning') || (text === 'Test' && 'danger') || 'success'}
-                keyboard
-              >
-                {text}
-              </Text> */}
-              </span>
+              <span>{text}</span>
             </div>
           );
         },
@@ -131,31 +124,15 @@ const TableSchedule: React.FC = () => {
         dataIndex: 'place',
         key: 'place',
         width: 100,
-        render: (text, row, index) => {
-          const place =
-            ((index === 1 || index === 3 || index === 7) && 'Online') ||
-            ((index === 2 || index === 6 || index === 8 || index === 12) && 'Online') ||
-            'Offline';
-          return (
-            (place === 'Online' && <Text>Online</Text>) || (
-              <Link href="https://ant.design" target="_blank">
-                Offline
-              </Link>
-            )
-          );
-        },
       },
       {
         title: 'Materials',
         dataIndex: 'materials',
         key: 'materials',
         width: 150,
-        render: () => (
+        render: (text: string) => (
           <>
-            <Link className="materials-link" href="https://ant.design" target="_blank">
-              Link to materials
-            </Link>
-            <Link className="materials-link" href="https://ant.design" target="_blank">
+            <Link className="materials-link" href={text} target="_blank">
               Link to materials
             </Link>
           </>
@@ -178,17 +155,7 @@ const TableSchedule: React.FC = () => {
                 overflowCount={99}
                 className={(rating > 0 && 'rating-positive') || (rating === 0 && 'no-rating')}
               >
-                <Text
-                  code
-                  // type={
-                  //   ((index === 1 || index === 3 || index === 7) && 'success') ||
-                  //   ((index === 2 || index === 4 || index === 10) && 'danger') ||
-                  //   ((index === 5 || index === 6 || index === 12) && 'warning') ||
-                  //   'secondary'
-                  // }
-                >
-                  Some lector
-                </Text>
+                <Text code>Some lector</Text>
               </Badge>
             </div>
           );
@@ -252,11 +219,12 @@ const TableSchedule: React.FC = () => {
     });
 
     const data = [];
-    for (let i = 0; i < 15; ++i) {
+    for (let i = 0; i < events.length; ++i) {
       const taskType =
         ((i === 1 || i === 13) && 'Online lection') ||
-        ((i === 2 || i === 14) && 'Self education') ||
-        (i === 3 && 'Task start') ||
+        ((i === 2 || i === 14 || events[i].type === 'self-education') && 'Self education') ||
+        i === 3 ||
+        (events[i].type === 'Выдача таска' && 'Task start') ||
         (i === 4 && 'Cross-check start') ||
         (i === 5 && 'Task deadline') ||
         (i === 6 && 'Optional task start') ||
@@ -267,15 +235,23 @@ const TableSchedule: React.FC = () => {
         (i === 11 && 'Test without grade') ||
         (i === 12 && 'Interview start') ||
         'Task start';
+      const time =
+        ((events[i].type === 'Task deadline' ||
+          events[i].type === 'Optional task deadline' ||
+          events[i].type === 'Cross-check deadline') &&
+          '23:59:59') ||
+        ((events[i].type === 'Meetup' ||
+          events[i].type === 'Test with grade' ||
+          events[i].type === 'Test without grade') &&
+          new Date().toLocaleTimeString());
       data.push({
         key: i,
-        startDay: new Date().toLocaleDateString(),
-        startTime: new Date().toLocaleTimeString(),
-        name: `Task number ${i + 1}`,
-        deadlineDay: new Date().toLocaleDateString(),
-        deadlineTime: new Date().toLocaleTimeString(),
-        comments:
-          'Решения всех заданий доступны после 20-минутной паузы. Для проверки самостоятельности решения  заданий нужно посмотреть и послушать как студент решает пройденные им таски',
+        startDay: events[i].dateTime,
+        startTime: time,
+        name: events[i].name,
+        place: events[i].place,
+        materials: events[i].descriptionUrl,
+        comments: events[i].comment || '-',
         type: taskType,
       });
     }
