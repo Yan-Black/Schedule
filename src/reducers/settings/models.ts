@@ -1,5 +1,4 @@
 export interface Settings {
-  view: string;
   time: string;
   meeting: string;
   merge: boolean;

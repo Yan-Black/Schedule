@@ -9,23 +9,6 @@ export const timeZone: string[] = [
   'Asia/Tashkent',
   'Asia/Tbilisi',
 ];
-// здесь должны быть классы
-// export const backgrounds: string[] = [
-//   '#E6B0AA',
-//   '#F5B7B1',
-//   '#D7BDE2',
-//   '#E8DAEF',
-//   '#A9CCE3',
-//   '#AED6F1',
-//   '#A3E4D7',
-//   '#A2D9CE',
-//   '#A9DFBF',
-//   '#ABEBC6',
-//   '#F9E79F',
-//   '#FAD7A0',
-//   '#F5CBA7',
-//   '#EDBB99',
-// ];
 
 export const backgrounds: string[] = [
   'vanilla-ice',
@@ -44,22 +27,6 @@ export const backgrounds: string[] = [
   'sazerac',
   'azure',
 ];
-
-// const tasks: string[] = [
-//   'online lection',
-//   'task start',
-//   'optional task start',
-//   'optional task deadline',
-//   'self education',
-//   'meetup-offline',
-//   'live coding',
-//   'task deadline',
-//   'test with grade',
-//   'cross-check start',
-//   'cross-ckeck deadline',
-//   'test without grade',
-//   'interwiev start',
-// ];
 
 export const eventTypes = {
   onlineLection: 'Online lection',
@@ -87,5 +54,3 @@ export const postOrganizer = `/team/${teamId}/organizer`;
 export const getOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
 export const putOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
 export const deleteOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
-
-// export { timeZone, backgrounds, eventTypes };

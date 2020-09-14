@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { EventSettings, Settings } from './models';
 
 const initialState: Settings = {
-  view: 'List',
   time: 'UTC−12:00',
   meeting: 'Online and Offline',
   merge: false,
