@@ -8,6 +8,7 @@ export interface StudyEvent {
   description: string;
   name: string;
   id: string;
+  week?: string;
 }
 
 export interface InitiaiStudyEventState {

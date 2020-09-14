@@ -10,7 +10,7 @@ import { User, ScheduleData } from '../models';
 
 const { Text, Link } = Typography;
 
-const expandedRow: React.FC<ScheduleData> = () => {
+const expandedRow = (ind: number): JSX.Element => {
   const columnVisibility = useSelector((state: RootState) => state.columnVisibility);
   const eventTypeColors = useSelector((state: RootState) => state.eventTypeColors);
   const events = useSelector((state: RootState) => state.events.data);
@@ -125,20 +125,10 @@ const expandedRow: React.FC<ScheduleData> = () => {
       dataIndex: 'lector',
       key: 'lector',
       width: 150,
-      render: (text, row, index) => {
-        const rating = (-1) ** 2 * index - 1;
+      render: () => {
         return (
-          <div>
-            <Badge
-              showZero
-              size="small"
-              offset={[3, -2]}
-              count={rating}
-              overflowCount={99}
-              className={(rating > 0 && 'rating-positive') || (rating === 0 && 'no-rating')}
-            >
-              <Text code>Some lector</Text>
-            </Badge>
+          <div className="lector">
+            <span>Some lector</span>
           </div>
         );
       },
@@ -202,42 +192,43 @@ const expandedRow: React.FC<ScheduleData> = () => {
 
   const data = [];
   for (let i = 0; i < events.length; ++i) {
-    const taskType =
-      ((i === 1 || i === 13) && 'Online lection') ||
-      ((i === 2 || i === 14 || events[i].type === 'self-education') && 'Self education') ||
-      i === 3 ||
-      (events[i].type === 'Выдача таска' && 'Task start') ||
-      (i === 4 && 'Cross-check start') ||
-      (i === 5 && 'Task deadline') ||
-      (i === 6 && 'Optional task start') ||
-      (i === 7 && 'Meetup') ||
-      (i === 8 && 'Test with grade') ||
-      (i === 9 && 'Optional task deadline') ||
-      (i === 10 && 'Cross-check deadline') ||
-      (i === 11 && 'Test without grade') ||
-      (i === 12 && 'Interview start') ||
-      'Task start';
-    const time =
-      ((events[i].type === 'Task deadline' ||
-        events[i].type === 'Optional task deadline' ||
-        events[i].type === 'Cross-check deadline') &&
-        '23:59:59') ||
-      ((events[i].type === 'Meetup' ||
-        events[i].type === 'Test with grade' ||
-        events[i].type === 'Test without grade') &&
-        new Date().toLocaleTimeString()) ||
-      new Date().toLocaleTimeString();
-
-    data.push({
-      key: i,
-      startDay: events[i].dateTime,
-      startTime: time,
-      name: events[i].name,
-      place: events[i].place,
-      materials: events[i].descriptionUrl,
-      comments: events[i].comment || '-',
-      type: taskType,
-    });
+    if (events[i].week === ind.toString()) {
+      const taskType =
+        ((i === 1 || i === 13) && 'Online lection') ||
+        ((i === 2 || i === 14 || events[i].type === 'self-education') && 'Self education') ||
+        i === 3 ||
+        (events[i].type === 'Выдача таска' && 'Task start') ||
+        (i === 4 && 'Cross-check start') ||
+        (i === 5 && 'Task deadline') ||
+        (i === 6 && 'Optional task start') ||
+        (i === 7 && 'Meetup') ||
+        (i === 8 && 'Test with grade') ||
+        (i === 9 && 'Optional task deadline') ||
+        (i === 10 && 'Cross-check deadline') ||
+        (i === 11 && 'Test without grade') ||
+        (i === 12 && 'Interview start') ||
+        'Task start';
+      const time =
+        ((events[i].type === 'Task deadline' ||
+          events[i].type === 'Optional task deadline' ||
+          events[i].type === 'Cross-check deadline') &&
+          '23:59:59') ||
+        ((events[i].type === 'Meetup' ||
+          events[i].type === 'Test with grade' ||
+          events[i].type === 'Test without grade') &&
+          new Date().toLocaleTimeString()) ||
+        new Date().toLocaleTimeString();
+      data.push({
+        key: i,
+        startDay: events[i].dateTime,
+        startTime: time,
+        name: events[i].name,
+        place: events[i].place,
+        materials: events[i].descriptionUrl,
+        comments: events[i].comment || '-',
+        type: taskType,
+      });
+    }
   }
 
   return (

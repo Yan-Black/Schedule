@@ -1,4 +1,4 @@
-@import '~antd/dist/antd.css';
+@import '../../../styles/index';
 @import '../../../styles/event-type-colors';
 @import '../../../styles/event-bg';
 
@@ -6,11 +6,11 @@
     background: #d2ecf8;
 }
 
-.currentWeek2 {
+.currentWeek1 {
     background: #5bfa2733;
 }
 
-.currentWeek0, .currentWeek1 {
+.currentWeek0 {
     background: #f0f0f0;
     color: #0000004d;
 }
@@ -21,22 +21,22 @@
 
 .rating-positive {
     & .ant-badge-count {
-        background: #52c41a;    
-    }   
+        background: #52c41a;
+    }
 }
 
 .no-rating {
     & .ant-badge-count {
         background-color: #fff;
         color: #999;
-        box-shadow: 0 0 0 1px #d9d9d9 inset; 
+        box-shadow: 0 0 0 1px #d9d9d9 inset;
     }
 }
 
 .ant-table-container {
     font-family: 'system-ui';
     & .ant-table {
-        font-size: 12px;    
+        font-size: 12px;
     }
 }
 
@@ -127,7 +127,7 @@
   display: none;
 }
 
-.event-type {
+.event-type, .lector {
     margin: auto;
     width: fit-content;
     border: 1px solid gray;

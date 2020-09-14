@@ -1,6 +1,7 @@
 export interface User {
   key: number;
   name: string;
+  editable: boolean;
 }
 
 export interface ScheduleData {
@@ -12,6 +13,16 @@ export interface ScheduleData {
   startDay?: string;
   startTime?: string;
   type?: string;
+  place?: string;
+  additional1?: string;
+  additional2?: string;
+  additional3?: string;
+}
+
+export interface WeekData {
+  key: number;
+  name: string;
+  weekData: JSX.Element;
 }
 
 export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
