@@ -1,31 +1,28 @@
 import * as React from 'react';
-import { Calendar, Badge } from 'antd';
-import moment from 'moment';
+import { Calendar as CalendarWrapper, Badge } from 'antd';
+import { useSelector } from 'react-redux';
+
+import { RootState } from 'store';
 
 import './index.scss';
 
 const CalendarComponent: React.FC = () => {
+  const events = useSelector((state: RootState) => state.events.data);
+
+  console.log(events);
+
   const getListData = (value) => {
     let listData;
-    switch (value.date()) {
-      case 8:
-        listData = [
-          { type: 'warning', content: 'Songbird' },
-          { type: 'success', content: 'Lection React' },
-        ];
-        break;
-      case 18:
-        listData = [
-          { type: 'warning', content: 'Teat JS Core' },
-          { type: 'success', content: 'Weather' },
-          { type: 'error', content: 'Presentation' },
-          { type: 'error', content: 'Codewars' },
-          { type: 'error', content: 'English Puzzle' },
-          { type: 'error', content: 'Interview' },
-        ];
-        break;
-      default:
-    }
+
+    const name = (item) => {
+      if (item.dateTime === 'string') {
+        return;
+      }
+      if (value.date() === Number(item.dateTime.split(',')[1].slice(-2).trim())) {
+        listData = [{ type: 'warning', content: item.name }];
+      }
+    };
+    events.map(name);
     return listData || [];
   };
 
@@ -59,7 +56,7 @@ const CalendarComponent: React.FC = () => {
     ) : null;
   };
 
-  return <Calendar className="container" dateCellRender={dateCellRender} monthCellRender={monthCellRender} />;
+  return <CalendarWrapper className="container" dateCellRender={dateCellRender} monthCellRender={monthCellRender} />;
 };
 
 export default CalendarComponent;
