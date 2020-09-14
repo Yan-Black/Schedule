@@ -1,7 +1,6 @@
 import * as React from 'react';
-
 import { HeartTwoTone, DownloadOutlined, SettingOutlined } from '@ant-design/icons';
-
+import ColumnsVisibility from '../ColumsVisibility';
 import './index.scss';
 
 const ToolBar: React.FC = () => {
@@ -16,6 +15,7 @@ const ToolBar: React.FC = () => {
       <a href="/">
         <SettingOutlined style={{ color: 'black' }} />
       </a>
+      <ColumnsVisibility />
     </div>
   );
 };
