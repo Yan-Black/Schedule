@@ -9,7 +9,7 @@ import './index.scss';
 const Header: React.FC = () => {
   return (
     <>
-      <div className="header  container">
+      <div className="header container">
         <Link to="/">
           <h1>
             <img src={logoImg} alt=" " />
