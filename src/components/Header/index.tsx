@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import ToggleUser from 'components/ToggleUser';
+import ToolBar from 'components/Header/ToolBar';
+import RoleSwitcher from 'components/Header/RoleSwitcher';
 import logoImg from '../../assets/icons/logo-rsschool.png';
 
 import './index.scss';
@@ -15,7 +16,7 @@ const Header: React.FC = () => {
             <img src={logoImg} alt=" " />
           </h1>
         </Link>
-        <ToggleUser />
+<RoleSwitcher />
       </div>
     </>
   );

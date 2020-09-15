@@ -9,3 +9,4 @@ export const postOrganizer = `/team/${teamId}/organizer`;
 export const getOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
 export const putOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
 export const deleteOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
+export const userRoles : string[] = ['Student','Mentor'];
