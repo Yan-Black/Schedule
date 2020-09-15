@@ -59,6 +59,7 @@ const Settings: React.FC = () => {
           onOk={close}
           onCancel={close}
           closable={false}
+          centered
           footer={
             <Button type="primary" onClick={close} block className="settings__control">
               <span className="setting__control-text">Ok</span>

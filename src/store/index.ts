@@ -4,6 +4,7 @@ import eventsReducer from 'reducers/events';
 import organizersReducer from 'reducers/organizers';
 import settingReducer from 'reducers/settings';
 import colorsReducer from 'reducers/eventTypeColors';
+import roleReducer from 'reducers/role';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     organizers: organizersReducer,
     settings: settingReducer,
     colors: colorsReducer,
+    role: roleReducer,
   },
 });
 
