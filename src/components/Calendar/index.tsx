@@ -3,26 +3,27 @@ import { Calendar as CalendarWrapper, Badge } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
+import { StudyEvent } from 'reducers/events/models';
 
 import './index.scss';
 
 const CalendarComponent: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
 
-  console.log(events);
-
   const getListData = (value) => {
     let listData;
 
-    const name = (item) => {
+    const name = (item: StudyEvent) => {
+      const type = item.type === 'self-education' ? 'warning' : 'success';
       if (item.dateTime === 'string') {
         return;
       }
-      if (value.date() === Number(item.dateTime.split(',')[1].slice(-2).trim())) {
-        listData = [{ type: 'warning', content: item.name }];
+      if (value.date() === Number(item.dateTime.split(' ')[1].split('.')[0])) {
+        listData = [{ type, content: item.description }];
       }
     };
     events.map(name);
+
     return listData || [];
   };
 
