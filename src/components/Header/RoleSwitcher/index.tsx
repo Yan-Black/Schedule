@@ -1,21 +1,23 @@
+import { Select } from 'antd';
 import * as React from 'react';
 import './index.scss';
 import { useDispatch } from 'react-redux';
 import { switchRole } from 'reducers/role';
 import { userRoles } from '../../../constants';
 
+
 const RoleSwitcher: React.FC = () => {
   const dispatch = useDispatch();
-  const changeHandler = (e: any) => {
-    dispatch(switchRole(e.target.value));
+  const changeHandler = (value: any) => {
+    dispatch(switchRole(value));
   };
-  const arrOfRoleNodes = userRoles.map((role: string) => {
-    return <option className="roleSwitcher__point" value={role} key={role}>{role[0].toUpperCase() + role.slice(1)}</option>
-  })
+  const { Option } = Select;
   return (
-    <select className='header__roleSwitcher roleSwitcher' onChange={changeHandler}>
-      {arrOfRoleNodes}
-    </select>
+    <Select className='header__roleSwitcher roleSwitcher' onChange={changeHandler} defaultValue="Student">
+      {userRoles.map((role: string) => {
+        return <Option className="roleSwitcher__point" value={role} key={role}>{role}</Option>
+      })}
+    </Select>
   )
 };
 export default RoleSwitcher;

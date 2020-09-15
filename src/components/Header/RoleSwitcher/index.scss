@@ -1,17 +1,6 @@
 @import '../../../styles/variables';
-
+@import 'antd/dist/antd.css';
 .roleSwitcher {
-    cursor: pointer;
-    user-select: none;
-    padding: 5px;
-    font-size: 15px;
-    text-shadow: 0 0 5px $primary;
-    color: $primary;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    &:focus{
-      border : 1px solid $primary !important;
-    }
+    width: 10%;
   }
 
