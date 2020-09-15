@@ -1,4 +1,3 @@
-
 export interface Role {
-    currentRole: string
+  currentRole: string;
 }

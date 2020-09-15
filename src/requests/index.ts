@@ -24,4 +24,4 @@ export const fetchOrganizres = createAsyncThunk('organizers/fetchOrganizres', as
   } catch (e) {
     return rejectWithValue(e);
   }
-})
+});
