@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import fetchStudyEvents from 'requests';
-import { InitiaiStudyEventState } from './models';
+import { InitialStudyEventState } from './models';
 
-const initialState: InitiaiStudyEventState = {
+const initialState: InitialStudyEventState = {
   data: [],
   loading: false,
   error: null,

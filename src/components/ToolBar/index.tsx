@@ -14,7 +14,7 @@ const ToolBar: React.FC = () => {
         <DownloadOutlined />
       </a>
       <a href="/">
-        <SettingOutlined style={{ color: 'black' }} />
+        <SettingOutlined style={{ color: 'gray' }} />
       </a>
     </div>
   );
