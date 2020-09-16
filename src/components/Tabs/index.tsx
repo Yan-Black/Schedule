@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Tabs as TabsWrapper } from 'antd';
-import { CalendarOutlined, UnorderedListOutlined, TabletOutlined } from '@ant-design/icons';
+import { Link, useLocation } from 'react-router-dom';
+import { CalendarOutlined, UnorderedListOutlined, TableOutlined } from '@ant-design/icons';
 
 import Table from 'components/Table';
 import Calendar from 'components/Calendar';
@@ -11,40 +12,53 @@ import './index.scss';
 
 const Tabs: React.FC = () => {
   const { TabPane } = TabsWrapper;
+  const location = useLocation();
+  const currentLocation = () => location.pathname;
 
   return (
-    <TabsWrapper className="container" tabBarExtraContent={<ToolBar />}>
+    <TabsWrapper
+      className="container"
+      activeKey={currentLocation()}
+      defaultActiveKey="/"
+      tabBarExtraContent={<ToolBar />}
+    >
       <TabPane
-        key="Table"
+        key="/"
         tab={
-          <span>
-            <TabletOutlined />
-            Table
-          </span>
+          <Link to="/">
+            <span>
+              <TableOutlined />
+              Table
+            </span>
+          </Link>
         }
       >
         <Table />
       </TabPane>
 
       <TabPane
-        key="Calendar"
+        key="/calendar"
         tab={
-          <span>
-            <CalendarOutlined />
-            Calendar
-          </span>
+          <Link to="/calendar">
+            <span>
+              <CalendarOutlined />
+              Calendar
+            </span>
+          </Link>
         }
       >
         <Calendar />
       </TabPane>
 
       <TabPane
-        key="List"
+        key="/list"
         tab={
-          <span>
-            <UnorderedListOutlined />
-            List
-          </span>
+          <Link to="/list">
+            <span>
+              <UnorderedListOutlined />
+              List
+            </span>
+          </Link>
         }
       >
         <List />
