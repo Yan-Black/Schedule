@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { Tabs as TabsWrapper } from 'antd';
-import { CalendarOutlined, UnorderedListOutlined, TabletOutlined } from '@ant-design/icons';
+import {
+  CalendarOutlined,
+  UnorderedListOutlined,
+  TabletOutlined,
+} from '@ant-design/icons';
 
 import Table from 'components/Table';
 import CalendarComponent from 'components/Calendar';
