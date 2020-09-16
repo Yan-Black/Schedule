@@ -4,14 +4,15 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
 import { StudyEvent } from 'reducers/events/models';
+import { ListData } from './models';
 
 import './index.scss';
 
 const CalendarComponent: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
 
-  const getListData = (value) => {
-    let listData;
+  const getListData = (value: moment.Moment) => {
+    let listData: ListData[] = [];
 
     const name = (item: StudyEvent) => {
       const type = item.type === 'self-education' ? 'warning' : 'success';
@@ -30,7 +31,7 @@ const CalendarComponent: React.FC = () => {
     return listData || [];
   };
 
-  const dateCellRender = (value) => {
+  const dateCellRender = (value: moment.Moment) => {
     const listData = getListData(value);
     return (
       <ul className="events">
