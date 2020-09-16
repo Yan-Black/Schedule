@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 
 import Table from 'components/Table';
-import CalendarComponent from 'components/Calendar';
+import Calendar from 'components/Calendar';
 import List from 'components/List';
 import ToolBar from 'components/ToolBar';
 
@@ -39,7 +39,7 @@ const Tabs: React.FC = () => {
           </span>
         }
       >
-        <CalendarComponent />
+        <Calendar />
       </TabPane>
 
       <TabPane

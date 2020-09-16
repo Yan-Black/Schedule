@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { HeartTwoTone, DownloadOutlined, SettingOutlined } from '@ant-design/icons';
-
+import { HeartTwoTone, DownloadOutlined } from '@ant-design/icons';
+import Setting from '../Settings';
 import './index.scss';
 
 const ToolBar: React.FC = () => {
@@ -13,9 +13,7 @@ const ToolBar: React.FC = () => {
       <a href="/">
         <DownloadOutlined />
       </a>
-      <a href="/">
-        <SettingOutlined style={{ color: 'gray' }} />
-      </a>
+      <Setting />
     </div>
   );
 };

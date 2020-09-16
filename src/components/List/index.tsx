@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Collapse } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { sortDataByDate, currentDay } from 'constants/index';
+import { sortDataByDate, currentDay } from '@constants';
 import Item from './Item';
 import './index.scss';
 
