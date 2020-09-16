@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { getKeyByValue } from 'utils';
 import { useState } from 'react';
-import { changeEvent } from 'reducers/events';
+import { changeEvent, deleteEvent } from 'reducers/events';
 import { TableColumn } from 'reducers/columnVisibility/models';
 import { eventTypes } from '../../../../constants';
 import { ScheduleData } from '../models';
 import getOriginData from '../EditableCell/getOriginData';
 import EditableCell from '../EditableCell';
 
-const { Text, Link } = Typography;
+const { Link } = Typography;
 
 const expandedRow = (ind: number): JSX.Element => {
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ const expandedRow = (ind: number): JSX.Element => {
   const originData = getOriginData(events, ind);
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record: ScheduleData) => record.key.toString() === editingKey;
+
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as ScheduleData;
@@ -66,6 +67,11 @@ const expandedRow = (ind: number): JSX.Element => {
     });
     setEditingKey(record.key.toString());
   };
+
+  const del = (id: string) => {
+    const delId = events.findIndex((event) => event.id === id);
+    dispatch(deleteEvent(delId));
+  }
 
   const cancel = () => {
     setEditingKey('');
@@ -260,7 +266,7 @@ const expandedRow = (ind: number): JSX.Element => {
             <Tooltip title="Edit">
               <Button type="dashed" icon={<EditTwoTone />} onClick={() => edit(record)} />
             </Tooltip>
-            <Popconfirm title="Sure to delete?">
+            <Popconfirm title="Sure to delete?" onConfirm={() => del(record.id)}>
               <Button danger icon={<DeleteOutlined />} />
             </Popconfirm>
           </Space>
