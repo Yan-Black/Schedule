@@ -5,17 +5,46 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { StudyEvent } from 'reducers/events/models';
 import { ListData } from './models';
+import types from './helper';
 
 import './index.scss';
 
-const CalendarComponent: React.FC = () => {
+const Calendar: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
 
   const getListData = (value: moment.Moment) => {
     let listData: ListData[] = [];
+    let type: 'error' | 'default' | 'warning' | 'success' | 'processing';
 
     const name = (item: StudyEvent) => {
-      const type = item.type === 'self-education' ? 'warning' : 'success';
+      for (let i = 0; i < types.length; i++) {
+        switch (item.type) {
+          case 'Task deadline':
+          case 'Optional task deadline':
+          case 'Cross-check deadline':
+            type = 'error';
+            break;
+          case 'Online lecture':
+          case 'Meetup':
+            type = 'warning';
+            break;
+          case 'Optional task start':
+          case 'Self education':
+            type = 'processing';
+            break;
+          case 'Cross-check start':
+          case 'Task start':
+            type = 'success';
+            break;
+          case 'Test with grade':
+          case 'Test without grade':
+          case 'Interview start':
+            type = 'warning';
+            break;
+          default:
+            type = 'default';
+        }
+      }
       if (item.dateTime === 'string') {
         return;
       }
@@ -23,7 +52,7 @@ const CalendarComponent: React.FC = () => {
         value.date() === Number(item.dateTime.split(' ')[1].split('.')[0]) &&
         value.month() === Number(item.dateTime.split(' ')[1].split('.')[1]) - 1
       ) {
-        listData = [{ type, content: item.name }];
+        listData = [{ type, content: item.name, eventTime: item.eventTime }];
       }
     };
     events.map(name);
@@ -37,7 +66,7 @@ const CalendarComponent: React.FC = () => {
       <ul className="events">
         {listData.map((item) => (
           <li key={item.content}>
-            <Badge status={item.type} text={item.content} />
+            <Badge status={item.type} text={`${item.eventTime} ${item.content}`} />
           </li>
         ))}
       </ul>
@@ -70,4 +99,4 @@ const CalendarComponent: React.FC = () => {
   );
 };
 
-export default CalendarComponent;
+export default Calendar;
