@@ -18,8 +18,11 @@ const CalendarComponent: React.FC = () => {
       if (item.dateTime === 'string') {
         return;
       }
-      if (value.date() === Number(item.dateTime.split(' ')[1].split('.')[0])) {
-        listData = [{ type, content: item.description }];
+      if (
+        value.date() === Number(item.dateTime.split(' ')[1].split('.')[0]) &&
+        value.month() === Number(item.dateTime.split(' ')[1].split('.')[1]) - 1
+      ) {
+        listData = [{ type, content: item.name }];
       }
     };
     events.map(name);
@@ -40,24 +43,30 @@ const CalendarComponent: React.FC = () => {
     );
   };
 
-  const getMonthData = (value) => {
-    if (value.month() === 8) {
-      return 1394;
-    }
-    return 1394;
-  };
+  // const getMonthData = (value) => {
+  //   if (value.month() === 8) {
+  //     return 1394;
+  //   }
+  //   return 1394;
+  // };
 
-  const monthCellRender = (value) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
-  };
+  // const monthCellRender = (value) => {
+  //   const num = getMonthData(value);
+  //   return num ? (
+  //     <div className="notes-month">
+  //       <section>{num}</section>
+  //       <span>Backlog number</span>
+  //     </div>
+  //   ) : null;
+  // };
 
-  return <CalendarWrapper className="container" dateCellRender={dateCellRender} monthCellRender={monthCellRender} />;
+  return (
+    <CalendarWrapper
+      className="container"
+      dateCellRender={dateCellRender}
+      // monthCellRender={monthCellRender}
+    />
+  );
 };
 
 export default CalendarComponent;
