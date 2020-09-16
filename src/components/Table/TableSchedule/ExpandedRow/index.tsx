@@ -12,7 +12,7 @@ import { ScheduleData } from '../models';
 import getOriginData from '../EditableCell/getOriginData';
 import EditableCell from '../EditableCell';
 
-const { Link } = Typography;
+const { Text, Link } = Typography;
 
 const expandedRow = (ind: number): JSX.Element => {
   const dispatch = useDispatch();
@@ -171,13 +171,18 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'materials',
       key: 'materials',
       width: 150,
-      render: (_: ScheduleData, record: ScheduleData) => (
-        <>
-          <Link className="materials-link" href={record.materials} target="_blank">
-            {record.description}
-          </Link>
-        </>
-      ),
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address: React.ReactElement, record: ScheduleData) => {
+        return (
+          <Tooltip placement="topLeft" title={record.description}>
+            <Link href={record.materials} target="_blank">
+              {record.description}
+            </Link>
+          </Tooltip>
+        );
+      },
     },
     {
       title: 'Lector',
