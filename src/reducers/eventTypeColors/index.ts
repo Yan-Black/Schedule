@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { EventColor, EventTypeColorsState } from './models';
 
 const initialState: EventTypeColorsState = {
-  onlineLection: 'china-ivory',
+  onlineLecture: 'china-ivory',
   meetupOffline: 'vanilla-ice',
   taskStart: 'white-ice',
   taskDeadline: 'blue-chalk',

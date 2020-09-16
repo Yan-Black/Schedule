@@ -11,7 +11,7 @@ export const putOrganizer = (orgId: string): string => `team/${teamId}/event/${o
 export const deleteOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
 
 export const eventTypes = {
-  onlineLection: 'Online lection',
+  onlineLecture: 'Online lecture',
   meetupOffline: 'Meetup',
   taskStart: 'Task start',
   taskDeadline: 'Task deadline',

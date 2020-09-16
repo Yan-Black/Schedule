@@ -14,23 +14,10 @@ const TableSchedule: React.FC = () => {
   ];
 
   const data: WeekData[] = [];
-
-  // const millisecondsInWeek = 604800000;
-
   for (let i = 0; i < 5; ++i) {
-    // const currDate = new Date(Date.now() + millisecondsInWeek * i);
-    // const currDay = currDate.getDate();
-    // const currMonth = currDate.getMonth();
-    // const currYear = currDate.getFullYear();
-    // const nextDate = new Date(Date.now() + millisecondsInWeek * i + millisecondsInWeek);
-    // const nextDay = nextDate.getDate();
-    // const nextMonth = nextDate.getMonth();
-    // const nextYear = nextDate.getFullYear();
     data.push({
       key: i,
-      name: `Week ${i + 1}`,
-      // (${currDay}.${currMonth}.${currYear}
-      // - ${nextDay}.${nextMonth}.${nextYear})`,
+      name: `Week ${i}`,
       weekData: expandedRow(i),
     });
   }

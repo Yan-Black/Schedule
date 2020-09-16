@@ -1,5 +1,5 @@
 export interface EventTypeColorsState {
-  onlineLection: string;
+  onlineLecture: string;
   meetupOffline: string;
   taskStart: string;
   taskDeadline: string;

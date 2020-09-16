@@ -1,20 +1,76 @@
 import * as React from 'react';
-import { EditTwoTone, DeleteOutlined } from '@ant-design/icons';
-import { Badge, Tooltip, Space, Button, Typography, Table } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import { useSelector } from 'react-redux';
+import { EditTwoTone, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
+import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { getKeyByValue } from 'utils';
+import { useState } from 'react';
+import { changeEvent } from 'reducers/events';
 import { eventTypes } from '../../../../constants';
-import { User, ScheduleData } from '../models';
+import { ScheduleData } from '../models';
+import getOriginData from '../EditableCell/getOriginData';
+import EditableCell from '../EditableCell';
 
-const { Text, Link } = Typography;
+const { Link } = Typography;
 
 const expandedRow = (ind: number): JSX.Element => {
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
   const columnVisibility = useSelector((state: RootState) => state.columnVisibility);
   const eventTypeColors = useSelector((state: RootState) => state.eventTypeColors);
   const events = useSelector((state: RootState) => state.events.data);
-  const columns: ColumnsType<User> = [
+  const originData = getOriginData(events, ind);
+  const [editingKey, setEditingKey] = useState('');
+  const isEditing = (record: ScheduleData) => record.key.toString() === editingKey;
+  const save = async (key: React.Key) => {
+    try {
+      const row = (await form.validateFields()) as ScheduleData;
+      const newData = [...originData];
+      const index = newData.findIndex((item) => key === item.key);
+      if (index > -1) {
+        const changed = events.find((event) => event.id === newData[index].id);
+        const changedInd = events.findIndex((event) => event.id === newData[index].id);
+        const changedEvent = {
+          ...changed,
+          name: row.name,
+          place: row.place,
+          lector: row.lector,
+          comment: row.comments,
+          // to do: add additional fields and fields with not string data type
+        };
+        dispatch(changeEvent({ changedEvent, changedInd }));
+        setEditingKey('');
+      } else {
+        // to do: add case of new event in schedule (adding new row to table)
+        setEditingKey('');
+      }
+    } catch (errInfo) {
+      console.log('Validate Failed:', errInfo);
+    }
+  };
+  const edit = (record: ScheduleData) => {
+    form.setFieldsValue({
+      startDay: '',
+      startTime: '',
+      name: '',
+      type: '',
+      place: '',
+      materials: '',
+      lector: '',
+      comments: '',
+      additional1: '',
+      additional2: '',
+      additional3: '',
+      ...record,
+    });
+    setEditingKey(record.key.toString());
+  };
+
+  const cancel = () => {
+    setEditingKey('');
+  };
+
+  const columns = [
     {
       title: 'Date',
       dataIndex: 'startDay',
@@ -26,7 +82,7 @@ const expandedRow = (ind: number): JSX.Element => {
       title: 'Time',
       dataIndex: 'startTime',
       key: 'startTime',
-      width: 100,
+      width: 70,
       fixed: 'left',
     },
     {
@@ -35,6 +91,7 @@ const expandedRow = (ind: number): JSX.Element => {
       key: 'name',
       width: 150,
       fixed: 'left',
+      editable: true,
       render: (text) => (
         <Link href="https://ant.design" target="_blank">
           {text}
@@ -106,16 +163,17 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'place',
       key: 'place',
       width: 100,
+      editable: true,
     },
     {
       title: 'Materials',
       dataIndex: 'materials',
       key: 'materials',
       width: 150,
-      render: (text: string) => (
+      render: (_: ScheduleData, record: ScheduleData) => (
         <>
-          <Link className="materials-link" href={text} target="_blank">
-            Link to materials
+          <Link className="materials-link" href={record.materials} target="_blank">
+            {record.description}
           </Link>
         </>
       ),
@@ -125,10 +183,11 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'lector',
       key: 'lector',
       width: 150,
-      render: () => {
+      editable: true,
+      render: (text: string) => {
         return (
           <div className="lector">
-            <span>Some lector</span>
+            <span>{text}</span>
           </div>
         );
       },
@@ -138,6 +197,7 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'comments',
       key: 'comments',
       width: 200,
+      editable: true,
       ellipsis: {
         showTitle: false,
       },
@@ -152,18 +212,21 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'additional1',
       key: 'additional',
       width: 105,
+      editable: true,
     },
     {
       title: 'Additional',
       dataIndex: 'additional2',
       key: 'additional',
       width: 105,
+      editable: true,
     },
     {
       title: 'Additional',
       dataIndex: 'additional3',
       key: 'additional',
       width: 105,
+      editable: true,
     },
     {
       title: 'Action',
@@ -171,84 +234,81 @@ const expandedRow = (ind: number): JSX.Element => {
       key: 'operation',
       width: 100,
       fixed: 'right',
-      render: () => (
-        <Space size="middle">
-          <Tooltip title="Edit">
-            <Button type="dashed" icon={<EditTwoTone />} />
-          </Tooltip>
-          <Tooltip title="Delete">
-            <Button danger icon={<DeleteOutlined />} />
-          </Tooltip>
-        </Space>
-      ),
+      render: (_: ScheduleData, record: ScheduleData) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Space size="middle">
+              <Tooltip title="Save">
+                <Button type="primary" className="ok-btn" onClick={() => save(record.key)}>
+                  OK
+                </Button>
+              </Tooltip>
+              <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+                <Button danger icon={<CloseOutlined />} />
+              </Popconfirm>
+            </Space>
+          </span>
+        ) : (
+          <Space size="middle">
+            <Tooltip title="Edit">
+              <Button type="dashed" icon={<EditTwoTone />} onClick={() => edit(record)} />
+            </Tooltip>
+            <Popconfirm title="Sure to delete?">
+              <Button danger icon={<DeleteOutlined />} />
+            </Popconfirm>
+          </Space>
+        );
+      },
     },
   ];
 
+  const mergedColumns = columns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record: ScheduleData) => ({
+        record,
+        inputType: col.dataIndex === 'age' ? 'number' : 'text',
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
+
   const filteredColumns = [];
-  columns.map((col) => {
+  mergedColumns.map((col) => {
     if (columnVisibility[col.key]) filteredColumns.push(col);
     return col;
   });
-
-  const data = [];
-  for (let i = 0; i < events.length; ++i) {
-    if (events[i].week === ind.toString()) {
-      const taskType =
-        ((i === 1 || i === 13) && 'Online lection') ||
-        ((i === 2 || i === 14 || events[i].type === 'self-education') && 'Self education') ||
-        i === 3 ||
-        (events[i].type === 'Выдача таска' && 'Task start') ||
-        (i === 4 && 'Cross-check start') ||
-        (i === 5 && 'Task deadline') ||
-        (i === 6 && 'Optional task start') ||
-        (i === 7 && 'Meetup') ||
-        (i === 8 && 'Test with grade') ||
-        (i === 9 && 'Optional task deadline') ||
-        (i === 10 && 'Cross-check deadline') ||
-        (i === 11 && 'Test without grade') ||
-        (i === 12 && 'Interview start') ||
-        'Task start';
-      const time =
-        ((events[i].type === 'Task deadline' ||
-          events[i].type === 'Optional task deadline' ||
-          events[i].type === 'Cross-check deadline') &&
-          '23:59:59') ||
-        ((events[i].type === 'Meetup' ||
-          events[i].type === 'Test with grade' ||
-          events[i].type === 'Test without grade') &&
-          new Date().toLocaleTimeString()) ||
-        new Date().toLocaleTimeString();
-      data.push({
-        key: i,
-        startDay: events[i].dateTime,
-        startTime: time,
-        name: events[i].name,
-        place: events[i].place,
-        materials: events[i].descriptionUrl,
-        comments: events[i].comment || '-',
-        type: taskType,
-      });
-    }
-  }
 
   return (
     <>
       <div className="add-row-button-wrapper">
         <Button type="primary">Add event</Button>
       </div>
-
-      <Table<ScheduleData>
-        bordered
-        columns={filteredColumns}
-        pagination={false}
-        dataSource={data}
-        scroll={{ y: 400 }}
-        rowClassName={(record) => {
-          const type = getKeyByValue(eventTypes, record.type);
-          const rowClass = eventTypeColors[type] as string;
-          return rowClass;
-        }}
-      />
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          columns={filteredColumns}
+          pagination={false}
+          dataSource={originData}
+          scroll={{ y: 400 }}
+          rowClassName={(record) => {
+            const type = getKeyByValue(eventTypes, record.type);
+            const rowClass = eventTypeColors[type] as string;
+            return rowClass;
+          }}
+        />
+      </Form>
     </>
   );
 };

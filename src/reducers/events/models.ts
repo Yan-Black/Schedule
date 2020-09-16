@@ -1,4 +1,7 @@
 export interface StudyEvent {
+  lector?: string;
+  key?: string;
+  eventTime?: string;
   place: string;
   descriptionUrl: string;
   timeZone: string;
