@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import fetchStudyEvents from 'requests';
-import { InitiaiStudyEventState } from './models';
+import { InitiaiStudyEventState, StudyEvent } from './models';
 
 const initialState: InitiaiStudyEventState = {
   data: [],
@@ -15,6 +15,12 @@ const eventsSlice = createSlice({
     deleteEvent: (state, { payload }) => {
       state.data.splice(payload, 1);
     },
+    changeEvent: (state, { payload }: PayloadAction<{ changedEvent: StudyEvent; changedInd: number }>) => {
+      state.data.splice(payload.changedInd, 1, payload.changedEvent);
+    },
+    addEvent: (state, { payload }) => {
+      state.data.push(payload);
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchStudyEvents.pending, (state) => {
@@ -31,5 +37,5 @@ const eventsSlice = createSlice({
   },
 });
 
-export const { deleteEvent } = eventsSlice.actions;
+export const { deleteEvent, changeEvent } = eventsSlice.actions;
 export default eventsSlice.reducer;
