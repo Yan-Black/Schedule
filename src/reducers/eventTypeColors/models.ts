@@ -13,7 +13,7 @@ export interface EventTypeColorsState {
   interviewStart: string;
 }
 
-export interface EventColor {
+export type EventColor = {
   event: string;
-  colorName: string;
-}
+  color: string;
+};

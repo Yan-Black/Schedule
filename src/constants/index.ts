@@ -1,3 +1,33 @@
+export const timeZone: string[] = [
+  'Europe/London',
+  'Europe/Warsaw',
+  'Europe/Kiev',
+  'Europe/Minsk',
+  'Europe/Moscow',
+  'Europe/Volgograd',
+  'Europe/Yekaterenburg',
+  'Asia/Tashkent',
+  'Asia/Tbilisi',
+];
+
+export const backgrounds: string[] = [
+  'vanilla-ice',
+  'remy',
+  'white-lilac',
+  'blue-chalk',
+  'pattens-blue-light',
+  'pattens-blue',
+  'humming-bird',
+  'foam',
+  'white-ice-light',
+  'white-ice',
+  'china-ivory',
+  'blanched-almond',
+  'serenade',
+  'sazerac',
+  'azure',
+];
+
 const teamId = '48';
 export const getAllEventsUrl = `/team/${teamId}/events`;
 export const postEventUrl = `/team/${teamId}/event`;
@@ -24,3 +54,4 @@ export const eventTypes = {
   crossCheckDeadline: 'Cross-check deadline',
   interviewStart: 'Interview start',
 };
+export const userRoles: string[] = ['Student', 'Mentor'];

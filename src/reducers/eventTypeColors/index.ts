@@ -17,11 +17,12 @@ const initialState: EventTypeColorsState = {
 };
 
 const eventTypeColorsSlice = createSlice({
-  name: 'eventTypeColors',
+  name: 'EventTypeColorsState',
   initialState,
   reducers: {
     changeEventColor: (state, action: { payload: EventColor }) => {
-      state[action.payload.event] = action.payload.colorName;
+      const { event, color } = action.payload;
+      state[event] = color;
     },
   },
 });

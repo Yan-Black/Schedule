@@ -2,16 +2,18 @@ import { configureStore } from '@reduxjs/toolkit';
 import appReducer from 'reducers/app';
 import eventsReducer from 'reducers/events';
 import organizersReducer from 'reducers/organizers';
-import eventTypeColorsReducer from 'reducers/eventTypeColors';
-import columnVisibilityReducer from 'reducers/columnVisibility';
+import settingReducer from 'reducers/settings';
+import colorsReducer from 'reducers/eventTypeColors';
+import roleReducer from 'reducers/role';
 
 const store = configureStore({
   reducer: {
     app: appReducer,
     events: eventsReducer,
     organizers: organizersReducer,
-    eventTypeColors: eventTypeColorsReducer,
-    columnVisibility: columnVisibilityReducer,
+    settings: settingReducer,
+    colors: colorsReducer,
+    role: roleReducer,
   },
 });
 
