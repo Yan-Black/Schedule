@@ -18,7 +18,7 @@ const { Link } = Typography;
 const expandedRow = (ind: number): JSX.Element => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const columnVisibility: TableColumn = useSelector((state: RootState) => state.columnVisibility);
+  const columnVisibility: TableColumn = useSelector((state: RootState) => state.column);
   const eventTypeColors = useSelector((state: RootState) => state.colors);
   const events = useSelector((state: RootState) => state.events.data);
   const loading = useSelector((state: RootState) => state.events.loading);

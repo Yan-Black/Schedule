@@ -12,3 +12,8 @@ export interface TableColumn {
   additional3: boolean;
   operation: boolean;
 }
+
+export interface TypeColumn {
+  event: string;
+  status: boolean;
+}

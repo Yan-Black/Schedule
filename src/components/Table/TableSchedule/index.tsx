@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { WeekData } from './models';
 import expandedRow from './ExpandedRow';
+import ColumnVisibility from '../../ColumsVisibility';
 
 const TableSchedule: React.FC = () => {
   const loading = useSelector((state: RootState) => state.events.loading);
