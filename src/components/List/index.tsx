@@ -2,9 +2,13 @@ import * as React from 'react';
 import { Collapse } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { sortDataByDate, currentDay, eventTypes } from '@constants';
-import { getKeyByValue } from 'utils';
-import { generatePanelHader } from 'helpers';
+import { eventTypes } from '@constants';
+import {
+  generatePanelHader,
+  sortDataByDate,
+  getKeyByValue,
+  currentDay,
+} from 'helpers';
 import Item from './Item';
 import './index.scss';
 

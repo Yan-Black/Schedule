@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { getKeyByValue } from 'utils';
+import { getKeyByValue } from 'helpers';
 import { useState } from 'react';
 import { changeEvent } from 'reducers/events';
 import { TableColumn } from 'reducers/columnVisibility/models';

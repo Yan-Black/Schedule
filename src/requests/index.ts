@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'utils';
-import { getAllEventsUrl, getAllOrganizers } from '@constants';
+import { getAllEventsUrl, getAllOrganizers } from '@constants/api';
 import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';
 
