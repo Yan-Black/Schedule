@@ -2,7 +2,9 @@ import * as React from 'react';
 import { Collapse } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { sortDataByDate, currentDay } from '@constants';
+import { sortDataByDate, currentDay, eventTypes } from '@constants';
+import { getKeyByValue } from 'utils';
+import { generatePanelHader } from 'helpers';
 import Item from './Item';
 import './index.scss';
 
@@ -10,19 +12,30 @@ const List: React.FC = () => {
   const {
     events: { data },
   } = useSelector((state: RootState) => state);
-
+  const { colors } = useSelector((state: RootState) => state);
   const { Panel } = Collapse;
-
   const dataToApply = data.slice().sort(sortDataByDate);
 
   const [{ id: defaultKey }] = dataToApply.filter(
     ({ dateTime }) => +dateTime.slice(4, 7) >= currentDay,
   );
 
+  let currentIdx: number;
+  dataToApply.forEach((obj) => {
+    if (obj.id === defaultKey) {
+      currentIdx = dataToApply.indexOf(obj);
+    }
+  });
+
   return (
     <Collapse defaultActiveKey={[defaultKey]}>
-      {dataToApply.map(({ id, dateTime, name, type, eventTime }) => (
-        <Panel header={dateTime} key={id}>
+      {dataToApply.map(({ id, dateTime, name, type, eventTime }, i) => (
+        <Panel
+          header={generatePanelHader(currentIdx, dateTime, i)}
+          key={id}
+          style={{ opacity: `${i < currentIdx && 0.7}` }}
+          className={colors[getKeyByValue(eventTypes, type)] as string}
+        >
           <Item name={name} time={eventTime} type={type} eventId={id} />
         </Panel>
       ))}

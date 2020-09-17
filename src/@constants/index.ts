@@ -50,6 +50,7 @@ export const deleteOrganizer = (orgId: string): string =>
 
 export const currentDay = new Date().getDate();
 export const year = new Date().getFullYear();
+
 export const sortDataByDate = (
   prevObject: StudyEvent,
   nextObj: StudyEvent,
