@@ -4,17 +4,22 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
 import { StudyEvent } from 'reducers/events/models';
+import { getKeyByValue } from 'utils';
 import { ListData } from './models';
-import types from './helper';
+import { eventTypes } from '../../constants/index';
 
 import './index.scss';
 
 const Calendar: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
+  const { colors } = useSelector((state: RootState) => state);
+
+  console.log('colors ', colors);
 
   const getListData = (value: moment.Moment) => {
     let listData: ListData[] = [];
     let type: 'error' | 'default' | 'warning' | 'success' | 'processing';
+    const types = Object.values(eventTypes);
 
     const name = (item: StudyEvent) => {
       for (let i = 0; i < types.length; i++) {
@@ -45,14 +50,11 @@ const Calendar: React.FC = () => {
             type = 'default';
         }
       }
-      if (item.dateTime === 'string') {
-        return;
-      }
       if (
         value.date() === Number(item.dateTime.split(' ')[1].split('.')[0]) &&
         value.month() === Number(item.dateTime.split(' ')[1].split('.')[1]) - 1
       ) {
-        listData = [{ type, content: item.name, eventTime: item.eventTime }];
+        listData = [{ type, content: item.name, eventTime: item.eventTime, typeColor: item.type }];
       }
     };
     events.map(name);
@@ -65,7 +67,7 @@ const Calendar: React.FC = () => {
     return (
       <ul className="events">
         {listData.map((item) => (
-          <li key={item.content}>
+          <li key={item.content} className={colors[getKeyByValue(eventTypes, item.typeColor)] as string}>
             <Badge status={item.type} text={`${item.eventTime} ${item.content}`} />
           </li>
         ))}
