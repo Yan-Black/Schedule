@@ -19,7 +19,6 @@ const List: React.FC = () => {
   const { colors } = useSelector((state: RootState) => state);
   const { Panel } = Collapse;
   const dataToApply = data.slice().sort(sortDataByDate);
-
   const [{ id: defaultKey }] = dataToApply.filter(
     ({ dateTime }) => +dateTime.slice(4, 7) >= currentDay,
   );

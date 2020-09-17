@@ -4,7 +4,7 @@ import { InitialStudyEventState, StudyEvent } from './models';
 
 const initialState: InitialStudyEventState = {
   data: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -12,7 +12,7 @@ const eventsSlice = createSlice({
   name: 'event',
   initialState,
   reducers: {
-    deleteEvent: (state, { payload }) => {
+    deleteEvent: (state, { payload }: PayloadAction<number>) => {
       state.data.splice(payload, 1);
     },
     changeEvent: (
