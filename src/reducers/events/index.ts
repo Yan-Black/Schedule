@@ -20,7 +20,7 @@ const eventsSlice = createSlice({
     },
     addEvent: (state, { payload }) => {
       state.data.push(payload);
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchStudyEvents.pending, (state) => {
