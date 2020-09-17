@@ -6,18 +6,16 @@ import { RootState } from 'store';
 import { StudyEvent } from 'reducers/events/models';
 
 import './index.scss';
+import { ListData } from './models';
 
 const CalendarComponent: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
 
-  const getListData = (value) => {
-    let listData;
+  const getListData = (value: moment.Moment) => {
+    let listData: ListData[];
 
     const name = (item: StudyEvent) => {
-      const type = item.type === 'self-education' ? 'warning' : 'success';
-      if (item.dateTime === 'string') {
-        return;
-      }
+      const type = item.type === 'Self education' ? 'warning' : 'success';
       if (value.date() === Number(item.dateTime.split(' ')[1].split('.')[0])) {
         listData = [{ type, content: item.description }];
       }
@@ -27,37 +25,45 @@ const CalendarComponent: React.FC = () => {
     return listData || [];
   };
 
-  const dateCellRender = (value) => {
+  const dateCellRender = (value: moment.Moment) => {
     const listData = getListData(value);
     return (
       <ul className="events">
-        {listData.map((item) => (
-          <li key={item.content}>
-            <Badge status={item.type} text={item.content} />
+        {listData.map(({ type, content }) => (
+          <li key={content}>
+            <Badge status={type} text={content} />
           </li>
         ))}
       </ul>
     );
   };
 
-  const getMonthData = (value) => {
+  const getMonthData = (value: moment.Moment) => {
     if (value.month() === 8) {
       return 1394;
     }
     return 1394;
   };
 
-  const monthCellRender = (value) => {
+  const monthCellRender = (value: moment.Moment) => {
     const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
+    return (
+      num && (
+        <div className="notes-month">
+          <section>{num}</section>
+          <span>Backlog number</span>
+        </div>
+      )
+    );
   };
 
-  return <CalendarWrapper className="container" dateCellRender={dateCellRender} monthCellRender={monthCellRender} />;
+  return (
+    <CalendarWrapper
+      className="container"
+      dateCellRender={dateCellRender}
+      monthCellRender={monthCellRender}
+    />
+  );
 };
 
 export default CalendarComponent;

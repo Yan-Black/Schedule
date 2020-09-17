@@ -33,7 +33,13 @@ export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: string;
-  inputType: 'number' | 'text' | 'integer' | 'decimal' | 'local datetime' | 'instant';
+  inputType:
+    | 'number'
+    | 'text'
+    | 'integer'
+    | 'decimal'
+    | 'local datetime'
+    | 'instant';
   record: ScheduleData;
   index: number;
   children: React.ReactNode;

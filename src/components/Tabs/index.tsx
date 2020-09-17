@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { Tabs as TabsWrapper } from 'antd';
+import { useSelector } from 'react-redux';
+import { Skeleton, Tabs as TabsWrapper } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
-import { CalendarOutlined, UnorderedListOutlined, TableOutlined } from '@ant-design/icons';
+import {
+  CalendarOutlined,
+  UnorderedListOutlined,
+  TableOutlined,
+} from '@ant-design/icons';
+import { RootState } from 'store';
 
 import Table from 'components/Table';
 import Calendar from 'components/Calendar';
@@ -14,6 +20,7 @@ const Tabs: React.FC = () => {
   const { TabPane } = TabsWrapper;
   const location = useLocation();
   const currentLocation = () => location.pathname;
+  const isLoading = useSelector((state: RootState) => state.events.loading);
 
   return (
     <TabsWrapper
@@ -47,7 +54,7 @@ const Tabs: React.FC = () => {
           </Link>
         }
       >
-        <Calendar />
+        {isLoading ? <Skeleton active /> : <Calendar />}
       </TabPane>
 
       <TabPane
@@ -61,9 +68,10 @@ const Tabs: React.FC = () => {
           </Link>
         }
       >
-        <List />
+        {isLoading ? <Skeleton active /> : <List />}
       </TabPane>
     </TabsWrapper>
   );
 };
+
 export default Tabs;

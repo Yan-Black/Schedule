@@ -1,28 +1,36 @@
 import * as React from 'react';
 import { EditTwoTone, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm } from 'antd';
+import {
+  Tooltip,
+  Space,
+  Button,
+  Typography,
+  Table,
+  Form,
+  Popconfirm,
+} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { getKeyByValue } from 'utils';
+import { getKeyByValue } from 'helpers';
 import { useState } from 'react';
 import { changeEvent } from 'reducers/events';
-import { TableColumn } from 'reducers/columnVisibility/models';
-import { eventTypes } from '../../../../constants';
+import { eventTypes } from '@constants';
 import { ScheduleData } from '../models';
 import getOriginData from '../EditableCell/getOriginData';
 import EditableCell from '../EditableCell';
 
-const { Text, Link } = Typography;
+const { Link } = Typography;
 
 const expandedRow = (ind: number): JSX.Element => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const columnVisibility: TableColumn = useSelector((state: RootState) => state.column);
+  const columnVisibility = useSelector((state: RootState) => state.column);
   const eventTypeColors = useSelector((state: RootState) => state.colors);
   const events = useSelector((state: RootState) => state.events.data);
   const originData = getOriginData(events, ind);
   const [editingKey, setEditingKey] = useState('');
-  const isEditing = (record: ScheduleData) => record.key.toString() === editingKey;
+  const isEditing = (record: ScheduleData) =>
+    record.key.toString() === editingKey;
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as ScheduleData;
@@ -30,7 +38,9 @@ const expandedRow = (ind: number): JSX.Element => {
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
         const changed = events.find((event) => event.id === newData[index].id);
-        const changedInd = events.findIndex((event) => event.id === newData[index].id);
+        const changedInd = events.findIndex(
+          (event) => event.id === newData[index].id,
+        );
         const changedEvent = {
           ...changed,
           name: row.name,
@@ -46,7 +56,7 @@ const expandedRow = (ind: number): JSX.Element => {
         setEditingKey('');
       }
     } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
+      window.console.log('Validate Failed:', errInfo);
     }
   };
   const edit = (record: ScheduleData) => {
@@ -150,7 +160,8 @@ const expandedRow = (ind: number): JSX.Element => {
           value: 'Interview start',
         },
       ],
-      onFilter: (value: string, record: ScheduleData) => record.type.indexOf(value) === 0,
+      onFilter: (value: string, record: ScheduleData) =>
+        record.type.indexOf(value) === 0,
       render: (text: string) => {
         return (
           <div className="event-type">
@@ -246,7 +257,11 @@ const expandedRow = (ind: number): JSX.Element => {
           <span>
             <Space size="middle">
               <Tooltip title="Save">
-                <Button type="primary" className="ok-btn" onClick={() => save(record.key)}>
+                <Button
+                  type="primary"
+                  className="ok-btn"
+                  onClick={() => save(record.key)}
+                >
                   OK
                 </Button>
               </Tooltip>
@@ -258,7 +273,11 @@ const expandedRow = (ind: number): JSX.Element => {
         ) : (
           <Space size="middle">
             <Tooltip title="Edit">
-              <Button type="dashed" icon={<EditTwoTone />} onClick={() => edit(record)} />
+              <Button
+                type="dashed"
+                icon={<EditTwoTone />}
+                onClick={() => edit(record)}
+              />
             </Tooltip>
             <Popconfirm title="Sure to delete?">
               <Button danger icon={<DeleteOutlined />} />

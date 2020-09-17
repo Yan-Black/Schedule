@@ -15,6 +15,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <td {...restProps}>
       {editing ? (
         <Form.Item
