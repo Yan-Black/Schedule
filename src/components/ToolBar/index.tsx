@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { HeartTwoTone, DownloadOutlined } from '@ant-design/icons';
 import Setting from '../Settings';
-import ColumnVisibility from '../ColumsVisibility';
 import './index.scss';
 
 const ToolBar: React.FC = () => {
@@ -15,7 +14,6 @@ const ToolBar: React.FC = () => {
         <DownloadOutlined />
       </a>
       <Setting />
-      <ColumnVisibility />
     </div>
   );
 };

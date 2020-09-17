@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { EventColor, EventTypeColorsState } from './models';
 
-const initialState: EventTypeColorsState = {
-  onlineLection: 'china-ivory',
+const firstState: EventTypeColorsState = {
+  onlineLecture: 'china-ivory',
   meetupOffline: 'vanilla-ice',
   taskStart: 'white-ice',
   taskDeadline: 'blue-chalk',
@@ -15,6 +15,11 @@ const initialState: EventTypeColorsState = {
   crossCheckDeadline: 'white-ice-light',
   interviewStart: 'pattens-blue',
 };
+
+const currentState = localStorage.getItem('colors');
+
+const initialState: EventTypeColorsState =
+  currentState === null ? firstState : <EventTypeColorsState>JSON.parse(currentState);
 
 const eventTypeColorsSlice = createSlice({
   name: 'EventTypeColorsState',

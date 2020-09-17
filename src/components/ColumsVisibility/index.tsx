@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Menu, Dropdown, Button, Checkbox } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { RootState } from 'store';
@@ -12,6 +13,11 @@ import { TableColumn } from '../../reducers/columnVisibility/models';
 const ColumnsVisibility: React.FC = () => {
   const dispatch = useDispatch();
   const columnState: TableColumn = useSelector((state: RootState) => state.column);
+
+  useEffect(() => {
+    const columnsToJSON = JSON.stringify(columnState);
+    localStorage.setItem('columns', columnsToJSON);
+  }, [columnState]);
 
   const onChange = (event: CheckboxChangeEvent) => {
     dispatch(changeColumnVisibility({ event: event.target.name, status: event.target.checked }));

@@ -28,21 +28,6 @@ export const backgrounds: string[] = [
   'azure',
 ];
 
-export const eventTypes = {
-  onlineLection: 'Online lection',
-  meetupOffline: 'Meetup',
-  taskStart: 'Task start',
-  taskDeadline: 'Task deadline',
-  optionalTaskStart: 'Optional task start',
-  optionalTaskDeadline: 'Optional task deadline',
-  selfEducation: 'Self education',
-  testGrade: 'Test with grade',
-  testWithoutGrade: 'Test without grade',
-  crossCheckStart: 'Cross-check start',
-  crossCheckDeadline: 'Cross-check deadline',
-  interviewStart: 'Interview start',
-};
-
 const teamId = '48';
 export const getAllEventsUrl = `/team/${teamId}/events`;
 export const postEventUrl = `/team/${teamId}/event`;
@@ -55,6 +40,20 @@ export const getOrganizer = (orgId: string): string => `team/${teamId}/event/${o
 export const putOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
 export const deleteOrganizer = (orgId: string): string => `team/${teamId}/event/${orgId}`;
 
+export const eventTypes = {
+  onlineLecture: 'Online lecture',
+  meetupOffline: 'Meetup',
+  taskStart: 'Task start',
+  taskDeadline: 'Task deadline',
+  optionalTaskStart: 'Optional task start',
+  optionalTaskDeadline: 'Optional task deadline',
+  selfEducation: 'Self education',
+  testGrade: 'Test with grade',
+  testWithoutGrade: 'Test without grade',
+  crossCheckStart: 'Cross-check start',
+  crossCheckDeadline: 'Cross-check deadline',
+  interviewStart: 'Interview start',
+};
 export const columns = {
   startDay: 'Date',
   startTime: 'Time',
@@ -69,4 +68,5 @@ export const columns = {
   additional3: 'Additional',
   operation: 'Action',
 };
+
 export const userRoles: string[] = ['Student', 'Mentor'];

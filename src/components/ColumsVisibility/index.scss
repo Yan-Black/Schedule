@@ -1,3 +1,8 @@
+.column-visibility {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .columns-visibility__button {
   & .columns-visibility__title {
     font-size: 14px !important;

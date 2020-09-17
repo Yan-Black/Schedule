@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TableColumn, TypeColumn } from './models';
 
-const initialState: TableColumn = {
+const firstState: TableColumn = {
   startDay: true,
   startTime: true,
   name: true,
@@ -15,6 +15,10 @@ const initialState: TableColumn = {
   additional3: true,
   operation: true,
 };
+
+const currentState = localStorage.getItem('columns');
+
+const initialState: TableColumn = currentState === null ? firstState : <TableColumn>JSON.parse(currentState);
 
 const columnVisibilitySlice = createSlice({
   name: 'columnVisibility',

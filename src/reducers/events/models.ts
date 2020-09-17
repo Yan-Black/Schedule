@@ -1,4 +1,7 @@
 export interface StudyEvent {
+  lector?: string;
+  key?: string;
+  eventTime?: string;
   place: string;
   descriptionUrl: string;
   timeZone: string;
@@ -8,6 +11,7 @@ export interface StudyEvent {
   description: string;
   name: string;
   id: string;
+  week?: string;
 }
 
 export interface InitiaiStudyEventState {
