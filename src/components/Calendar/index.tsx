@@ -14,11 +14,9 @@ const Calendar: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
   const { colors } = useSelector((state: RootState) => state);
 
-  console.log('colors ', colors);
-
   const getListData = (value: moment.Moment) => {
     let listData: ListData[] = [];
-    let type: 'error' | 'default' | 'warning' | 'success' | 'processing';
+    let point: ListData['type'];
     const types = Object.values(eventTypes);
 
     const name = (item: StudyEvent) => {
@@ -27,34 +25,35 @@ const Calendar: React.FC = () => {
           case 'Task deadline':
           case 'Optional task deadline':
           case 'Cross-check deadline':
-            type = 'error';
+            point = 'error';
             break;
           case 'Online lecture':
           case 'Meetup':
-            type = 'warning';
+            point = 'warning';
             break;
           case 'Optional task start':
           case 'Self education':
-            type = 'processing';
+            point = 'processing';
             break;
           case 'Cross-check start':
           case 'Task start':
-            type = 'success';
+            point = 'success';
             break;
           case 'Test with grade':
           case 'Test without grade':
           case 'Interview start':
-            type = 'warning';
+            point = 'warning';
             break;
           default:
-            type = 'default';
+            point = 'default';
         }
       }
       if (
         value.date() === Number(item.dateTime.split(' ')[1].split('.')[0]) &&
-        value.month() === Number(item.dateTime.split(' ')[1].split('.')[1]) - 1
+        value.month() === Number(item.dateTime.split(' ')[1].split('.')[1]) - 1 &&
+        value.year() === Number(item.dateTime.split(' ')[1].split('.')[2])
       ) {
-        listData = [{ type, content: item.name, eventTime: item.eventTime, typeColor: item.type }];
+        listData = [{ type: point, content: item.name, eventTime: item.eventTime, typeColor: item.type }];
       }
     };
     events.map(name);
