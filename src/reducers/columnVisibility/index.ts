@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { TableColumn } from './models';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TableColumn, TypeColumn } from './models';
 
-const initialState: TableColumn = {
+const firstState: TableColumn = {
   startDay: true,
   startTime: true,
   name: true,
@@ -16,11 +16,21 @@ const initialState: TableColumn = {
   operation: true,
 };
 
+const currentState = localStorage.getItem('columns');
+
+const initialState: TableColumn =
+  currentState === null ? firstState : <TableColumn>JSON.parse(currentState);
+
 const columnVisibilitySlice = createSlice({
   name: 'columnVisibility',
   initialState,
-  reducers: {},
+  reducers: {
+    changeColumnVisibility: (state, { payload }: PayloadAction<TypeColumn>) => {
+      const { event, status } = payload;
+      state[event] = status;
+    },
+  },
 });
 
-// export const { deleteEvent } = eventsSlice.actions;
+export const { changeColumnVisibility } = columnVisibilitySlice.actions;
 export default columnVisibilitySlice.reducer;

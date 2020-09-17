@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import './index.scss';
 import { WeekData } from './models';
 import expandedRow from './ExpandedRow';
+import ColumnVisibility from '../../ColumsVisibility';
 
 const TableSchedule: React.FC = () => {
   const columns = [
@@ -10,6 +11,12 @@ const TableSchedule: React.FC = () => {
       title: 'RS School Schedule',
       dataIndex: 'name',
       key: 'name',
+    },
+    {
+      title: <ColumnVisibility />,
+      dataIndex: 'test',
+      key: 'name',
+      className: 'column-visibility',
     },
   ];
 

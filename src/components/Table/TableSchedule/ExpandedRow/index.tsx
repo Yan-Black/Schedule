@@ -14,7 +14,6 @@ import { RootState } from 'store';
 import { getKeyByValue } from 'helpers';
 import { useState } from 'react';
 import { changeEvent } from 'reducers/events';
-import { TableColumn } from 'reducers/columnVisibility/models';
 import { eventTypes } from '@constants';
 import { ScheduleData } from '../models';
 import getOriginData from '../EditableCell/getOriginData';
@@ -25,9 +24,7 @@ const { Link } = Typography;
 const expandedRow = (ind: number): JSX.Element => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const columnVisibility: TableColumn = useSelector(
-    (state: RootState) => state.columnVisibility,
-  );
+  const columnVisibility = useSelector((state: RootState) => state.column);
   const eventTypeColors = useSelector((state: RootState) => state.colors);
   const events = useSelector((state: RootState) => state.events.data);
   const originData = getOriginData(events, ind);

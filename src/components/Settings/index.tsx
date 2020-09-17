@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RootState } from 'store';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button } from 'antd';
@@ -19,9 +19,19 @@ import './index.scss';
 const Settings: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [stage, setStage] = useState<string>('general-setting');
-  const mergeState = useSelector((state: RootState) => state.settings.merge);
-  const visualState = useSelector((state: RootState) => state.settings.visual);
   const colorsState = useSelector((state: RootState) => state.colors);
+  const settings = useSelector((state: RootState) => state.settings);
+
+  useEffect(() => {
+    const settingsToJSON = JSON.stringify(settings);
+    localStorage.setItem('settings', settingsToJSON);
+  }, [settings]);
+
+  useEffect(() => {
+    const colorsToJSON = JSON.stringify(colorsState);
+    localStorage.setItem('colors', colorsToJSON);
+  }, [colorsState]);
+
   const dispatch = useDispatch();
 
   const showCustomizations = () => {
@@ -91,6 +101,7 @@ const Settings: React.FC = () => {
                     className="settings__option-type settings__option-select"
                     onChange={handleSelectSettings}
                     name={name}
+                    value={settings[name]}
                   >
                     {options.map((value) => (
                       <option key={value}>{value}</option>
@@ -106,13 +117,13 @@ const Settings: React.FC = () => {
               </span>
               <Switch
                 onChange={() => {
-                  if (visualState) {
+                  if (settings.visual) {
                     dispatch(changeSettings({ event: 'visual', value: false }));
                   } else {
                     dispatch(changeSettings({ event: 'visual', value: true }));
                   }
                 }}
-                checked={visualState}
+                checked={settings.visual}
                 uncheckedIcon={false}
                 checkedIcon={false}
                 height={20}
@@ -127,13 +138,13 @@ const Settings: React.FC = () => {
               </span>
               <Switch
                 onChange={() => {
-                  if (!mergeState) {
+                  if (!settings.merge) {
                     dispatch(changeSettings({ event: 'merge', value: true }));
                   } else {
                     dispatch(changeSettings({ event: 'merge', value: false }));
                   }
                 }}
-                checked={mergeState}
+                checked={settings.merge}
                 uncheckedIcon={false}
                 checkedIcon={false}
                 height={20}
