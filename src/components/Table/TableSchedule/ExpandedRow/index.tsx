@@ -11,6 +11,7 @@ import { eventTypes } from '../../../../constants';
 import { ScheduleData } from '../models';
 import getOriginData from '../EditableCell/getOriginData';
 import EditableCell from '../EditableCell';
+import sortEvents from './sortEvents';
 
 const { Link } = Typography;
 
@@ -21,13 +22,14 @@ const expandedRow = (ind: number): JSX.Element => {
   const eventTypeColors = useSelector((state: RootState) => state.colors);
   const events = useSelector((state: RootState) => state.events.data);
   const originData = getOriginData(events, ind);
+  const sortedData = originData.slice().sort(sortEvents);
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record: ScheduleData) => record.key.toString() === editingKey;
 
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as ScheduleData;
-      const newData = [...originData];
+      const newData = [...sortedData];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
         const changed = events.find((event) => event.id === newData[index].id);
@@ -71,7 +73,7 @@ const expandedRow = (ind: number): JSX.Element => {
   const del = (id: string) => {
     const delId = events.findIndex((event) => event.id === id);
     dispatch(deleteEvent(delId));
-  }
+  };
 
   const cancel = () => {
     setEditingKey('');
@@ -312,7 +314,7 @@ const expandedRow = (ind: number): JSX.Element => {
           bordered
           columns={filteredColumns}
           pagination={false}
-          dataSource={originData}
+          dataSource={sortedData}
           scroll={{ y: 400 }}
           rowClassName={(record) => {
             const type = getKeyByValue(eventTypes, record.type);
