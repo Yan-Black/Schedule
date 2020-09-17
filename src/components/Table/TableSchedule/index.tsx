@@ -9,6 +9,15 @@ import expandedRow from './ExpandedRow';
 const TableSchedule: React.FC = () => {
   const loading = useSelector((state: RootState) => state.events.loading);
 
+  const data: WeekData[] = [];
+  for (let i = 0; i < 10; ++i) {
+    data.push({
+      key: i,
+      name: `Week ${i}`,
+      weekData: expandedRow(i),
+    });
+  }
+
   const columns = [
     {
       title: 'RS School Schedule',
@@ -17,23 +26,17 @@ const TableSchedule: React.FC = () => {
     },
   ];
 
-  const data: WeekData[] = [];
-  for (let i = 0; i < 5; ++i) {
-    data.push({
-      key: i,
-      name: `Week ${i}`,
-      weekData: expandedRow(i),
-    });
-  }
-
   return (
     <Skeleton loading={loading}>
       <Table<WeekData>
         columns={columns}
-        expandable={{ expandedRowRender: (record) => record.weekData }}
+        expandable={{
+          expandedRowRender: (record) => record.weekData,
+        }}
         defaultExpandedRowKeys={[1]}
         dataSource={data}
         pagination={false}
+        // expandedRowClassName={() => 'currentWeek1'}
         rowClassName={(record, index) => `currentWeek${index}`}
         scroll={{ y: 500 }}
       />

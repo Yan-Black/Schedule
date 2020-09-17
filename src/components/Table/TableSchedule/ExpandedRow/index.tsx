@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { EditTwoTone, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm } from 'antd';
+import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm, Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { getKeyByValue } from 'utils';
@@ -21,6 +21,8 @@ const expandedRow = (ind: number): JSX.Element => {
   const columnVisibility: TableColumn = useSelector((state: RootState) => state.columnVisibility);
   const eventTypeColors = useSelector((state: RootState) => state.colors);
   const events = useSelector((state: RootState) => state.events.data);
+  const loading = useSelector((state: RootState) => state.events.loading);
+  // console.log(loading);
   const originData = getOriginData(events, ind);
   const sortedData = originData.slice().sort(sortEvents);
   const [editingKey, setEditingKey] = useState('');

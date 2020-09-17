@@ -14,12 +14,12 @@ const initialState: TableColumn = {
   additional2: true,
   additional3: true,
   operation: true,
-}
+};
 
 const columnVisibilitySlice = createSlice({
   name: 'columnVisibility',
   initialState,
-  reducers: {  },
+  reducers: {},
 });
 
 // export const { deleteEvent } = eventsSlice.actions;
