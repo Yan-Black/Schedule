@@ -6,7 +6,7 @@ import { RootState } from 'store';
 import { useSelector, useDispatch } from 'react-redux';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { changeColumnVisibility } from '../../reducers/columnVisibility';
-import { columns } from '../../constants';
+import { columns, permanentColumns } from '../../constants';
 import './index.scss';
 import { TableColumn } from '../../reducers/columnVisibility/models';
 
@@ -23,13 +23,22 @@ const ColumnsVisibility: React.FC = () => {
     dispatch(changeColumnVisibility({ event: event.target.name, status: event.target.checked }));
   };
 
+  const disableColumn = (name: string) => {
+    return !!permanentColumns.includes(name);
+  };
+
   const menu = (
     <Menu>
       {Object.entries(columns).map((item, index) => {
         const [event, value] = item;
         return (
           <Menu.Item key={`${index * 1}`}>
-            <Checkbox defaultChecked={columnState[event]} name={event} onChange={onChange}>
+            <Checkbox
+              defaultChecked={columnState[event]}
+              name={event}
+              onChange={onChange}
+              disabled={disableColumn(value)}
+            >
               {value}
             </Checkbox>
           </Menu.Item>

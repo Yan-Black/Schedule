@@ -28,6 +28,8 @@ export const backgrounds: string[] = [
   'azure',
 ];
 
+export const permanentColumns: string[] = ['Date', 'Name', 'Type', 'Action'];
+
 const teamId = '48';
 export const getAllEventsUrl = `/team/${teamId}/events`;
 export const postEventUrl = `/team/${teamId}/event`;
