@@ -12,6 +12,9 @@ export interface StudyEvent {
   name: string;
   id: string;
   week?: string;
+  additional1?: string;
+  additional2?: string;
+  additional3?: string;
 }
 
 export interface InitiaiStudyEventState {

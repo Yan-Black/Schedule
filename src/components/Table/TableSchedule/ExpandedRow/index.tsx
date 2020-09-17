@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { EditTwoTone, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm, Skeleton } from 'antd';
+import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { getKeyByValue } from 'utils';
@@ -21,8 +21,6 @@ const expandedRow = (ind: number): JSX.Element => {
   const columnVisibility: TableColumn = useSelector((state: RootState) => state.column);
   const eventTypeColors = useSelector((state: RootState) => state.colors);
   const events = useSelector((state: RootState) => state.events.data);
-  const loading = useSelector((state: RootState) => state.events.loading);
-  // console.log(loading);
   const originData = getOriginData(events, ind);
   const sortedData = originData.slice().sort(sortEvents);
   const [editingKey, setEditingKey] = useState('');
@@ -86,15 +84,17 @@ const expandedRow = (ind: number): JSX.Element => {
       title: 'Date',
       dataIndex: 'startDay',
       key: 'startDay',
-      width: 100,
+      width: 140,
       fixed: 'left',
+      editable: true,
     },
     {
       title: 'Time',
       dataIndex: 'startTime',
       key: 'startTime',
-      width: 70,
+      width: 100,
       fixed: 'left',
+      editable: true,
     },
     {
       title: 'Name',
@@ -114,6 +114,7 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'type',
       key: 'type',
       width: 120,
+      editable: true,
       filters: [
         {
           text: 'Online lection',
@@ -181,6 +182,7 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'materials',
       key: 'materials',
       width: 150,
+      editable: true,
       ellipsis: {
         showTitle: false,
       },
@@ -204,6 +206,20 @@ const expandedRow = (ind: number): JSX.Element => {
         return (
           <div className="lector">
             <span>{text}</span>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'text',
+      dataIndex: 'text',
+      key: 'text',
+      width: 150,
+      editable: true,
+      render: () => {
+        return (
+          <div className="lector">
+            <span>text</span>
           </div>
         );
       },
@@ -280,6 +296,11 @@ const expandedRow = (ind: number): JSX.Element => {
   ];
 
   const mergedColumns = columns.map((col) => {
+    let type: string;
+    if(col.dataIndex === 'startDay') type = 'date';
+    else if(col.dataIndex === 'startTime') type = 'time';
+    else type = 'text';
+
     if (!col.editable) {
       return col;
     }
@@ -287,7 +308,7 @@ const expandedRow = (ind: number): JSX.Element => {
       ...col,
       onCell: (record: ScheduleData) => ({
         record,
-        inputType: col.dataIndex === 'age' ? 'number' : 'text',
+        inputType: type,
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),

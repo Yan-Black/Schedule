@@ -25,6 +25,12 @@ const TableSchedule: React.FC = () => {
       dataIndex: 'name',
       key: 'name',
     },
+    {
+      title: <ColumnVisibility />,
+      dataIndex: 'test',
+      key: 'name',
+      className: 'column-visibility',
+    },
   ];
 
   return (

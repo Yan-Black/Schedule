@@ -21,6 +21,7 @@ export interface ScheduleData {
   additional2?: string;
   additional3?: string;
   id: string;
+  week?: string;
 }
 
 export interface WeekData {
@@ -33,7 +34,7 @@ export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: string;
-  inputType: 'number' | 'text' | 'integer' | 'decimal' | 'local datetime' | 'instant';
+  inputType: 'date' | 'time' | 'text' | 'number';
   record: ScheduleData;
   index: number;
   children: React.ReactNode;
