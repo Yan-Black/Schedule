@@ -6,6 +6,7 @@ import eventIdReducer from 'reducers/eventId';
 import settingReducer from 'reducers/settings';
 import colorsReducer from 'reducers/eventTypeColors';
 import roleReducer from 'reducers/role';
+import modalReducer from 'reducers/modal'
 import columnVisibilityReducer from 'reducers/columnVisibility';
 
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
     colors: colorsReducer,
     role: roleReducer,
     columnVisibility: columnVisibilityReducer,
+    modal: modalReducer,
   },
 });
 

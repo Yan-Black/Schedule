@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { Button, Modal } from 'antd';
-import { globalFunctions } from '../../constants';
+import { globalFunctions } from '../../@constants';
 
 const ModalWindow: React.FC = () => {
   const [visible, setVisible] = useState(false);

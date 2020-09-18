@@ -15,6 +15,7 @@ const App: React.FC = () => {
     dispatch(fetchStudyEvents());
     dispatch(fetchOrganizres());
   }, []);
+ 
 
   return (
     <>

@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 import { DownloadOutlined } from '@ant-design/icons';
-import { globalFunctions } from '../../constants';
+import { globalFunctions } from '../../@constants';
 
 const Download: React.FC = () => {
   const clickHandler = () => {
