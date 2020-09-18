@@ -19,7 +19,9 @@ const List: React.FC = () => {
   } = useSelector((state: RootState) => state);
   const { colors } = useSelector((state: RootState) => state);
   const { Panel } = Collapse;
+
   const dataToApply = data.slice().sort(sortDataByDate);
+
   const [{ id: defaultKey }] = dataToApply.filter(
     ({ dateTime }) => +dateTime.slice(4, 7) >= currentDay,
   );
@@ -35,7 +37,7 @@ const List: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, ref?.current?.getBoundingClientRect().top);
-  }, []);
+  });
 
   return (
     <Collapse defaultActiveKey={[defaultKey]}>
