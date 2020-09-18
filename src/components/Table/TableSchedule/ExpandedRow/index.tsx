@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { EditTwoTone, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm, DatePicker } from 'antd';
+import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { getKeyByValue } from 'utils';
 import { useState } from 'react';
-import { changeEvent, deleteEvent } from 'reducers/events';
+import { addEvent, changeEvent, deleteEvent } from 'reducers/events';
 import { TableColumn } from 'reducers/columnVisibility/models';
 import { eventTypes } from '../../../../constants';
 import { ScheduleData } from '../models';
@@ -42,54 +42,48 @@ const expandedRow = (ind: number): JSX.Element => {
   };
 
   const weekHandler = (value: number) => {
-    if(typeof value === 'string') alert ('input week');
+    if (typeof value === 'string') alert('input week');
     newWeek = value.toString();
   };
 
   const timeHandler = (time, timeString: string) => {
     newTime = timeString.slice(0, 5);
-  }
+  };
 
   const linkHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     newLink = event.target.value;
-  }
+  };
 
   const descriptionHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     newDescription = event.target.value;
-  }
+  };
 
   const typeHandler = (value: string) => {
     newType = value;
-  }
+  };
 
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as ScheduleData;
-      console.log(row);
       const newData = sortedData.slice();
       const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const changed = events.find((event) => event.id === newData[index].id);
-        const changedInd = events.findIndex((event) => event.id === newData[index].id);
-        const changedEvent = {
-          ...changed,
-          name: row.name,
-          place: row.place,
-          lector: row.lector,
-          comment: row.comments,
-          dateTime: newDate === '' ? events[changedInd].dateTime : newDate,
-          week: newWeek === '' ? events[changedInd].week : newWeek,
-          eventTime: newTime === '' ? events[changedInd].eventTime : newTime,
-          description: newDescription === '' ? events[changedInd].description : newDescription,
-          descriptionUrl: newLink === '' ? events[changedInd].descriptionUrl : newLink,
-          type: newType === '' ? events[changedInd].type : newType,
-        };
-        dispatch(changeEvent({ changedEvent, changedInd }));
-        setEditingKey('');
-      } else {
-        // to do: add case of new event in schedule (adding new row to table)
-        setEditingKey('');
-      }
+      const changed = events.find((event) => event.id === newData[index].id);
+      const changedInd = events.findIndex((event) => event.id === newData[index].id);
+      const changedEvent = {
+        ...changed,
+        name: row.name,
+        place: row.place,
+        lector: row.lector,
+        comment: row.comments,
+        dateTime: newDate === '' ? events[changedInd].dateTime : newDate,
+        week: newWeek === '' ? events[changedInd].week : newWeek,
+        eventTime: newTime === '' ? events[changedInd].eventTime : newTime,
+        description: newDescription === '' ? events[changedInd].description : newDescription,
+        descriptionUrl: newLink === '' ? events[changedInd].descriptionUrl : newLink,
+        type: newType === '' ? events[changedInd].type : newType,
+      };
+      dispatch(changeEvent({ changedEvent, changedInd }));
+      setEditingKey('');
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
@@ -121,6 +115,16 @@ const expandedRow = (ind: number): JSX.Element => {
 
   const cancel = () => {
     setEditingKey('');
+  };
+
+  const add = () => {
+    const newItem = {
+      dateTime: sortedData.length > 0 ? sortedData[0].startDay : events[events.length - 1].dateTime,
+      eventTime: '00:00',
+      type: 'no type',
+      week: sortedData.length > 0 ? sortedData[0].week : ind,
+    };
+    dispatch(addEvent(newItem));
   };
 
   const columns = [
@@ -363,28 +367,34 @@ const expandedRow = (ind: number): JSX.Element => {
 
   return (
     <>
-      <div className="add-row-button-wrapper">
-        <Button type="primary">Add event</Button>
-      </div>
-      <Form form={form} component={false}>
-        <Table
-          components={{
-            body: {
-              cell: EditableCell,
-            },
-          }}
-          bordered
-          columns={filteredColumns}
-          pagination={false}
-          dataSource={sortedData}
-          scroll={{ y: 400 }}
-          rowClassName={(record) => {
-            const type = getKeyByValue(eventTypes, record.type);
-            const rowClass = eventTypeColors[type] as string;
-            return rowClass;
-          }}
-        />
-      </Form>
+      {sortedData.length > 0 && (
+        <>
+          <div className="add-row-button-wrapper">
+            <Button type="primary" onClick={add}>
+              Add event
+            </Button>
+          </div>
+          <Form form={form} component={false}>
+            <Table
+              components={{
+                body: {
+                  cell: EditableCell,
+                },
+              }}
+              bordered
+              columns={filteredColumns}
+              pagination={false}
+              dataSource={sortedData}
+              scroll={{ y: 400 }}
+              rowClassName={(record) => {
+                const type = getKeyByValue(eventTypes, record.type);
+                const rowClass = eventTypeColors[type] as string;
+                return rowClass;
+              }}
+            />
+          </Form>
+        </>
+      )}
     </>
   );
 };

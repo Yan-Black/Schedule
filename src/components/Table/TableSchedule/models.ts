@@ -9,18 +9,18 @@ export interface ScheduleData {
   comments?: string;
   deadlineDay?: string;
   deadlineTime?: string;
-  key: number;
-  name: string;
+  key?: number;
+  name?: string;
   startDay: string;
   startTime?: string;
   type: string;
   place?: string;
-  materials: string;
-  description: string;
+  materials?: string;
+  description?: string;
   additional1?: string;
   additional2?: string;
   additional3?: string;
-  id: string;
+  id?: string;
   week?: string;
 }
 
