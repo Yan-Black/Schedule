@@ -27,6 +27,10 @@ const expandedRow = (ind: number): JSX.Element => {
   const isEditing = (record: ScheduleData) => record.key.toString() === editingKey;
   let newDate = '';
   let newWeek = '';
+  let newTime = '';
+  let newLink = '';
+  let newDescription = '';
+  let newType = '';
 
   const dateHandler = (date, dateString: string) => {
     const nextDate = dateString.split('.');
@@ -38,13 +42,30 @@ const expandedRow = (ind: number): JSX.Element => {
   };
 
   const weekHandler = (value: number) => {
+    if(typeof value === 'string') alert ('input week');
     newWeek = value.toString();
   };
+
+  const timeHandler = (time, timeString: string) => {
+    newTime = timeString.slice(0, 5);
+  }
+
+  const linkHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    newLink = event.target.value;
+  }
+
+  const descriptionHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    newDescription = event.target.value;
+  }
+
+  const typeHandler = (value: string) => {
+    newType = value;
+  }
 
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as ScheduleData;
-      // console.log(row);
+      console.log(row);
       const newData = sortedData.slice();
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
@@ -56,10 +77,12 @@ const expandedRow = (ind: number): JSX.Element => {
           place: row.place,
           lector: row.lector,
           comment: row.comments,
-          descriptionUrl: row.materials,
           dateTime: newDate === '' ? events[changedInd].dateTime : newDate,
           week: newWeek === '' ? events[changedInd].week : newWeek,
-          // to do: add additional fields and fields with not string data type
+          eventTime: newTime === '' ? events[changedInd].eventTime : newTime,
+          description: newDescription === '' ? events[changedInd].description : newDescription,
+          descriptionUrl: newLink === '' ? events[changedInd].descriptionUrl : newLink,
+          type: newType === '' ? events[changedInd].type : newType,
         };
         dispatch(changeEvent({ changedEvent, changedInd }));
         setEditingKey('');
@@ -71,6 +94,7 @@ const expandedRow = (ind: number): JSX.Element => {
       console.log('Validate Failed:', errInfo);
     }
   };
+
   const edit = (record: ScheduleData) => {
     form.setFieldsValue({
       startDay: '',
@@ -112,7 +136,7 @@ const expandedRow = (ind: number): JSX.Element => {
       title: 'Time',
       dataIndex: 'startTime',
       key: 'startTime',
-      width: 100,
+      width: 120,
       fixed: 'left',
       editable: true,
     },
@@ -133,7 +157,7 @@ const expandedRow = (ind: number): JSX.Element => {
       title: 'Type',
       dataIndex: 'type',
       key: 'type',
-      width: 120,
+      width: 140,
       editable: true,
       filters: [
         {
@@ -201,7 +225,7 @@ const expandedRow = (ind: number): JSX.Element => {
       title: 'Materials',
       dataIndex: 'materials',
       key: 'materials',
-      width: 150,
+      width: 160,
       editable: true,
       ellipsis: {
         showTitle: false,
@@ -307,6 +331,7 @@ const expandedRow = (ind: number): JSX.Element => {
     if (col.dataIndex === 'startDay') type = 'date';
     else if (col.dataIndex === 'startTime') type = 'time';
     else if (col.dataIndex === 'week') type = 'number';
+    else if (col.dataIndex === 'type') type = 'select';
     else type = 'text';
 
     if (!col.editable) {
@@ -322,6 +347,10 @@ const expandedRow = (ind: number): JSX.Element => {
         editing: isEditing(record),
         handleDate: dateHandler,
         handleWeek: weekHandler,
+        handleTime: timeHandler,
+        handleLink: linkHandler,
+        handleDescription: descriptionHandler,
+        handleType: typeHandler,
       }),
     };
   });

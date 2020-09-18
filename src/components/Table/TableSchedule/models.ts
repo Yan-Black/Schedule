@@ -34,10 +34,14 @@ export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: string;
-  inputType: 'date' | 'time' | 'text' | 'number';
+  inputType: 'date' | 'time' | 'text' | 'number' | 'select';
   record: ScheduleData;
   index: number;
   children: React.ReactNode;
   handleDate?: (date, dateString: string) => void;
-  handleWeek?: (value: number) => void;
+  handleWeek?: (value: string | number) => void;
+  handleTime?: (time: moment.Moment, dateString: string) => void;
+  handleLink?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDescription?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleType?: (value: string) => void;
 }
