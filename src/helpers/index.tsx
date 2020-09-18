@@ -5,11 +5,20 @@ export const generatePanelHader = (
   currentIdx: number,
   dateTime: string,
   i: number,
-): JSX.Element => (
-  <h4 style={{ color: `${currentIdx > i ? 'lightgray' : 'black'}` }}>
-    {dateTime}
-  </h4>
-);
+  ref: React.MutableRefObject<HTMLHeadingElement>,
+): JSX.Element =>
+  currentIdx === i ? (
+    <h4
+      style={{ color: `${currentIdx > i ? 'lightgray' : 'black'}` }}
+      ref={ref}
+    >
+      {dateTime}
+    </h4>
+  ) : (
+    <h4 style={{ color: `${currentIdx > i ? 'lightgray' : 'black'}` }}>
+      {dateTime}
+    </h4>
+  );
 
 export const currentDay = new Date().getDate();
 export const year = new Date().getFullYear();
