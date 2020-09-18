@@ -310,8 +310,10 @@ const expandedRow = (ind: number): JSX.Element => {
                   OK
                 </Button>
               </Tooltip>
-              <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                <Button danger icon={<CloseOutlined />} />
+              <Popconfirm title="Sure to cancel?" placement="left" onConfirm={cancel}>
+                <Tooltip title="Cansel">
+                  <Button danger icon={<CloseOutlined />} />
+                </Tooltip>
               </Popconfirm>
             </Space>
           </span>
@@ -320,8 +322,10 @@ const expandedRow = (ind: number): JSX.Element => {
             <Tooltip title="Edit">
               <Button type="dashed" icon={<EditTwoTone />} onClick={() => edit(record)} />
             </Tooltip>
-            <Popconfirm title="Sure to delete?" onConfirm={() => del(record.id)}>
-              <Button danger icon={<DeleteOutlined />} />
+            <Popconfirm title="Sure to delete?" placement="left" onConfirm={() => del(record.id)}>
+              <Tooltip title="Delete">
+                <Button danger icon={<DeleteOutlined />} />
+              </Tooltip>
             </Popconfirm>
           </Space>
         );
