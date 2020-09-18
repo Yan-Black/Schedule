@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useRef } from 'react';
 import { Collapse } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -30,11 +31,17 @@ const List: React.FC = () => {
     }
   });
 
+  const ref = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, ref?.current?.getBoundingClientRect().top);
+  }, []);
+
   return (
     <Collapse defaultActiveKey={[defaultKey]}>
       {dataToApply.map(({ id, dateTime, name, type, eventTime }, i) => (
         <Panel
-          header={generatePanelHader(currentIdx, dateTime, i)}
+          header={generatePanelHader(currentIdx, dateTime, i, ref)}
           key={id}
           style={{ opacity: `${i < currentIdx && 0.7}` }}
           className={colors[getKeyByValue(eventTypes, type)] as string}
