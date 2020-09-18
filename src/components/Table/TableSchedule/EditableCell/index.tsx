@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Input, Form, DatePicker, TimePicker, InputNumber, Space } from 'antd';
 import moment from 'moment';
+import { useState } from 'react';
 import { EditableCellProps } from '../models';
 import { getDate, getTime } from './getOriginData';
 
@@ -12,15 +13,23 @@ const EditableCell: React.FC<EditableCellProps> = ({
   record,
   index,
   children,
+  handleDate,
+  handleWeek,
   ...restProps
 }: EditableCellProps) => {
+
   let inputNode = <Input size="small" />;
   if (inputType === 'date') {
     inputNode = (
       <Space direction="vertical">
-        <DatePicker defaultValue={moment(getDate(record), 'DD.MM.YYYY')} format="DD.MM.YYYY" size="small" />
+        <DatePicker
+          defaultValue={moment(getDate(record), 'DD.MM.YYYY')}
+          format="DD.MM.YYYY"
+          size="small"
+          onChange={handleDate}
+        />
         <span>Week</span>
-        <InputNumber defaultValue={+record.week} min={1} max={50} size="small" />
+        <InputNumber defaultValue={+record.week} min={0} max={50} size="small" onChange={handleWeek}/>
       </Space>
     );
   }
@@ -40,7 +49,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
   return (
     <td {...restProps}>
-      {editing && (inputType === 'time' || inputType === 'date') && inputNode}
+      {editing && (inputType === 'time' || inputType === 'date') && <Form.Item>{inputNode}</Form.Item>}
       {editing && (inputType === 'text' || inputType === 'number') && (
         <Form.Item
           name={dataIndex}

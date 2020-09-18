@@ -25,11 +25,27 @@ const expandedRow = (ind: number): JSX.Element => {
   const sortedData = originData.slice().sort(sortEvents);
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record: ScheduleData) => record.key.toString() === editingKey;
+  let newDate = '';
+  let newWeek = '';
+
+  const dateHandler = (date, dateString: string) => {
+    const nextDate = dateString.split('.');
+    const day = nextDate[0];
+    const month = nextDate[1];
+    const year = nextDate[2];
+    const dayOfWeek = new Date(+year, +month - 1, +day).toString().slice(0, 3);
+    newDate = `${dayOfWeek}, ${dateString}`;
+  };
+
+  const weekHandler = (value: number) => {
+    newWeek = value.toString();
+  };
 
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as ScheduleData;
-      const newData = [...sortedData];
+      // console.log(row);
+      const newData = sortedData.slice();
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
         const changed = events.find((event) => event.id === newData[index].id);
@@ -40,6 +56,9 @@ const expandedRow = (ind: number): JSX.Element => {
           place: row.place,
           lector: row.lector,
           comment: row.comments,
+          descriptionUrl: row.materials,
+          dateTime: newDate === '' ? events[changedInd].dateTime : newDate,
+          week: newWeek === '' ? events[changedInd].week : newWeek,
           // to do: add additional fields and fields with not string data type
         };
         dispatch(changeEvent({ changedEvent, changedInd }));
@@ -60,6 +79,7 @@ const expandedRow = (ind: number): JSX.Element => {
       type: '',
       place: '',
       materials: '',
+      description: '',
       lector: '',
       comments: '',
       additional1: '',
@@ -211,20 +231,6 @@ const expandedRow = (ind: number): JSX.Element => {
       },
     },
     {
-      title: 'text',
-      dataIndex: 'text',
-      key: 'text',
-      width: 150,
-      editable: true,
-      render: () => {
-        return (
-          <div className="lector">
-            <span>text</span>
-          </div>
-        );
-      },
-    },
-    {
       title: 'Comments',
       dataIndex: 'comments',
       key: 'comments',
@@ -297,8 +303,10 @@ const expandedRow = (ind: number): JSX.Element => {
 
   const mergedColumns = columns.map((col) => {
     let type: string;
-    if(col.dataIndex === 'startDay') type = 'date';
-    else if(col.dataIndex === 'startTime') type = 'time';
+
+    if (col.dataIndex === 'startDay') type = 'date';
+    else if (col.dataIndex === 'startTime') type = 'time';
+    else if (col.dataIndex === 'week') type = 'number';
     else type = 'text';
 
     if (!col.editable) {
@@ -312,6 +320,8 @@ const expandedRow = (ind: number): JSX.Element => {
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
+        handleDate: dateHandler,
+        handleWeek: weekHandler,
       }),
     };
   });
