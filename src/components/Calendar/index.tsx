@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
 import { StudyEvent } from 'reducers/events/models';
-import { getKeyByValue } from 'utils';
+import { eventTypes } from '@constants';
+import { getKeyByValue } from 'helpers';
 import { ListData } from './models';
-import { eventTypes } from '../../constants/index';
 
 import './index.scss';
 
