@@ -14,7 +14,7 @@ export interface StudyEvent {
   week?: string;
 }
 
-export interface InitiaiStudyEventState {
+export interface InitialStudyEventState {
   data: StudyEvent[];
   loading: boolean;
   error: null | string | unknown;

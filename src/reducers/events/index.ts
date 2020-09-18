@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import fetchStudyEvents from 'requests';
-import { InitiaiStudyEventState, StudyEvent } from './models';
+import { InitialStudyEventState, StudyEvent } from './models';
 
-const initialState: InitiaiStudyEventState = {
+const initialState: InitialStudyEventState = {
   data: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -12,15 +12,20 @@ const eventsSlice = createSlice({
   name: 'event',
   initialState,
   reducers: {
-    deleteEvent: (state, { payload }) => {
+    deleteEvent: (state, { payload }: PayloadAction<number>) => {
       state.data.splice(payload, 1);
     },
-    changeEvent: (state, { payload }: PayloadAction<{ changedEvent: StudyEvent; changedInd: number }>) => {
+    changeEvent: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{ changedEvent: StudyEvent; changedInd: number }>,
+    ) => {
       state.data.splice(payload.changedInd, 1, payload.changedEvent);
     },
     addEvent: (state, { payload }) => {
       state.data.push(payload);
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchStudyEvents.pending, (state) => {

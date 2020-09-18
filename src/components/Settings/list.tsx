@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { FieldTimeOutlined, TeamOutlined } from '@ant-design/icons';
-import { timeZone } from '../../constants';
+import { timeZone } from '@constants';
+import { ListItem } from './models';
 
-const selectList: {
-  title: string;
-  name: string;
-  options: string[];
-  icon: () => JSX.Element;
-}[] = [
+const selectList: ListItem[] = [
   {
     title: 'Timezone',
     name: 'time',

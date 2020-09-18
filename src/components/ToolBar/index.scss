@@ -12,7 +12,19 @@
     font-size: 18px;
 
     &:hover {
-      transform: scale(1.1);
+      transition: .2s;
+      transform: scale(1.05);
     }
+  }
+}
+
+.anticon.anticon-setting {
+  &:hover {
+    transition: .4s;
+    transform: rotate(90deg);
+  }
+  &:active {
+    transition: .2s;
+    opacity: 0.5;
   }
 }

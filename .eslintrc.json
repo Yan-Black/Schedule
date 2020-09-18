@@ -43,9 +43,10 @@
       "@typescript-eslint/no-unsafe-call": "warn",
       "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
       "linebreak-style": "warn",
-      "prettier/prettier": ["warn", { "endOfLine": "auto" }],
+      "prettier/prettier": ["warn", {"endOfLine": "auto"}],
       "no-param-reassign": "off",
       "no-underscore-dangle": "warn",
+      "react/jsx-props-no-spreading": "off",
       "react/jsx-wrap-multilines": ["error", {"declaration": false, "assignment": false}],
       "jsx-a11y/label-has-associated-control": [
         "error",
