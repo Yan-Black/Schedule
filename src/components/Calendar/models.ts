@@ -1,4 +1,7 @@
 export interface ListData {
-  type: any;
+  eventTime: string;
+  type: 'error' | 'default' | 'warning' | 'success' | 'processing';
   content: string;
+  typeColor: string;
+  id: string;
 }
