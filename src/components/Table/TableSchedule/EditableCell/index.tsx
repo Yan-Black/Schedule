@@ -83,7 +83,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
     dataIndex === 'materials' ||
     dataIndex === 'lector' ||
     dataIndex === 'additional1' ||
-    dataIndex === 'additional3' ||
+    dataIndex === 'additional2' ||
     dataIndex === 'additional3'
   );
 

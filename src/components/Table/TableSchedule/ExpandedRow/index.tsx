@@ -81,6 +81,9 @@ const expandedRow = (ind: number): JSX.Element => {
         description: newDescription === '' ? events[changedInd].description : newDescription,
         descriptionUrl: newLink === '' ? events[changedInd].descriptionUrl : newLink,
         type: newType === '' ? events[changedInd].type : newType,
+        additional1: row.additional1,
+        additional2: row.additional2,
+        additional3: row.additional3,
       };
       dispatch(changeEvent({ changedEvent, changedInd }));
       setEditingKey('');
@@ -276,22 +279,22 @@ const expandedRow = (ind: number): JSX.Element => {
     {
       title: 'Additional',
       dataIndex: 'additional1',
-      key: 'additional',
-      width: 105,
+      key: 'additional1',
+      width: 120,
       editable: true,
     },
     {
       title: 'Additional',
       dataIndex: 'additional2',
-      key: 'additional',
-      width: 105,
+      key: 'additional2',
+      width: 120,
       editable: true,
     },
     {
       title: 'Additional',
       dataIndex: 'additional3',
-      key: 'additional',
-      width: 105,
+      key: 'additional3',
+      width: 120,
       editable: true,
     },
     {
