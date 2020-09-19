@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Calendar as CalendarWrapper, Badge } from 'antd';
+import { Calendar as CalendarWrapper, Badge, Skeleton } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
@@ -13,6 +13,11 @@ import './index.scss';
 const Calendar: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
   const { colors } = useSelector((state: RootState) => state);
+  const isLoading = useSelector((state: RootState) => state.events.loading);
+
+  if (isLoading) {
+    return <Skeleton active />;
+  }
 
   const getListData = (value: moment.Moment) => {
     let listData: ListData[] = [];
