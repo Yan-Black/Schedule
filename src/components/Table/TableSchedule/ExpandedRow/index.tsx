@@ -15,7 +15,6 @@ import { getKeyByValue } from 'helpers';
 import { useState } from 'react';
 import { addEvent, changeEvent, deleteEvent } from 'reducers/events';
 import { TableColumn } from 'reducers/columnVisibility/models';
-// import { eventTypes } from '../../../../constants';
 import { eventTypes } from '@constants';
 import { ScheduleData } from '../models';
 import getOriginData from '../EditableCell/getOriginData';
