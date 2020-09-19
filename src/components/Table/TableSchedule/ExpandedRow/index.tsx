@@ -32,7 +32,7 @@ const expandedRow = (ind: number): JSX.Element => {
   let newDescription = '';
   let newType = '';
 
-  const dateHandler = (date, dateString: string) => {
+  const dateHandler = (date: moment.Moment, dateString: string) => {
     const nextDate = dateString.split('.');
     const day = nextDate[0];
     const month = nextDate[1];
@@ -41,12 +41,11 @@ const expandedRow = (ind: number): JSX.Element => {
     newDate = `${dayOfWeek}, ${dateString}`;
   };
 
-  const weekHandler = (value: number) => {
-    if (typeof value === 'string') alert('input week');
+  const weekHandler = (value: number | string) => {
     newWeek = value.toString();
   };
 
-  const timeHandler = (time, timeString: string) => {
+  const timeHandler = (time: moment.Moment, timeString: string) => {
     newTime = timeString.slice(0, 5);
   };
 
@@ -229,7 +228,7 @@ const expandedRow = (ind: number): JSX.Element => {
       title: 'Materials',
       dataIndex: 'materials',
       key: 'materials',
-      width: 160,
+      width: 170,
       editable: true,
       ellipsis: {
         showTitle: false,
@@ -378,7 +377,13 @@ const expandedRow = (ind: number): JSX.Element => {
               Add event
             </Button>
           </div>
-          <Form form={form} component={false}>
+          <Form
+            form={form}
+            component={false}
+            // initialValues={{
+            //   date: {moment(getDate(record[ind]), 'DD:MM:YYYY')}
+            // }}
+          >
             <Table
               components={{
                 body: {

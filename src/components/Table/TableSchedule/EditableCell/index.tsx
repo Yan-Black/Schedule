@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Input, Form, DatePicker, TimePicker, InputNumber, Space, Select } from 'antd';
-import moment from 'moment';
+import { Input, Form, DatePicker, TimePicker, InputNumber, Select } from 'antd';
+import moment, { Moment } from 'moment';
 import { EditableCellProps } from '../models';
 import { getDate, getTime } from './getOriginData';
 
@@ -22,41 +22,45 @@ const EditableCell: React.FC<EditableCellProps> = ({
   handleType,
   ...restProps
 }: EditableCellProps) => {
-  let inputNode = <Input size="small" />;
+  let inputNode = <Input.TextArea />;
+  let extraNode: JSX.Element;
+  let name = '';
+  let extraName = '';
+  let initialValue: Moment | string;
+  let extraValue: number | string;
+  let label = title;
+  let extraLabel = '';
   if (inputType === 'date') {
-    inputNode = (
-      <Space direction="vertical">
-        <DatePicker
-          defaultValue={moment(getDate(record), 'DD.MM.YYYY')}
-          format="DD.MM.YYYY"
-          size="small"
-          onChange={handleDate}
-        />
-        <span>Week</span>
-        <InputNumber defaultValue={+record.week} min={0} max={50} size="small" onChange={handleWeek} />
-      </Space>
-    );
+    name = 'date';
+    initialValue = moment(getDate(record), 'DD:MM:YYYY');
+    label = 'Date';
+    inputNode = <DatePicker format="DD.MM.YYYY" size="small" onChange={handleDate} />;
+    extraName = 'Week';
+    extraValue = +record.week;
+    extraLabel = 'Week';
+    extraNode = <InputNumber value={+record.week} min={0} max={50} size="small" onChange={handleWeek} />;
   }
-  if (dataIndex === 'materials')
+  if (dataIndex === 'materials') {
+    name = 'Materials';
+    initialValue = record.materials;
+    extraName = 'Link';
+    extraValue = record.description;
+    label = 'Link';
+    extraLabel = 'Description';
+    inputNode = <Input.TextArea onChange={handleLink} />;
+    extraNode = <Input.TextArea onChange={handleDescription} />;
+  }
+  if (inputType === 'time') {
+    name = 'time';
+    label = 'Time';
+    initialValue = moment(getTime(record), 'HH:mm');
+    inputNode = <TimePicker size="small" onChange={handleTime} />;
+  }
+  if (inputType === 'select') {
+    name = 'type';
+    initialValue = record.type;
     inputNode = (
-      <Space direction="vertical">
-        Link
-        <Input defaultValue={record.materials} size="small" onChange={handleLink} />
-        Description
-        <Input defaultValue={record.description} size="small" onChange={handleDescription} />
-      </Space>
-    );
-  if (inputType === 'time')
-    inputNode = <TimePicker defaultValue={moment(getTime(record), 'HH:mm')} size="small" onChange={handleTime} />;
-  if (inputType === 'select')
-    inputNode = (
-      <Select
-        defaultValue={record.type}
-        size="small"
-        style={{ width: 120 }}
-        dropdownMatchSelectWidth={false}
-        onChange={handleType}
-      >
+      <Select size="small" style={{ width: 120 }} dropdownMatchSelectWidth={false} onChange={handleType}>
         <Option value="Online lecture">Online lecture</Option>
         <Option value="Meetup">Meetup</Option>
         <Option value="Task start">Task start</Option>
@@ -71,9 +75,13 @@ const EditableCell: React.FC<EditableCellProps> = ({
         <Option value="Interview start">Interview start</Option>
       </Select>
     );
+  }
 
   const required = !(
     dataIndex === 'comments' ||
+    dataIndex === 'place' ||
+    dataIndex === 'materials' ||
+    dataIndex === 'lector' ||
     dataIndex === 'additional1' ||
     dataIndex === 'additional3' ||
     dataIndex === 'additional3'
@@ -81,13 +89,12 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
   return (
     <td {...restProps}>
-      {editing && (inputType === 'time' || inputType === 'date' || inputType === 'select') && (
-        <Form.Item>{inputNode}</Form.Item>
-      )}
-      {editing && inputType === 'text' && (
+      {editing && (
         <Form.Item
-          name={dataIndex}
+          name={name === '' ? dataIndex : name}
           style={{ margin: 0 }}
+          initialValue={initialValue}
+          label={label === '' ? null : label}
           rules={[
             {
               required,
@@ -99,6 +106,22 @@ const EditableCell: React.FC<EditableCellProps> = ({
         </Form.Item>
       )}
       {!editing && children}
+      {editing && extraNode && (
+        <Form.Item
+          name={extraName}
+          style={{ margin: 0 }}
+          initialValue={extraValue}
+          label={extraLabel === '' ? null : extraLabel}
+          rules={[
+            {
+              required,
+              message: `Please Input ${extraName}!`,
+            },
+          ]}
+        >
+          {extraNode}
+        </Form.Item>
+      )}
     </td>
   );
 };

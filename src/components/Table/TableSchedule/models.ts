@@ -38,10 +38,10 @@ export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   record: ScheduleData;
   index: number;
   children: React.ReactNode;
-  handleDate?: (date, dateString: string) => void;
+  handleDate?: (date: moment.Moment, dateString: string) => void;
   handleWeek?: (value: string | number) => void;
   handleTime?: (time: moment.Moment, dateString: string) => void;
-  handleLink?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDescription?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleLink?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleDescription?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleType?: (value: string) => void;
 }
