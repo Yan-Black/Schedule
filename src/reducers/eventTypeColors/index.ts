@@ -19,7 +19,9 @@ const firstState: EventTypeColorsState = {
 const currentState = localStorage.getItem('colors');
 
 const initialState: EventTypeColorsState =
-  currentState === null ? firstState : <EventTypeColorsState>JSON.parse(currentState);
+  currentState === null
+    ? firstState
+    : <EventTypeColorsState>JSON.parse(currentState);
 
 const eventTypeColorsSlice = createSlice({
   name: 'EventTypeColorsState',

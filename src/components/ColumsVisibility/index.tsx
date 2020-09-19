@@ -5,14 +5,13 @@ import { DownOutlined } from '@ant-design/icons';
 import { RootState } from 'store';
 import { useSelector, useDispatch } from 'react-redux';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { changeColumnVisibility } from '../../reducers/columnVisibility';
-import { columns, permanentColumns } from '../../constants';
+import { columns, permanentColumns } from '@constants';
+import { changeColumnVisibility } from 'reducers/columnVisibility';
 import './index.scss';
-import { TableColumn } from '../../reducers/columnVisibility/models';
 
 const ColumnsVisibility: React.FC = () => {
   const dispatch = useDispatch();
-  const columnState: TableColumn = useSelector((state: RootState) => state.column);
+  const columnState = useSelector((state: RootState) => state.column);
 
   useEffect(() => {
     const columnsToJSON = JSON.stringify(columnState);
@@ -20,7 +19,12 @@ const ColumnsVisibility: React.FC = () => {
   }, [columnState]);
 
   const onChange = (event: CheckboxChangeEvent) => {
-    dispatch(changeColumnVisibility({ event: event.target.name, status: event.target.checked }));
+    dispatch(
+      changeColumnVisibility({
+        event: event.target.name,
+        status: event.target.checked,
+      }),
+    );
   };
 
   const disableColumn = (name: string) => {
@@ -34,7 +38,7 @@ const ColumnsVisibility: React.FC = () => {
         return (
           <Menu.Item key={`${index * 1}`}>
             <Checkbox
-              defaultChecked={columnState[event]}
+              defaultChecked={columnState[event] as boolean}
               name={event}
               onChange={onChange}
               disabled={disableColumn(value)}

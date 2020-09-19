@@ -1,13 +1,22 @@
 import * as React from 'react';
 import { EditTwoTone, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { Tooltip, Space, Button, Typography, Table, Form, Popconfirm } from 'antd';
+import {
+  Tooltip,
+  Space,
+  Button,
+  Typography,
+  Table,
+  Form,
+  Popconfirm,
+} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { getKeyByValue } from 'utils';
+import { getKeyByValue } from 'helpers';
 import { useState } from 'react';
 import { addEvent, changeEvent, deleteEvent } from 'reducers/events';
 import { TableColumn } from 'reducers/columnVisibility/models';
-import { eventTypes } from '../../../../constants';
+// import { eventTypes } from '../../../../constants';
+import { eventTypes } from '@constants';
 import { ScheduleData } from '../models';
 import getOriginData from '../EditableCell/getOriginData';
 import EditableCell from '../EditableCell';
@@ -18,14 +27,18 @@ const { Link } = Typography;
 const expandedRow = (ind: number): JSX.Element => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const columnVisibility: TableColumn = useSelector((state: RootState) => state.column);
+  const columnVisibility: TableColumn = useSelector(
+    (state: RootState) => state.column,
+  );
   const { currentRole } = useSelector((state: RootState) => state.role);
   const eventTypeColors = useSelector((state: RootState) => state.colors);
   const events = useSelector((state: RootState) => state.events.data);
-  const originData = getOriginData(events, ind);
+  const organizers = useSelector((state: RootState) => state.organizers.data);
+  const originData = getOriginData(events, organizers, ind);
   const sortedData = originData.slice().sort(sortEvents);
   const [editingKey, setEditingKey] = useState('');
-  const isEditing = (record: ScheduleData) => record.key.toString() === editingKey;
+  const isEditing = (record: ScheduleData) =>
+    record.key.toString() === editingKey;
   let newDate = '';
   let newWeek = '';
   let newTime = '';
@@ -68,18 +81,26 @@ const expandedRow = (ind: number): JSX.Element => {
       const newData = sortedData.slice();
       const index = newData.findIndex((item) => key === item.key);
       const changed = events.find((event) => event.id === newData[index].id);
-      const changedInd = events.findIndex((event) => event.id === newData[index].id);
+      const changedInd = events.findIndex(
+        (event) => event.id === newData[index].id,
+      );
       const changedEvent = {
         ...changed,
         name: row.name,
         place: row.place,
-        lector: row.lector,
+        // to do: handle organizer editing properly (add new organizer to backend and set organizer id to
+        // editing event or only set organizer id, if such organizer exists)
+        organizerId: row.lector,
         comment: row.comments,
         dateTime: newDate === '' ? events[changedInd].dateTime : newDate,
         week: newWeek === '' ? events[changedInd].week : newWeek,
         eventTime: newTime === '' ? events[changedInd].eventTime : newTime,
-        description: newDescription === '' ? events[changedInd].description : newDescription,
-        descriptionUrl: newLink === '' ? events[changedInd].descriptionUrl : newLink,
+        description:
+          newDescription === ''
+            ? events[changedInd].description
+            : newDescription,
+        descriptionUrl:
+          newLink === '' ? events[changedInd].descriptionUrl : newLink,
         type: newType === '' ? events[changedInd].type : newType,
         additional1: row.additional1,
         additional2: row.additional2,
@@ -88,7 +109,7 @@ const expandedRow = (ind: number): JSX.Element => {
       dispatch(changeEvent({ changedEvent, changedInd }));
       setEditingKey('');
     } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
+      window.console.log('Validate Failed:', errInfo);
     }
   };
 
@@ -122,7 +143,10 @@ const expandedRow = (ind: number): JSX.Element => {
 
   const add = () => {
     const newItem = {
-      dateTime: sortedData.length > 0 ? sortedData[0].startDay : events[events.length - 1].dateTime,
+      dateTime:
+        sortedData.length > 0
+          ? sortedData[0].startDay
+          : events[events.length - 1].dateTime,
       eventTime: '00:00',
       type: 'no type',
       week: sortedData.length > 0 ? sortedData[0].week : ind,
@@ -212,7 +236,8 @@ const expandedRow = (ind: number): JSX.Element => {
           value: 'Interview start',
         },
       ],
-      onFilter: (value: string, record: ScheduleData) => record.type.indexOf(value) === 0,
+      onFilter: (value: string, record: ScheduleData) =>
+        record.type.indexOf(value) === 0,
       render: (text: string) => {
         return (
           <div className="event-type">
@@ -254,11 +279,14 @@ const expandedRow = (ind: number): JSX.Element => {
       width: 150,
       editable: true,
       render: (text: string) => {
-        return (
-          <div className="lector">
-            <span>{text}</span>
-          </div>
-        );
+        if (text) {
+          return (
+            <div className="lector">
+              <span>{text}</span>
+            </div>
+          );
+        }
+        return null;
       },
     },
     {
@@ -309,11 +337,19 @@ const expandedRow = (ind: number): JSX.Element => {
           <span>
             <Space size="middle">
               <Tooltip title="Save">
-                <Button type="primary" className="ok-btn" onClick={() => save(record.key)}>
+                <Button
+                  type="primary"
+                  className="ok-btn"
+                  onClick={() => save(record.key)}
+                >
                   OK
                 </Button>
               </Tooltip>
-              <Popconfirm title="Sure to cancel?" placement="left" onConfirm={cancel}>
+              <Popconfirm
+                title="Sure to cancel?"
+                placement="left"
+                onConfirm={cancel}
+              >
                 <Tooltip title="Cansel">
                   <Button danger icon={<CloseOutlined />} />
                 </Tooltip>
@@ -323,9 +359,17 @@ const expandedRow = (ind: number): JSX.Element => {
         ) : (
           <Space size="middle">
             <Tooltip title="Edit">
-              <Button type="dashed" icon={<EditTwoTone />} onClick={() => edit(record)} />
+              <Button
+                type="dashed"
+                icon={<EditTwoTone />}
+                onClick={() => edit(record)}
+              />
             </Tooltip>
-            <Popconfirm title="Sure to delete?" placement="left" onConfirm={() => del(record.id)}>
+            <Popconfirm
+              title="Sure to delete?"
+              placement="left"
+              onConfirm={() => del(record.id)}
+            >
               <Tooltip title="Delete">
                 <Button danger icon={<DeleteOutlined />} />
               </Tooltip>
@@ -368,8 +412,10 @@ const expandedRow = (ind: number): JSX.Element => {
 
   const filteredColumns = [];
   mergedColumns.map((col) => {
-    if (columnVisibility[col.key] && currentRole === 'Mentor') filteredColumns.push(col);
-    else if (columnVisibility[col.key] && col.key !== 'operation') filteredColumns.push(col);
+    if (columnVisibility[col.key] && currentRole === 'Mentor')
+      filteredColumns.push(col);
+    else if (columnVisibility[col.key] && col.key !== 'operation')
+      filteredColumns.push(col);
     return col;
   });
 

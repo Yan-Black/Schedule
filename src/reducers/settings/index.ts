@@ -10,7 +10,8 @@ const firstState: Settings = {
 
 const currentState = localStorage.getItem('settings');
 
-const initialState: Settings = currentState === null ? firstState : <Settings>JSON.parse(currentState);
+const initialState: Settings =
+  currentState === null ? firstState : <Settings>JSON.parse(currentState);
 
 const settingsSlice = createSlice({
   name: 'settings',

@@ -34,11 +34,21 @@ const EditableCell: React.FC<EditableCellProps> = ({
     name = 'date';
     initialValue = moment(getDate(record), 'DD:MM:YYYY');
     label = 'Date';
-    inputNode = <DatePicker format="DD.MM.YYYY" size="small" onChange={handleDate} />;
+    inputNode = (
+      <DatePicker format="DD.MM.YYYY" size="small" onChange={handleDate} />
+    );
     extraName = 'Week';
     extraValue = +record.week;
     extraLabel = 'Week';
-    extraNode = <InputNumber value={+record.week} min={0} max={50} size="small" onChange={handleWeek} />;
+    extraNode = (
+      <InputNumber
+        value={+record.week}
+        min={0}
+        max={50}
+        size="small"
+        onChange={handleWeek}
+      />
+    );
   }
   if (dataIndex === 'materials') {
     name = 'Materials';
@@ -60,7 +70,12 @@ const EditableCell: React.FC<EditableCellProps> = ({
     name = 'type';
     initialValue = record.type;
     inputNode = (
-      <Select size="small" style={{ width: 120 }} dropdownMatchSelectWidth={false} onChange={handleType}>
+      <Select
+        size="small"
+        style={{ width: 120 }}
+        dropdownMatchSelectWidth={false}
+        onChange={handleType}
+      >
         <Option value="Online lecture">Online lecture</Option>
         <Option value="Meetup">Meetup</Option>
         <Option value="Task start">Task start</Option>

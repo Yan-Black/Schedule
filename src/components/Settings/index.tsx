@@ -3,11 +3,16 @@ import { useState, useEffect } from 'react';
 import { RootState } from 'store';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button } from 'antd';
-import { FormatPainterOutlined, ZoomInOutlined, SettingOutlined, ShareAltOutlined } from '@ant-design/icons';
+import {
+  FormatPainterOutlined,
+  ZoomInOutlined,
+  SettingOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons';
 import Switch from 'react-switch';
-import { changeSettings } from '../../reducers/settings';
-import { changeEventColor } from '../../reducers/eventTypeColors';
-import { backgrounds, eventTypes } from '../../constants';
+import { changeSettings } from 'reducers/settings';
+import { changeEventColor } from 'reducers/eventTypeColors';
+import { backgrounds, eventTypes } from '@constants';
 import selectList from './list';
 import './index.scss';
 
@@ -50,7 +55,9 @@ const Settings: React.FC = () => {
     );
   };
 
-  const handleSelectSettings = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectSettings = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     const currentEvent: string | boolean = event.target.name;
     const currentValue: string | boolean = event.target.value;
     dispatch(changeSettings({ event: currentEvent, value: currentValue }));
@@ -71,7 +78,12 @@ const Settings: React.FC = () => {
           closable={false}
           centered
           footer={
-            <Button type="primary" onClick={close} block className="settings__control">
+            <Button
+              type="primary"
+              onClick={close}
+              block
+              className="settings__control"
+            >
               <span className="setting__control-text">Ok</span>
             </Button>
           }
@@ -89,6 +101,7 @@ const Settings: React.FC = () => {
                     className="settings__option-type settings__option-select"
                     onChange={handleSelectSettings}
                     name={name}
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     value={settings[name]}
                   >
                     {options.map((value) => (
@@ -142,7 +155,9 @@ const Settings: React.FC = () => {
             </label>
             <div
               onClick={() => setStage('color-setting')}
-              onKeyDown={(event) => (event.key === 'Enter' ? setStage('color-setting') : null)}
+              onKeyDown={(event) =>
+                event.key === 'Enter' ? setStage('color-setting') : null
+              }
               className="settings__item"
               role="button"
               tabIndex={0}
@@ -164,7 +179,12 @@ const Settings: React.FC = () => {
         onCancel={() => setStage('general-setting')}
         closable={false}
         footer={
-          <Button type="primary" onClick={() => setStage('general-setting')} className="settings__control" block>
+          <Button
+            type="primary"
+            onClick={() => setStage('general-setting')}
+            className="settings__control"
+            block
+          >
             <span className="setting__control-text">Ok</span>
           </Button>
         }
@@ -172,7 +192,9 @@ const Settings: React.FC = () => {
         <form className="settings__options settings__colors">
           {Object.entries(eventTypes).map((item: string[], index: number) => {
             const [key, value] = item;
-            const colorName: string = Object.values(colorsState)[index] as string;
+            const colorName: string = Object.values(colorsState)[
+              index
+            ] as string;
             return (
               <div className="settings__option-color" key={value}>
                 <p className="settings__color-description">{value}</p>
@@ -194,7 +216,9 @@ const Settings: React.FC = () => {
                       );
                     })}
                   </div>
-                  <span className={`settings__color-deafult ${colorName}`}>Hello</span>
+                  <span className={`settings__color-deafult ${colorName}`}>
+                    Hello
+                  </span>
                 </div>
               </div>
             );
@@ -205,7 +229,12 @@ const Settings: React.FC = () => {
   };
   return (
     <div className="settings">
-      <Button type="primary" className="settings__button" onClick={showCustomizations} title="Settings">
+      <Button
+        type="primary"
+        className="settings__button"
+        onClick={showCustomizations}
+        title="Settings"
+      >
         <SettingOutlined className="settings__button-icon" />
       </Button>
       {showSettings()}

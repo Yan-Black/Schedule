@@ -1,4 +1,5 @@
 import { StudyEvent } from 'reducers/events/models';
+import { Organizer } from 'reducers/organizers/models';
 import { ScheduleData } from '../models';
 
 const getDate = (originDate: ScheduleData): string => {
@@ -27,11 +28,19 @@ const getTime = (event: ScheduleData | StudyEvent): string => {
   return eventSc.startTime || eventSt.eventTime || time;
 };
 
-const getOriginData = (events: StudyEvent[], ind: number): ScheduleData[] => {
+const getOriginData = (
+  events: StudyEvent[],
+  organizers: Organizer[],
+  ind: number,
+): ScheduleData[] => {
   const originData: ScheduleData[] = [];
   for (let i = 0; i < events.length; i++) {
     if (events[i].week === ind.toString()) {
       const time = getTime(events[i]);
+      const lectorData = organizers.filter(
+        (organizer) => organizer.id === events[i].organizerId,
+      );
+      const lector = lectorData.length > 0 ? lectorData[0].name : null;
       originData.push({
         key: i,
         startDay: events[i].dateTime,
@@ -43,7 +52,7 @@ const getOriginData = (events: StudyEvent[], ind: number): ScheduleData[] => {
         comments: events[i].comment || '-',
         type: events[i].type,
         id: events[i].id,
-        lector: events[i].lector || ('Some lector' as string),
+        lector,
         week: events[i].week,
         additional1: events[i].additional1,
         additional2: events[i].additional2,

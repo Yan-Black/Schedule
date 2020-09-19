@@ -1,5 +1,5 @@
 export interface StudyEvent {
-  lector?: string;
+  organizerId?: string;
   key?: string;
   eventTime?: string;
   place: string;
@@ -17,7 +17,7 @@ export interface StudyEvent {
   additional3?: string;
 }
 
-export interface InitiaiStudyEventState {
+export interface InitialStudyEventState {
   data: StudyEvent[];
   loading: boolean;
   error: null | string | unknown;
