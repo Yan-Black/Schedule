@@ -19,6 +19,7 @@ const expandedRow = (ind: number): JSX.Element => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const columnVisibility: TableColumn = useSelector((state: RootState) => state.column);
+  const { currentRole } = useSelector((state: RootState) => state.role);
   const eventTypeColors = useSelector((state: RootState) => state.colors);
   const events = useSelector((state: RootState) => state.events.data);
   const originData = getOriginData(events, ind);
@@ -364,7 +365,8 @@ const expandedRow = (ind: number): JSX.Element => {
 
   const filteredColumns = [];
   mergedColumns.map((col) => {
-    if (columnVisibility[col.key]) filteredColumns.push(col);
+    if (columnVisibility[col.key] && currentRole === 'Mentor') filteredColumns.push(col);
+    else if (columnVisibility[col.key] && col.key !== 'operation') filteredColumns.push(col);
     return col;
   });
 
@@ -372,18 +374,14 @@ const expandedRow = (ind: number): JSX.Element => {
     <>
       {sortedData.length > 0 && (
         <>
-          <div className="add-row-button-wrapper">
-            <Button type="primary" onClick={add}>
-              Add event
-            </Button>
-          </div>
-          <Form
-            form={form}
-            component={false}
-            // initialValues={{
-            //   date: {moment(getDate(record[ind]), 'DD:MM:YYYY')}
-            // }}
-          >
+          {currentRole === 'Mentor' && (
+            <div className="add-row-button-wrapper">
+              <Button type="primary" onClick={add}>
+                Add event
+              </Button>
+            </div>
+          )}
+          <Form form={form} component={false}>
             <Table
               components={{
                 body: {
