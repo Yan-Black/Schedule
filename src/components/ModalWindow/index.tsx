@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { Button, Modal } from 'antd';
 import { globalFunctions } from '../../constants';
