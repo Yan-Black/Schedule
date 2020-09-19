@@ -1,16 +1,12 @@
 import React from 'react';
 import './index.scss';
 import { DownloadOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
-import { showDownloadModal } from 'reducers/modal';
+import { globalFunctions } from '../../constants';
 
 const Download: React.FC = () => {
-  const dispatch = useDispatch();
   const clickHandler = () => {
-    dispatch(showDownloadModal());
-    // console.log(store.getState().modal.visibility);
+    globalFunctions.showModalWindow('download');
   };
-
   return (
     <div onClick={clickHandler}>
       <DownloadOutlined
