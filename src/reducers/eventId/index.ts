@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState = {
   eventId: '',
   isOpen: false,
+  taskType: '',
 };
 
 const eventPageSlice = createSlice({
@@ -16,8 +17,15 @@ const eventPageSlice = createSlice({
     closeEventPage: (state) => {
       state.isOpen = false;
     },
+    setTaskType: (state, { payload }: PayloadAction<string>) => {
+      state.taskType = payload;
+    },
   },
 });
 
-export const { setEventPageId, closeEventPage } = eventPageSlice.actions;
+export const {
+  setEventPageId,
+  closeEventPage,
+  setTaskType,
+} = eventPageSlice.actions;
 export default eventPageSlice.reducer;

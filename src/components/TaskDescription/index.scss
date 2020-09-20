@@ -1,0 +1,39 @@
+.task-description-standart {
+  display: flex;
+}
+
+.task-description-wrapper {
+  width: 1120px;
+  margin: 0 auto;
+}
+
+.task-description-area {
+  margin-left: 40px;
+  margin-right: 40px;
+  max-width: 70%;
+}
+
+.deadline-table {
+  width: 400px;
+}
+
+.task-main-headline,
+.task-add-headline,
+.short-task-descr {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.short-task-descr {
+  font-style: italic;
+}
+
+.select-task {
+  margin-left: 10px !important;
+}
+
+@media only screen and (max-width: 740px) {
+  .task-description-nav {
+    display: none;
+  }
+}

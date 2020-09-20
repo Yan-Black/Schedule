@@ -60,3 +60,11 @@ export const columns = {
 };
 
 export const userRoles: string[] = ['Student', 'Mentor'];
+
+export const taskTypes = {
+  codewars: 'Codewars',
+  coreJS: 'Core JS',
+  interview: 'Interview',
+  meetup: 'Meetup',
+  standartTask: 'Standart task',
+};
