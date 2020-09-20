@@ -44,4 +44,8 @@ export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   handleLink?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleDescription?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleType?: (value: string) => void;
+  handleLector?: (
+    value: string,
+    option: { key: string; value: string; children: string },
+  ) => void;
 }

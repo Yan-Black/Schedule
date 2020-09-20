@@ -44,6 +44,7 @@ const expandedRow = (ind: number): JSX.Element => {
   let newLink = '';
   let newDescription = '';
   let newType = '';
+  let newLector = '';
 
   const dateHandler = (date: moment.Moment, dateString: string) => {
     const nextDate = dateString.split('.');
@@ -74,6 +75,14 @@ const expandedRow = (ind: number): JSX.Element => {
     newType = value;
   };
 
+  const lectorHandler = (
+    value: string,
+    option: { key: string; value: string; children: string },
+  ) => {
+    if (value === 'no lector') newLector = '';
+    else newLector = option.key;
+  };
+
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as ScheduleData;
@@ -89,7 +98,7 @@ const expandedRow = (ind: number): JSX.Element => {
         place: row.place,
         // to do: handle organizer editing properly (add new organizer to backend and set organizer id to
         // editing event or only set organizer id, if such organizer exists)
-        organizerId: row.lector,
+        organizerId: newLector,
         comment: row.comments,
         dateTime: newDate === '' ? events[changedInd].dateTime : newDate,
         week: newWeek === '' ? events[changedInd].week : newWeek,
@@ -167,7 +176,6 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'startTime',
       key: 'startTime',
       width: 120,
-      fixed: 'left',
       editable: true,
     },
     {
@@ -175,9 +183,8 @@ const expandedRow = (ind: number): JSX.Element => {
       dataIndex: 'name',
       key: 'name',
       width: 150,
-      fixed: 'left',
       editable: true,
-      render: (text) => (
+      render: (text: string) => (
         <Link href="https://ant.design" target="_blank">
           {text}
         </Link>
@@ -385,7 +392,8 @@ const expandedRow = (ind: number): JSX.Element => {
     if (col.dataIndex === 'startDay') type = 'date';
     else if (col.dataIndex === 'startTime') type = 'time';
     else if (col.dataIndex === 'week') type = 'number';
-    else if (col.dataIndex === 'type') type = 'select';
+    else if (col.dataIndex === 'type' || col.dataIndex === 'lector')
+      type = 'select';
     else type = 'text';
 
     if (!col.editable) {
@@ -405,6 +413,7 @@ const expandedRow = (ind: number): JSX.Element => {
         handleLink: linkHandler,
         handleDescription: descriptionHandler,
         handleType: typeHandler,
+        handleLector: lectorHandler,
       }),
     };
   });

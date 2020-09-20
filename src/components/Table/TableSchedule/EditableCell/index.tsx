@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Input, Form, DatePicker, TimePicker, InputNumber, Select } from 'antd';
 import moment, { Moment } from 'moment';
+import { eventTypes } from '@constants';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 import { EditableCellProps } from '../models';
 import { getDate, getTime } from './getOriginData';
 
@@ -20,8 +23,16 @@ const EditableCell: React.FC<EditableCellProps> = ({
   handleLink,
   handleDescription,
   handleType,
+  handleLector,
   ...restProps
 }: EditableCellProps) => {
+  const types = Object.values(eventTypes);
+  const organizers = useSelector((state: RootState) => state.organizers.data);
+  const lectorData =
+    record === undefined
+      ? []
+      : organizers.filter((organizer) => organizer.id === record.lector);
+  const lector = lectorData.length > 0 ? lectorData[0].name : null;
   let inputNode = <Input.TextArea />;
   let extraNode: JSX.Element;
   let name = '';
@@ -67,27 +78,35 @@ const EditableCell: React.FC<EditableCellProps> = ({
     inputNode = <TimePicker size="small" onChange={handleTime} />;
   }
   if (inputType === 'select') {
-    name = 'type';
-    initialValue = record.type;
+    name = dataIndex === 'type' ? 'type' : 'lector';
+    initialValue = dataIndex === 'type' ? record.type : lector;
     inputNode = (
       <Select
         size="small"
         style={{ width: 120 }}
         dropdownMatchSelectWidth={false}
-        onChange={handleType}
+        onChange={dataIndex === 'type' ? handleType : handleLector}
       >
-        <Option value="Online lecture">Online lecture</Option>
-        <Option value="Meetup">Meetup</Option>
-        <Option value="Task start">Task start</Option>
-        <Option value="Task deadline">Task deadline</Option>
-        <Option value="Optional task start">Optional task start</Option>
-        <Option value="Optional task deadline">Optional task deadline</Option>
-        <Option value="Self education">Self education</Option>
-        <Option value="Test with grade">Test with grade</Option>
-        <Option value="Test without grade">Test without grade</Option>
-        <Option value="Cross-check start">Cross-check start</Option>
-        <Option value="Cross-check deadline">Cross-check deadline</Option>
-        <Option value="Interview start">Interview start</Option>
+        {dataIndex === 'type'
+          ? types.map((type) => (
+              <Option value={type} key={type}>
+                {type}
+              </Option>
+            ))
+          : organizers.map((organizer) => (
+              <Option value={organizer.name} key={organizer.id}>
+                {organizer.name}
+              </Option>
+            ))}
+        {dataIndex === 'lector' && (
+          <Option
+            value="no lector"
+            key="noLector"
+            style={{ background: '#f2d0d0d9' }}
+          >
+            delete lector
+          </Option>
+        )}
       </Select>
     );
   }
