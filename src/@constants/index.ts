@@ -68,3 +68,5 @@ export const taskTypes = {
   meetup: 'Meetup',
   standartTask: 'Standart task',
 };
+
+export const globalFunctions: { [key: string]: (key?: unknown) => void | unknown } = {};
