@@ -31,6 +31,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
+    "@ckeditor/ckeditor5-build-classic": "^22.0.0",
+    "@ckeditor/ckeditor5-react": "^2.1.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
@@ -78,6 +80,7 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.13",
     "prettier": "^2.1.1",
+    "react-edit-inline": "^1.0.8",
     "responsive-ant-menu": "^1.0.15",
     "sass-loader": "^10.0.1",
     "style-loader": "^1.2.1",

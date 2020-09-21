@@ -17,6 +17,10 @@ const TaskDescription: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const dispatch = useDispatch();
   const taskType = useSelector((state: RootState) => state.eventId.taskType);
+  const eventId = useSelector((state: RootState) => state.eventId.eventId);
+  const {
+    events: { data },
+  } = useSelector((state: RootState) => state);
 
   const handleChange = (value: string) => dispatch(setTaskType(value));
 
