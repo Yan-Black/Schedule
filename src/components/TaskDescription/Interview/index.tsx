@@ -14,21 +14,29 @@ const Interview: React.FC = () => {
 
   return (
     <>
-      <div className="task-description-standart">
-        <div className="task-description-nav">
+      <div className="task-desc-container">
+        <div className="task-desc-nav">
           <Menu
             style={{ width: 256 }}
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
           >
-            <Menu.Item key="1">Примеры вопросов</Menu.Item>
-            <Menu.Item key="2">Критерии оценки</Menu.Item>
-            <Menu.Item key="3">Дата дедлайна</Menu.Item>
+            <Menu.Item key="1">
+              <a href="#questions-examples">Примеры вопросов</a>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <a href="#marks">Критерии оценки</a>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <a href="#task-deadline">Дата дедлайна</a>
+            </Menu.Item>
           </Menu>
         </div>
-        <div className="task-description-area">
-          <h2 className="task-main-headline">Примеры вопросов</h2>
+        <div className="task-desc-area">
+          <h2 className="task-main-headline" id="questions-examples">
+            Примеры вопросов
+          </h2>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -36,7 +44,9 @@ const Interview: React.FC = () => {
             Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
             Nulla consequat massa quis enim.
           </p>
-          <h2 className="task-main-headline">Критерии оценки</h2>
+          <h2 className="task-main-headline" id="marks">
+            Критерии оценки
+          </h2>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -44,7 +54,9 @@ const Interview: React.FC = () => {
             Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
             Nulla consequat massa quis enim.
           </p>
-          <h2 className="task-main-headline">Дата дедлайна</h2>
+          <h2 className="task-main-headline" id="task-deadline">
+            Дата дедлайна
+          </h2>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque

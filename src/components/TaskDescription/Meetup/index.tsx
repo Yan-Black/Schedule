@@ -14,21 +14,29 @@ const Meetup: React.FC = () => {
 
   return (
     <>
-      <div className="task-description-standart">
-        <div className="task-description-nav">
+      <div className="task-desc-container">
+        <div className="task-desc-nav">
           <Menu
             style={{ width: 256 }}
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
           >
-            <Menu.Item key="1">Программа</Menu.Item>
-            <Menu.Item key="2">Язык</Menu.Item>
-            <Menu.Item key="3">Место встречи</Menu.Item>
+            <Menu.Item key="1">
+              <a href="#programm">Программа</a>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <a href="#language">Язык выступления</a>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <a href="#place">Место встречи</a>
+            </Menu.Item>
           </Menu>
         </div>
-        <div className="task-description-area">
-          <h2 className="task-main-headline">Программа</h2>
+        <div className="task-desc-area">
+          <h2 className="task-main-headline" id="programm">
+            Программа
+          </h2>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -36,7 +44,9 @@ const Meetup: React.FC = () => {
             Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
             Nulla consequat massa quis enim.
           </p>
-          <h2 className="task-main-headline">Язык выступления</h2>
+          <h2 className="task-main-headline" id="language">
+            Язык выступления
+          </h2>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -44,7 +54,9 @@ const Meetup: React.FC = () => {
             Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
             Nulla consequat massa quis enim.
           </p>
-          <h2 className="task-main-headline">Место встречи</h2>
+          <h2 className="task-main-headline" id="place">
+            Место встречи
+          </h2>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque

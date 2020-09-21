@@ -56,8 +56,8 @@ const StandartTask: React.FC = () => {
 
   return (
     <>
-      <div className="task-description-standart">
-        <div className="task-description-nav">
+      <div className="task-desc-container">
+        <div className="task-desc-nav">
           <Menu
             style={{ width: 256 }}
             defaultSelectedKeys={['1']}
@@ -73,22 +73,42 @@ const StandartTask: React.FC = () => {
                 </span>
               }
             >
-              <Menu.Item key="1">Дата сдачи</Menu.Item>
-              <Menu.Item key="2">Цели задания</Menu.Item>
-              <Menu.Item key="3">Особенности приложения</Menu.Item>
-              <Menu.Item key="4">Особенности задания</Menu.Item>
-              <Menu.Item key="5">Демо</Menu.Item>
+              <Menu.Item key="1">
+                <a href="#deadline">Дата сдачи</a>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <a href="#goals">Цели задания</a>
+              </Menu.Item>
+              <Menu.Item key="3">
+                <a href="#app-features">Особенности приложения</a>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <a href="#task-features">Особенности задания</a>
+              </Menu.Item>
+              <Menu.Item key="5">
+                <a href="#demo">Демо</a>
+              </Menu.Item>
             </SubMenu>
             <SubMenu
               key="sub2"
               icon={<AppstoreOutlined />}
               title="Подбробности"
             >
-              <Menu.Item key="6">Описание приложения</Menu.Item>
-              <Menu.Item key="7">Требования к репозиторию</Menu.Item>
-              <Menu.Item key="8">Технические требования</Menu.Item>
-              <Menu.Item key="9">Критерии оценки</Menu.Item>
-              <Menu.Item key="10">Оценивания задания</Menu.Item>
+              <Menu.Item key="6">
+                <a href="#app-description">Описание приложения</a>
+              </Menu.Item>
+              <Menu.Item key="7">
+                <a href="#repository-requirements">Требования к репозиторию</a>
+              </Menu.Item>
+              <Menu.Item key="8">
+                <a href="#requirements">Технические требования</a>
+              </Menu.Item>
+              <Menu.Item key="9">
+                <a href="#criteria">Критерии оценки</a>
+              </Menu.Item>
+              <Menu.Item key="10">
+                <a href="#submit">Проверка задания</a>
+              </Menu.Item>
             </SubMenu>
             <SubMenu
               key="sub3"
@@ -99,13 +119,19 @@ const StandartTask: React.FC = () => {
                 </span>
               }
             >
-              <Menu.Item key="11">Полезные ссылки</Menu.Item>
-              <Menu.Item key="12">Документ для вопросов</Menu.Item>
-              <Menu.Item key="13">Cross-check</Menu.Item>
+              <Menu.Item key="11">
+                <a href="#useful-links">Полезные ссылки</a>
+              </Menu.Item>
+              <Menu.Item key="12">
+                <a href="#useful-links">Документ для вопросов</a>
+              </Menu.Item>
+              <Menu.Item key="13">
+                <a href="#useful-links">Cross-check</a>
+              </Menu.Item>
             </SubMenu>
           </Menu>
         </div>
-        <div className="task-description-area">
+        <div className="task-desc-area">
           <h2 className="task-main-headline">Название таска</h2>
           <Button type="dashed" icon={<StarOutlined />}>
             Оценить
@@ -116,8 +142,11 @@ const StandartTask: React.FC = () => {
             dataSource={dataTableDeadline}
             columns={columnsTableDeadline}
             pagination={false}
+            id="deadline"
           />
-          <h3 className="task-add-headline">Цели задания</h3>
+          <h3 className="task-add-headline" id="goals">
+            Цели задания
+          </h3>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -125,7 +154,9 @@ const StandartTask: React.FC = () => {
             Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
             Nulla consequat massa quis enim.
           </p>
-          <h3 className="task-add-headline">Особенности приложения</h3>
+          <h3 className="task-add-headline" id="app-features">
+            Особенности приложения
+          </h3>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -133,7 +164,9 @@ const StandartTask: React.FC = () => {
             Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
             Nulla consequat massa quis enim.
           </p>
-          <h3 className="task-add-headline">Особенности задания</h3>
+          <h3 className="task-add-headline" id="task-features">
+            Особенности задания
+          </h3>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -141,7 +174,9 @@ const StandartTask: React.FC = () => {
             Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
             Nulla consequat massa quis enim.
           </p>
-          <h3 className="task-add-headline">Демо</h3>
+          <h3 className="task-add-headline" id="demo">
+            Демо
+          </h3>
           <p>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
             commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -150,7 +185,7 @@ const StandartTask: React.FC = () => {
             Nulla consequat massa quis enim.
           </p>
           <Collapse accordion>
-            <Panel header="Описание приложения" key="1">
+            <Panel header="Описание приложения" key="1" id="app-description">
               <p>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
                 commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -159,7 +194,11 @@ const StandartTask: React.FC = () => {
                 quis, sem. Nulla consequat massa quis enim.
               </p>
             </Panel>
-            <Panel header="Требования к репозиторию" key="2">
+            <Panel
+              header="Требования к репозиторию"
+              key="2"
+              id="repository-requirements"
+            >
               <p>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
                 commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -168,7 +207,7 @@ const StandartTask: React.FC = () => {
                 quis, sem. Nulla consequat massa quis enim.
               </p>
             </Panel>
-            <Panel header="Технические требования" key="3">
+            <Panel header="Технические требования" key="3" id="requirements">
               <p>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
                 commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -177,7 +216,7 @@ const StandartTask: React.FC = () => {
                 quis, sem. Nulla consequat massa quis enim.
               </p>
             </Panel>
-            <Panel header="Критерии оценки" key="4">
+            <Panel header="Критерии оценки" key="4" id="criteria">
               <p>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
                 commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -186,7 +225,7 @@ const StandartTask: React.FC = () => {
                 quis, sem. Nulla consequat massa quis enim.
               </p>
             </Panel>
-            <Panel header="Оценивания задания" key="5">
+            <Panel header="Проверка задания" key="5" id="submit">
               <p>
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
                 commodo ligula eget dolor. Aenean massa. Cum sociis natoque
@@ -196,7 +235,9 @@ const StandartTask: React.FC = () => {
               </p>
             </Panel>
           </Collapse>
-          <h2 className="task-main-headline">Дополнительные материалы</h2>
+          <h2 className="task-main-headline" id="useful-links">
+            Дополнительные материалы
+          </h2>
           <Tabs defaultActiveKey="1" type="card">
             <TabPane tab="Полезные ссылки" key="1">
               <ol>
@@ -206,10 +247,18 @@ const StandartTask: React.FC = () => {
               </ol>
             </TabPane>
             <TabPane tab="Документ для вопросов" key="2">
-              Content of Tab Pane 1
+              <ol>
+                <li>1. Donec vitae sapien</li>
+                <li>2. Etiam sit amet</li>
+                <li>3. Sed fringilla fraucibus reture mauris</li>
+              </ol>
             </TabPane>
             <TabPane tab="Cross-check" key="3">
-              Content of Tab Pane 1
+              <ol>
+                <li>1. Donec vitae sapien</li>
+                <li>2. Etiam sit amet</li>
+                <li>3. Sed fringilla fraucibus reture mauris</li>
+              </ol>
             </TabPane>
           </Tabs>
           <h2 className="task-main-headline">Рейтинг задания</h2>
