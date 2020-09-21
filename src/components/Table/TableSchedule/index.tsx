@@ -1,18 +1,22 @@
 import * as React from 'react';
-import { Table, Skeleton } from 'antd';
+import { Table } from 'antd';
 import './index.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { WeekData } from './models';
 import expandedRow from './ExpandedRow';
 import ColumnVisibility from '../../ColumsVisibility';
+import { getCurrentWeek } from './EditableCell/getOriginData';
 
 const TableSchedule: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
+  const currentWeek = getCurrentWeek(events);
+
   let weekAmount = 0;
   events.forEach((event) => {
     if (+event.week > weekAmount) weekAmount = +event.week;
   });
+
   const data: WeekData[] = [];
   for (let i = 0; i < 50; ++i) {
     data.push({
@@ -42,15 +46,13 @@ const TableSchedule: React.FC = () => {
       expandable={{
         expandedRowRender: (record) => record.weekData,
       }}
-      defaultExpandedRowKeys={[1]}
+      defaultExpandedRowKeys={[currentWeek]}
       dataSource={data}
       pagination={false}
-      // expandedRowClassName={() => 'currentWeek1'}
-      // rowClassName={(record, index) => `currentWeek${index}`}
       rowClassName={(record, index) => {
-        if(index < 1) return 'pastWeek';
-        if(index === 1) return 'currentWeek';
-        if(index > weekAmount) return 'disabledWeek';
+        if (index < currentWeek) return 'pastWeek';
+        if (index === currentWeek) return 'currentWeek';
+        if (index > weekAmount) return 'disabledWeek';
         return null;
       }}
       scroll={{ y: 500 }}
