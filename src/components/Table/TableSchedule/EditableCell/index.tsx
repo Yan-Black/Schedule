@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { Input, Form, DatePicker, TimePicker, InputNumber, Select } from 'antd';
-import moment, { Moment } from 'moment';
 import { eventTypes } from '@constants';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { EditableCellProps } from '../models';
-import { getDate, getTime } from './getOriginData';
 
 const { Option } = Select;
 
@@ -17,75 +15,44 @@ const EditableCell: React.FC<EditableCellProps> = ({
   record,
   index,
   children,
-  handleDate,
-  handleWeek,
-  handleTime,
-  handleLink,
-  handleDescription,
-  handleType,
-  handleLector,
   ...restProps
 }: EditableCellProps) => {
   const types = Object.values(eventTypes);
   const organizers = useSelector((state: RootState) => state.organizers.data);
-  const lectorData =
-    record === undefined
-      ? []
-      : organizers.filter((organizer) => organizer.id === record.lector);
-  const lector = lectorData.length > 0 ? lectorData[0].name : null;
   let inputNode = <Input.TextArea />;
   let extraNode: JSX.Element;
   let name = '';
   let extraName = '';
-  let initialValue: Moment | string;
-  let extraValue: number | string;
   let label = title;
   let extraLabel = '';
   if (inputType === 'date') {
     name = 'date';
-    initialValue = moment(getDate(record), 'DD:MM:YYYY');
     label = 'Date';
-    inputNode = (
-      <DatePicker format="DD.MM.YYYY" size="small" onChange={handleDate} />
-    );
-    extraName = 'Week';
-    extraValue = +record.week;
+    inputNode = <DatePicker format="DD.MM.YYYY" size="small" />;
+    extraName = 'week';
     extraLabel = 'Week';
-    extraNode = (
-      <InputNumber
-        value={+record.week}
-        min={0}
-        max={50}
-        size="small"
-        onChange={handleWeek}
-      />
-    );
+    extraNode = <InputNumber min={0} max={50} size="small" />;
   }
   if (dataIndex === 'materials') {
-    name = 'Materials';
-    initialValue = record.materials;
-    extraName = 'Link';
-    extraValue = record.description;
+    name = 'materials';
+    extraName = 'description';
     label = 'Link';
     extraLabel = 'Description';
-    inputNode = <Input.TextArea onChange={handleLink} />;
-    extraNode = <Input.TextArea onChange={handleDescription} />;
+    inputNode = <Input.TextArea />;
+    extraNode = <Input.TextArea />;
   }
   if (inputType === 'time') {
     name = 'time';
     label = 'Time';
-    initialValue = moment(getTime(record), 'HH:mm');
-    inputNode = <TimePicker size="small" onChange={handleTime} />;
+    inputNode = <TimePicker size="small" />;
   }
   if (inputType === 'select') {
     name = dataIndex === 'type' ? 'type' : 'lector';
-    initialValue = dataIndex === 'type' ? record.type : lector;
     inputNode = (
       <Select
         size="small"
         style={{ width: 120 }}
         dropdownMatchSelectWidth={false}
-        onChange={dataIndex === 'type' ? handleType : handleLector}
       >
         {dataIndex === 'type'
           ? types.map((type) => (
@@ -122,13 +89,11 @@ const EditableCell: React.FC<EditableCellProps> = ({
   );
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <td {...restProps}>
       {editing && (
         <Form.Item
           name={name === '' ? dataIndex : name}
           style={{ margin: 0 }}
-          initialValue={initialValue}
           label={label === '' ? null : label}
           rules={[
             {
@@ -145,7 +110,6 @@ const EditableCell: React.FC<EditableCellProps> = ({
         <Form.Item
           name={extraName}
           style={{ margin: 0 }}
-          initialValue={extraValue}
           label={extraLabel === '' ? null : extraLabel}
           rules={[
             {

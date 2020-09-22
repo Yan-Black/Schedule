@@ -1,47 +1,49 @@
 import * as React from 'react';
 import { EditTwoTone, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import {
-  Tooltip,
-  Space,
-  Button,
-  Typography,
-  Table,
-  Form,
-  Popconfirm,
-} from 'antd';
+import { Tooltip, Space, Button, Typography, Form, Popconfirm } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { getKeyByValue } from 'helpers';
 import { useState } from 'react';
-import { addEvent, changeEvent, deleteEvent } from 'reducers/events';
-import { TableColumn } from 'reducers/columnVisibility/models';
-import { eventTypes } from '@constants';
+import moment from 'moment';
+import { StudyEvent } from 'reducers/events/models';
+import { FormInstance } from 'antd/lib/form/hooks/useForm';
+import { changeEvent, deleteEvent } from 'reducers/events';
 import { ScheduleData } from '../models';
-import getOriginData from '../EditableCell/getOriginData';
-import EditableCell from '../EditableCell';
-import sortEvents from './sortEvents';
+import { getDate, getTime } from '../EditableCell/getOriginData';
 
 const { Link } = Typography;
 
-const tableColumns = (ind, events, sortedData) => {
+const tableColumns = (
+  events: StudyEvent[],
+  sortedData: ScheduleData[],
+): { mergedColumns: any; form: FormInstance<any> } => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const organizers = useSelector((state: RootState) => state.organizers.data);
   const [editingKey, setEditingKey] = useState('');
+  const isEditing = (record: ScheduleData) =>
+    record.key.toString() === editingKey;
 
   const edit = (record: ScheduleData) => {
+    const lectorData =
+      record === undefined
+        ? []
+        : organizers.filter((organizer) => organizer.id === record.lector);
+    const lector = lectorData.length > 0 ? lectorData[0].name : null;
     form.setFieldsValue({
-      startDay: '',
-      startTime: '',
-      name: '',
-      type: '',
-      place: '',
-      materials: '',
-      description: '',
-      lector: '',
-      comments: '',
-      additional1: '',
-      additional2: '',
-      additional3: '',
+      date: moment(getDate(record), 'DD:MM:YYYY'),
+      time: moment(getTime(record), 'HH:mm'),
+      name: record.name,
+      type: record.type,
+      place: record.place,
+      week: '5',
+      materials: record.materials,
+      description: record.description,
+      lector,
+      comments: record.comments,
+      additional1: record.additional1,
+      additional2: record.additional2,
+      additional3: record.additional3,
       ...record,
     });
     setEditingKey(record.key.toString());
@@ -49,31 +51,39 @@ const tableColumns = (ind, events, sortedData) => {
 
   const save = async (key: React.Key) => {
     try {
-      const row = (await form.validateFields()) as ScheduleData;
+      const row = await form.validateFields();
       const newData = sortedData.slice();
       const index = newData.findIndex((item) => key === item.key);
       const changed = events.find((event) => event.id === newData[index].id);
       const changedInd = events.findIndex(
         (event) => event.id === newData[index].id,
       );
+
+      const organizerId =
+        row.lector === null || row.lector === 'no lector'
+          ? ''
+          : organizers.find((lector) => lector.name === row.lector).id;
+
+      const date = row.date.toDate();
+      const dateString: string = date.toLocaleDateString();
+      const dayOfWeek: string = row.date.toDate().toString().slice(0, 3);
+      const dateTime = `${dayOfWeek}, ${dateString}`;
+      const eventTime = row.time.toDate().toLocaleTimeString().slice(0, 5);
+
       const changedEvent = {
         ...changed,
         name: row.name,
         place: row.place,
         // to do: handle organizer editing properly (add new organizer to backend and set organizer id to
         // editing event or only set organizer id, if such organizer exists)
-        organizerId: newLector,
+        organizerId,
         comment: row.comments,
-        dateTime: newDate === '' ? events[changedInd].dateTime : newDate,
-        week: newWeek === '' ? events[changedInd].week : newWeek,
-        eventTime: newTime === '' ? events[changedInd].eventTime : newTime,
-        description:
-          newDescription === ''
-            ? events[changedInd].description
-            : newDescription,
-        descriptionUrl:
-          newLink === '' ? events[changedInd].descriptionUrl : newLink,
-        type: newType === '' ? events[changedInd].type : newType,
+        dateTime,
+        week: row.week.toString(),
+        eventTime,
+        description: row.description,
+        descriptionUrl: row.materials,
+        type: row.type,
         additional1: row.additional1,
         additional2: row.additional2,
         additional3: row.additional3,
@@ -93,17 +103,6 @@ const tableColumns = (ind, events, sortedData) => {
   const cancel = () => {
     setEditingKey('');
   };
-
-
-  const isEditing = (record: ScheduleData) =>
-    record.key.toString() === editingKey;
-  let newDate = '';
-  let newWeek = '';
-  let newTime = '';
-  let newLink = '';
-  let newDescription = '';
-  let newType = '';
-  let newLector = '';
 
   const columns = [
     {
@@ -154,6 +153,10 @@ const tableColumns = (ind, events, sortedData) => {
         },
         {
           text: 'Optional task start',
+          value: 'Optional task start',
+        },
+        {
+          text: 'Optional task deadline',
           value: 'Optional task deadline',
         },
         {
@@ -329,7 +332,32 @@ const tableColumns = (ind, events, sortedData) => {
     },
   ];
 
-  return columns;
+  const mergedColumns = columns.map((col) => {
+    let type: string;
+
+    if (col.dataIndex === 'startDay') type = 'date';
+    else if (col.dataIndex === 'startTime') type = 'time';
+    else if (col.dataIndex === 'week') type = 'number';
+    else if (col.dataIndex === 'type' || col.dataIndex === 'lector')
+      type = 'select';
+    else type = 'text';
+
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record: ScheduleData) => ({
+        record,
+        inputType: type,
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
+
+  return { mergedColumns, form };
 };
 
 export default tableColumns;

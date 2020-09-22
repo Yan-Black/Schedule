@@ -2,7 +2,7 @@ import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';
 import { ScheduleData } from '../models';
 
-const midnight = '00:00';
+export const midnight = '00:00';
 const endOfDay = '23:59';
 
 const today = new Date();
