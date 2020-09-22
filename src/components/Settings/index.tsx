@@ -12,7 +12,8 @@ import {
 import Switch from 'react-switch';
 import { changeSettings } from 'reducers/settings';
 import { changeEventColor } from 'reducers/eventTypeColors';
-import { backgrounds, eventTypes } from '@constants';
+import { updateEventsTime } from 'reducers/events';
+import { backgrounds, eventTypes, utcOffsets } from '@constants';
 import selectList from './list';
 import './index.scss';
 
@@ -61,6 +62,7 @@ const Settings: React.FC = () => {
     const currentEvent: string | boolean = event.target.name;
     const currentValue: string | boolean = event.target.value;
     dispatch(changeSettings({ event: currentEvent, value: currentValue }));
+    dispatch(updateEventsTime(utcOffsets[currentValue]));
   };
 
   const handleFocusKeyboard = (event: React.KeyboardEvent) => {
@@ -101,7 +103,7 @@ const Settings: React.FC = () => {
                     className="settings__option-type settings__option-select"
                     onChange={handleSelectSettings}
                     name={name}
-                    value={settings[name]}
+                    value={settings[name] as string}
                   >
                     {options.map((value) => (
                       <option key={value}>{value}</option>
@@ -155,7 +157,7 @@ const Settings: React.FC = () => {
             <div
               onClick={() => setStage('color-setting')}
               onKeyDown={(event) =>
-                event.key === 'Enter' ? setStage('color-setting') : null
+                event.key === 'Enter' && setStage('color-setting')
               }
               className="settings__item"
               role="button"
