@@ -44,11 +44,16 @@
   }
 }
 
-.add-row-button-wrapper {
+.table-btns-wrapper {
   display: flex;
+  justify-content: space-between;
   & button {
-    margin: 0 0 10px auto;
+    margin-bottom: 10px;
   }
+}
+
+.hide-btn {
+  margin-right: 5px;
 }
 
 .vanilla-ice .ant-table-cell {
