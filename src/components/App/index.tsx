@@ -2,11 +2,10 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
-
 import Header from 'components/Header';
 import Tabs from 'components/Tabs';
 import Footer from 'components/Footer';
-
+import ModalWindow from 'components/ModalWindow';
 import fetchStudyEvents, { fetchOrganizres } from 'requests';
 
 import { updateEventsTime } from 'reducers/events';
@@ -38,6 +37,7 @@ const App: React.FC = () => {
         <Tabs />
       </Switch>
       <Footer />
+      <ModalWindow />
     </>
   );
 };

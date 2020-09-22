@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { HeartTwoTone } from '@ant-design/icons';
 
-import { HeartTwoTone, DownloadOutlined } from '@ant-design/icons';
+import Download from '../Download/index';
+
 import Setting from '../Settings';
 import './index.scss';
 
@@ -11,7 +13,7 @@ const ToolBar: React.FC = () => {
         <HeartTwoTone twoToneColor="#eb2f96" />
       </a>
       <a href="/">
-        <DownloadOutlined />
+        <Download />
       </a>
       <Setting />
     </div>

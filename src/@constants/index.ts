@@ -72,3 +72,4 @@ export const columns = {
 };
 
 export const userRoles: string[] = ['Student', 'Mentor'];
+export const globalFunctions: { [key: string]: (key?: unknown) => void | unknown } = {};
