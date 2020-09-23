@@ -38,14 +38,39 @@ export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   record: ScheduleData;
   index: number;
   children: React.ReactNode;
-  handleDate?: (date: moment.Moment, dateString: string) => void;
-  handleWeek?: (value: string | number) => void;
-  handleTime?: (time: moment.Moment, dateString: string) => void;
-  handleLink?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handleDescription?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handleType?: (value: string) => void;
-  handleLector?: (
-    value: string,
-    option: { key: string; value: string; children: string },
-  ) => void;
+}
+
+export interface MergedColumnsProps {
+  title: string;
+  dataIndex: string;
+  key: string;
+  width?: number;
+  number?: number;
+  editable?: boolean;
+  ellipsis?: {
+    showTitle: boolean;
+  };
+  render?:
+    | ((text: string) => JSX.Element)
+    | ((address: React.ReactElement, record: ScheduleData) => JSX.Element)
+    | ((_: ScheduleData, record: ScheduleData) => JSX.Element);
+  fixed?: string;
+  filters?: { text: string; value: string }[];
+  onFilter?: (value: string, record: ScheduleData) => boolean;
+}
+
+export interface FormFields {
+  date?: moment.Moment;
+  time?: moment.Moment;
+  name?: string;
+  type?: string;
+  place?: string;
+  week?: number;
+  materials?: string;
+  description?: string;
+  lector?: string;
+  comments?: string;
+  additional1?: string;
+  additional2?: string;
+  additional3?: string;
 }

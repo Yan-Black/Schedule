@@ -11,6 +11,7 @@ import getOriginData, { midnight } from '../EditableCell/getOriginData';
 import EditableCell from '../EditableCell';
 import sortEvents from './sortEvents';
 import tableColumns from './tableColumns';
+import { noType, mentorRole, operationColKey } from '../constants';
 
 const expandedRow = (ind: number): JSX.Element => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const expandedRow = (ind: number): JSX.Element => {
           ? sortedData[0].startDay
           : events[events.length - 1].dateTime,
       eventTime: midnight,
-      type: 'no type',
+      type: noType,
       week: sortedData.length > 0 ? sortedData[0].week : ind,
     };
     dispatch(addEvent(newItem));
@@ -59,9 +60,9 @@ const expandedRow = (ind: number): JSX.Element => {
 
   const filteredColumns = [];
   mergedColumns.map((col) => {
-    if (columnVisibility[col.key] && currentRole === 'Mentor')
+    if (columnVisibility[col.key] && currentRole === mentorRole)
       filteredColumns.push(col);
-    else if (columnVisibility[col.key] && col.key !== 'operation')
+    else if (columnVisibility[col.key] && col.key !== operationColKey)
       filteredColumns.push(col);
     return col;
   });
@@ -88,7 +89,7 @@ const expandedRow = (ind: number): JSX.Element => {
                 Show
               </Button>
             </div>
-            {currentRole === 'Mentor' && (
+            {currentRole === mentorRole && (
               <Button type="primary" onClick={add}>
                 Add event
               </Button>

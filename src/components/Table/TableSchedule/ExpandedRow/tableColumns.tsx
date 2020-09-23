@@ -8,7 +8,7 @@ import moment from 'moment';
 import { StudyEvent } from 'reducers/events/models';
 import { FormInstance } from 'antd/lib/form/hooks/useForm';
 import { changeEvent, deleteEvent } from 'reducers/events';
-import { ScheduleData } from '../models';
+import { FormFields, MergedColumnsProps, ScheduleData } from '../models';
 import { getDate, getTime } from '../EditableCell/getOriginData';
 
 const { Link } = Typography;
@@ -16,7 +16,7 @@ const { Link } = Typography;
 const tableColumns = (
   events: StudyEvent[],
   sortedData: ScheduleData[],
-): { mergedColumns: any; form: FormInstance<any> } => {
+): { mergedColumns: MergedColumnsProps[]; form: FormInstance<FormFields> } => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const organizers = useSelector((state: RootState) => state.organizers.data);
@@ -51,7 +51,7 @@ const tableColumns = (
 
   const save = async (key: React.Key) => {
     try {
-      const row = await form.validateFields();
+      const row: FormFields = await form.validateFields();
       const newData = sortedData.slice();
       const index = newData.findIndex((item) => key === item.key);
       const changed = events.find((event) => event.id === newData[index].id);
