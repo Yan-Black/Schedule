@@ -62,7 +62,9 @@ const Settings: React.FC = () => {
     const currentEvent: string | boolean = event.target.name;
     const currentValue: string | boolean = event.target.value;
     dispatch(changeSettings({ event: currentEvent, value: currentValue }));
-    dispatch(updateEventsTime(utcOffsets[currentValue]));
+    if (currentValue in utcOffsets) {
+      dispatch(updateEventsTime(utcOffsets[currentValue]));
+    }
   };
 
   const handleFocusKeyboard = (event: React.KeyboardEvent) => {
