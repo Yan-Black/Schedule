@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { Input, InputNumber, Form } from 'antd';
+import { useSelector } from 'react-redux';
+import { setFont } from 'helpers';
+import { RootState } from 'store';
 import { EditableCellProps } from '../models';
 
 const EditableCell: React.FC<EditableCellProps> = ({
@@ -13,10 +16,15 @@ const EditableCell: React.FC<EditableCellProps> = ({
   ...restProps
 }: EditableCellProps) => {
   const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  const currentVersion = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
+
+  const font = setFont(currentVersion);
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <td {...restProps}>
+    <td {...restProps} style={font}>
       {editing ? (
         <Form.Item
           name={dataIndex}

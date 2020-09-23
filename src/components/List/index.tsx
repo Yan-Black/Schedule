@@ -9,6 +9,7 @@ import {
   sortDataByDate,
   getKeyByValue,
   currentDay,
+  setFont,
 } from 'helpers';
 import Item from './Item';
 import './index.scss';
@@ -22,6 +23,10 @@ const List: React.FC = () => {
   const { colors } = useSelector((state: RootState) => state);
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const ref = useRef<HTMLHeadingElement>(null);
+  const currentVisual = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
+  const font = setFont(currentVisual);
 
   const dataToApply = [...data].sort(sortDataByDate);
 
@@ -50,7 +55,7 @@ const List: React.FC = () => {
   }
 
   return (
-    <Collapse defaultActiveKey={[defaultKey]}>
+    <Collapse defaultActiveKey={[defaultKey]} style={font}>
       {dataToApply.map(({ id, dateTime, name, type, eventTime }, i) => (
         <Panel
           header={generatePanelHader(currentIdx, dateTime, i, ref)}

@@ -7,11 +7,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { columns, permanentColumns } from '@constants';
 import { changeColumnVisibility } from 'reducers/columnVisibility';
+import { setFont } from 'helpers';
 import './index.scss';
 
 const ColumnsVisibility: React.FC = () => {
   const dispatch = useDispatch();
   const columnState = useSelector((state: RootState) => state.column);
+  const currentVersion = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
 
   useEffect(() => {
     const columnsToJSON = JSON.stringify(columnState);
@@ -35,6 +39,7 @@ const ColumnsVisibility: React.FC = () => {
     <Menu>
       {Object.entries(columns).map((item, index) => {
         const [event, value] = item;
+        const font = setFont(currentVersion);
         return (
           <Menu.Item key={`${index * 1}`}>
             <Checkbox
@@ -42,6 +47,7 @@ const ColumnsVisibility: React.FC = () => {
               name={event}
               onChange={onChange}
               disabled={disableColumn(value)}
+              style={font}
             >
               {value}
             </Checkbox>
@@ -50,11 +56,11 @@ const ColumnsVisibility: React.FC = () => {
       })}
     </Menu>
   );
-
+  const font = setFont(currentVersion);
   return (
     <div>
       <Dropdown overlay={menu}>
-        <Button className="columns-visibility__button">
+        <Button className="columns-visibility__button" style={font}>
           <span className="columns-visibility__title">Columns</span>
           <DownOutlined />
         </Button>

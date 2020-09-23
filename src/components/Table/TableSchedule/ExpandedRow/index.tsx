@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { getKeyByValue } from 'helpers';
+import { getKeyByValue, setFont } from 'helpers';
 import { useState } from 'react';
 import { changeEvent } from 'reducers/events';
 import { eventTypes } from '@constants';
@@ -29,6 +29,9 @@ const expandedRow = (ind: number): JSX.Element => {
   const events = useSelector((state: RootState) => state.events.data);
   const originData = getOriginData(events, ind);
   const [editingKey, setEditingKey] = useState('');
+  const currentVersion = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
   const isEditing = (record: ScheduleData) =>
     record.key.toString() === editingKey;
   const save = async (key: React.Key) => {
@@ -309,11 +312,13 @@ const expandedRow = (ind: number): JSX.Element => {
     if (columnVisibility[col.key]) filteredColumns.push(col);
     return col;
   });
-
+  const font = setFont(currentVersion);
   return (
     <>
       <div className="add-row-button-wrapper">
-        <Button type="primary">Add event</Button>
+        <Button type="primary" style={font}>
+          Add event
+        </Button>
       </div>
       <Form form={form} component={false}>
         <Table

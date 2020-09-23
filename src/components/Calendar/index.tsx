@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { StudyEvent } from 'reducers/events/models';
 import { eventTypes } from '@constants';
-import { getKeyByValue } from 'helpers';
+import { getKeyByValue, setFont } from 'helpers';
 import { ListData } from './models';
 
 import './index.scss';
@@ -14,6 +14,9 @@ const Calendar: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
   const { colors } = useSelector((state: RootState) => state);
   const isLoading = useSelector((state: RootState) => state.events.loading);
+  const currentVersion = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
 
   if (isLoading) {
     return <Skeleton active />;
@@ -77,17 +80,19 @@ const Calendar: React.FC = () => {
 
   const dateCellRender = (value: moment.Moment) => {
     const listData = getListData(value);
-
+    const font = setFont(currentVersion);
     return (
       <ul className="events">
         {listData.map((item) => (
           <li
             key={item.content}
+            style={font}
             className={
               colors[getKeyByValue(eventTypes, item.typeColor)] as string
             }
           >
             <Badge
+              style={font}
               status={item.type}
               text={`${item.eventTime} ${item.content}`}
             />
@@ -154,16 +159,19 @@ const Calendar: React.FC = () => {
 
   const monthCellRender = (value: moment.Moment) => {
     const listData = getMonthData(value);
+    const font = setFont(currentVersion);
     return (
       <ul className="events">
         {listData.map((item) => (
           <li
             key={item.id}
+            style={font}
             className={
               colors[getKeyByValue(eventTypes, item.typeColor)] as string
             }
           >
             <Badge
+              style={font}
               status={item.type}
               text={`${item.eventTime} ${item.content}`}
             />
@@ -172,9 +180,10 @@ const Calendar: React.FC = () => {
       </ul>
     );
   };
-
+  const font = setFont(currentVersion);
   return (
     <CalendarWrapper
+      style={font}
       className="container"
       dateCellRender={dateCellRender}
       monthCellRender={monthCellRender}

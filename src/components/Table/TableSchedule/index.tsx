@@ -1,11 +1,18 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { Table } from 'antd';
 import './index.scss';
+import { RootState } from 'store';
 import { WeekData } from './models';
 import expandedRow from './ExpandedRow';
 import ColumnVisibility from '../../ColumsVisibility';
 
 const TableSchedule: React.FC = () => {
+  const currentVisual = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
+  const visual = currentVisual ? 'week__visual-size' : '';
+
   const columns = [
     {
       title: 'RS School Schedule',
@@ -36,7 +43,7 @@ const TableSchedule: React.FC = () => {
       defaultExpandedRowKeys={[1]}
       dataSource={data}
       pagination={false}
-      rowClassName={(record, index) => `currentWeek${index}`}
+      rowClassName={(record, index) => `${visual} currentWeek${index}`}
       scroll={{ y: 500 }}
     />
   );

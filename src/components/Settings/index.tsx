@@ -13,6 +13,7 @@ import Switch from 'react-switch';
 import { changeSettings } from 'reducers/settings';
 import { changeEventColor } from 'reducers/eventTypeColors';
 import { backgrounds, eventTypes } from '@constants';
+import { setFont } from 'helpers';
 import selectList from './list';
 import './index.scss';
 
@@ -21,6 +22,7 @@ const Settings: React.FC = () => {
   const [stage, setStage] = useState<string>('general-setting');
   const colorsState = useSelector((state: RootState) => state.colors);
   const settings = useSelector((state: RootState) => state.settings);
+  const currentVersion = settings.visual;
 
   useEffect(() => {
     const settingsToJSON = JSON.stringify(settings);
@@ -69,6 +71,7 @@ const Settings: React.FC = () => {
 
   const showSettings = () => {
     if (stage === 'general-setting') {
+      const font = setFont(currentVersion);
       return (
         <Modal
           className="settings__window"
@@ -84,11 +87,13 @@ const Settings: React.FC = () => {
               block
               className="settings__control"
             >
-              <span className="setting__control-text">Ok</span>
+              <span className="setting__control-text" style={font}>
+                Ok
+              </span>
             </Button>
           }
         >
-          <form className="settings__options">
+          <form className="settings__options" style={font}>
             {selectList.map((obj) => {
               const { title, name, options, icon } = obj;
               return (
@@ -99,6 +104,7 @@ const Settings: React.FC = () => {
                   </span>
                   <select
                     className="settings__option-type settings__option-select"
+                    style={font}
                     onChange={handleSelectSettings}
                     name={name}
                     value={settings[name]}
@@ -170,6 +176,7 @@ const Settings: React.FC = () => {
         </Modal>
       );
     }
+    const font = setFont(currentVersion);
     return (
       <Modal
         className="settings__window"
@@ -184,7 +191,9 @@ const Settings: React.FC = () => {
             className="settings__control"
             block
           >
-            <span className="setting__control-text">Ok</span>
+            <span className="setting__control-text" style={font}>
+              Ok
+            </span>
           </Button>
         }
       >
@@ -196,7 +205,9 @@ const Settings: React.FC = () => {
             ] as string;
             return (
               <div className="settings__option-color" key={value}>
-                <p className="settings__color-description">{value}</p>
+                <p className="settings__color-description" style={font}>
+                  {value}
+                </p>
                 <div className="settings__colors-wrapper">
                   <div className="settings__color-option">
                     {backgrounds.map((classOfColor: string) => {
@@ -215,7 +226,10 @@ const Settings: React.FC = () => {
                       );
                     })}
                   </div>
-                  <span className={`settings__color-deafult ${colorName}`}>
+                  <span
+                    className={`settings__color-deafult ${colorName}`}
+                    style={font}
+                  >
                     Hello
                   </span>
                 </div>
@@ -226,6 +240,7 @@ const Settings: React.FC = () => {
       </Modal>
     );
   };
+
   return (
     <div className="settings">
       <Button

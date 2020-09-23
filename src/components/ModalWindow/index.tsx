@@ -25,7 +25,12 @@ const ModalWindow: React.FC = () => {
     switch (windowType) {
       case 'download':
         return (
-          <Modal title="Download Schedule" visible={visible} onOk={handleOk} onCancel={handleCancel}>
+          <Modal
+            title="Download Schedule"
+            visible={visible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
             <p>Download logic</p>
           </Modal>
         );
