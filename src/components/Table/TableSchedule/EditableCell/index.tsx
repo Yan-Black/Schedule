@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { Input, Form, DatePicker, TimePicker, InputNumber, Select } from 'antd';
+import {
+  Input,
+  Form,
+  DatePicker,
+  TimePicker,
+  InputNumber,
+  Select,
+  Skeleton,
+} from 'antd';
 import { eventTypes } from '@constants';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -15,6 +23,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   record,
   index,
   children,
+  isLoad,
   ...restProps
 }: EditableCellProps) => {
   const types = Object.values(eventTypes);
@@ -90,23 +99,26 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
   return (
     <td {...restProps}>
-      {editing && (
-        <Form.Item
-          name={name === '' ? dataIndex : name}
-          style={{ margin: 0 }}
-          label={label === '' ? null : label}
-          rules={[
-            {
-              required,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      )}
+      {editing &&
+        (isLoad ? (
+          <Skeleton active paragraph={{ rows: 0 }} />
+        ) : (
+          <Form.Item
+            name={name === '' ? dataIndex : name}
+            style={{ margin: 0 }}
+            label={label === '' ? null : label}
+            rules={[
+              {
+                required,
+                message: `Please Input ${title}!`,
+              },
+            ]}
+          >
+            {inputNode}
+          </Form.Item>
+        ))}
       {!editing && children}
-      {editing && extraNode && (
+      {editing && extraNode && !isLoad && (
         <Form.Item
           name={extraName}
           style={{ margin: 0 }}

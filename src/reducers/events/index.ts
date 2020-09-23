@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import fetchStudyEvents from 'requests';
+import fetchStudyEvents, { postEvent } from 'requests';
 import { InitialStudyEventState, StudyEvent } from './models';
 
 const initialState: InitialStudyEventState = {
@@ -37,6 +37,12 @@ const eventsSlice = createSlice({
     });
     builder.addCase(fetchStudyEvents.rejected, (state, { payload }) => {
       state.loading = false;
+      state.error = payload;
+    });
+    builder.addCase(postEvent.fulfilled, (state, { payload }) => {
+      state.data.push(payload);
+    });
+    builder.addCase(postEvent.rejected, (state, { payload }) => {
       state.error = payload;
     });
   },

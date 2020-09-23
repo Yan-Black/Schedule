@@ -1,6 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'utils';
-import { getAllEventsUrl, getAllOrganizers } from '@constants/api';
+import {
+  getAllEventsUrl,
+  getAllOrganizers,
+  postEventUrl,
+} from '@constants/api';
 import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';
 
@@ -26,6 +30,22 @@ export const fetchOrganizres = createAsyncThunk(
         data: { data },
       }: { data: { data: Organizer[] } } = await axios.get(getAllOrganizers);
       return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const postEvent = createAsyncThunk(
+  'events/postEvent',
+  async (obj: StudyEvent, { rejectWithValue }) => {
+    try {
+      const {
+        data: { id },
+      }: { data: { id: string } } = await axios.post(postEventUrl, obj);
+      const newEvent = { ...obj };
+      newEvent.id = id;
+      return newEvent;
     } catch (e) {
       return rejectWithValue(e);
     }

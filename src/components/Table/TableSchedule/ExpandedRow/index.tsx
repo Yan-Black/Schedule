@@ -1,21 +1,21 @@
 import * as React from 'react';
-import { Button, Table, Form } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { Table, Form } from 'antd';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { getKeyByValue } from 'helpers';
 import { useState } from 'react';
-import { addEvent } from 'reducers/events';
 import { TableColumn } from 'reducers/columnVisibility/models';
 import { eventTypes } from '@constants';
-import getOriginData, { midnight } from '../EditableCell/getOriginData';
+import { mentorRole, operationColKey } from '@constants/_tableConstants';
+import getOriginData from '../EditableCell/getOriginData';
 import EditableCell from '../EditableCell';
 import sortEvents from './sortEvents';
 import tableColumns from './tableColumns';
-import { noType, mentorRole, operationColKey } from '../constants';
+import AddButton from '../AddButton';
+import HideButton from '../HideButton';
+import ShowButton from '../ShowButton';
 
 const expandedRow = (ind: number): JSX.Element => {
-  const dispatch = useDispatch();
-
   const columnVisibility: TableColumn = useSelector(
     (state: RootState) => state.column,
   );
@@ -39,25 +39,6 @@ const expandedRow = (ind: number): JSX.Element => {
     columnWidth: 30,
   };
 
-  const hideHandler = () => setHiddenRowKeys(selectedRowKeys);
-  const showHandler = () => {
-    setSelectedRowKeys([]);
-    setHiddenRowKeys([]);
-  };
-
-  const add = () => {
-    const newItem = {
-      dateTime:
-        sortedData.length > 0
-          ? sortedData[0].startDay
-          : events[events.length - 1].dateTime,
-      eventTime: midnight,
-      type: noType,
-      week: sortedData.length > 0 ? sortedData[0].week : ind,
-    };
-    dispatch(addEvent(newItem));
-  };
-
   const filteredColumns = [];
   mergedColumns.map((col) => {
     if (columnVisibility[col.key] && currentRole === mentorRole)
@@ -73,26 +54,18 @@ const expandedRow = (ind: number): JSX.Element => {
         <>
           <div className="table-btns-wrapper">
             <div className="hide-show-btns">
-              <Button
-                className="hide-btn"
-                type="primary"
-                disabled={selectedRowKeys.length === 0}
-                onClick={hideHandler}
-              >
-                Hide
-              </Button>
-              <Button
-                type="primary"
-                disabled={hiddenRowKeys.length === 0}
-                onClick={showHandler}
-              >
-                Show
-              </Button>
+              <HideButton
+                selectedRowKeys={selectedRowKeys}
+                setHiddenRowKeys={setHiddenRowKeys}
+              />
+              <ShowButton
+                hiddenRowKeys={hiddenRowKeys}
+                setSelectedRowKeys={setSelectedRowKeys}
+                setHiddenRowKeys={setHiddenRowKeys}
+              />
             </div>
             {currentRole === mentorRole && (
-              <Button type="primary" onClick={add}>
-                Add event
-              </Button>
+              <AddButton sortedData={sortedData} events={events} ind={ind} />
             )}
           </div>
           <Form form={form} component={false}>
