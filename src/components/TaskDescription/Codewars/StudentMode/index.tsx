@@ -1,4 +1,3 @@
-import './index.scss';
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Button } from 'antd';
@@ -73,7 +72,8 @@ const Codewars: React.FC = () => {
 
   return (
     <>
-      <div className="task-desc-container">
+      <div>StudentMode</div>
+      {/* <div className="task-desc-container">
         <div className="task-desc-nav">
           <Menu
             style={{ width: 256 }}
@@ -197,7 +197,7 @@ const Codewars: React.FC = () => {
             Nulla consequat massa quis enim.
           </p>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

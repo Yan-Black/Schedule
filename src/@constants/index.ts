@@ -69,4 +69,6 @@ export const taskTypes = {
   standartTask: 'Standart task',
 };
 
-export const globalFunctions: { [key: string]: (key?: unknown) => void | unknown } = {};
+export const globalFunctions: {
+  [key: string]: (key?: unknown) => void | unknown;
+} = {};

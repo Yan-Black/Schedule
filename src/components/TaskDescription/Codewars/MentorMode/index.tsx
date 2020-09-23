@@ -1,4 +1,3 @@
-import './index.scss';
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Button } from 'antd';
@@ -54,18 +53,16 @@ const Codewars: React.FC = () => {
     // axios.put(putEventUrl(id), сам объект)
   };
 
-  const showTasksList = () => {
-    let taskList = '';
+  const showEditInfo = (info) => {
+    let newInfo = '';
     if (details !== undefined) {
-      taskList = details.taskList;
-      console.log(`details taskList: ${details.taskList}`);
+      newInfo = details[info];
+      console.log(`details taskList: ${details[info]}`);
     } else {
-      taskList = '';
+      newInfo = '';
     }
-    return <div dangerouslySetInnerHTML={{ __html: taskList }} />;
+    return <div dangerouslySetInnerHTML={{ __html: newInfo }} />;
   };
-
-  const editorConfiguration = {};
 
   if (isLoading) {
     return <p>loading...</p>;
@@ -128,74 +125,80 @@ const Codewars: React.FC = () => {
             <CKEditor
               editor={ClassicEditor}
               data="<p>Hello from CKEditor 5!</p>"
-              onInit={(editor) => {
-                // You can store the "editor" and use when it is needed.
-                console.log('Editor is ready to use!', editor);
-              }}
-              config={editorConfiguration}
               onChange={(event, editor) => {
                 const dataEditor = editor.getData();
-                console.log({ event, editor, dataEditor });
                 additionalDetails.taskList = dataEditor;
                 updateState();
               }}
-              onBlur={(event, editor) => {
-                console.log('Blur.', editor);
-              }}
-              onFocus={(event, editor) => {
-                console.log('Focus.', editor);
-              }}
             />
           ) : (
-            showTasksList()
+            // showTasksList()
+            showEditInfo('taskList')
           )}
-          <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-            Nulla consequat massa quis enim.
-          </p>
           <h2 className="task-main-headline" id="criteria">
             Критерии оценки
           </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-            Nulla consequat massa quis enim.
-          </p>
+          {isEditMode ? (
+            <CKEditor
+              editor={ClassicEditor}
+              data="<p>Hello from CKEditor 5!</p>"
+              onChange={(event, editor) => {
+                const dataCriteriaEditor = editor.getData();
+                additionalDetails.criteria = dataCriteriaEditor;
+                updateState();
+              }}
+            />
+          ) : (
+            showEditInfo('criteria')
+          )}
           <h2 className="task-main-headline" id="submit">
             Как сабмитнуть
           </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-            Nulla consequat massa quis enim.
-          </p>
+          {isEditMode ? (
+            <CKEditor
+              editor={ClassicEditor}
+              data="<p>Hello from CKEditor 5!</p>"
+              onChange={(event, editor) => {
+                const dataSubmitEditor = editor.getData();
+                additionalDetails.submit = dataSubmitEditor;
+                updateState();
+              }}
+            />
+          ) : (
+            showEditInfo('submit')
+          )}
           <h2 className="task-main-headline" id="auto-check">
             Auto-check
           </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-            Nulla consequat massa quis enim.
-          </p>
+          {isEditMode ? (
+            <CKEditor
+              editor={ClassicEditor}
+              data="<p>Hello from CKEditor 5!</p>"
+              onChange={(event, editor) => {
+                const dataCheckEditor = editor.getData();
+                additionalDetails.howToCheck = dataCheckEditor;
+                updateState();
+              }}
+            />
+          ) : (
+            showEditInfo('howToCheck')
+          )}
           <h2 className="task-main-headline" id="materials">
             Материалы
           </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-            Nulla consequat massa quis enim.
-          </p>
+          {isEditMode ? (
+            <CKEditor
+              editor={ClassicEditor}
+              data="<p>Hello from CKEditor 5!</p>"
+              onChange={(event, editor) => {
+                const dataMaterialsEditor = editor.getData();
+                additionalDetails.materials = dataMaterialsEditor;
+                updateState();
+              }}
+            />
+          ) : (
+            showEditInfo('materials')
+          )}
         </div>
       </div>
     </>

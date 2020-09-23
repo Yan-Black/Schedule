@@ -12,10 +12,20 @@ export interface StudyEvent {
   name: string;
   id: string;
   week?: string;
+  details: TaskTypes;
 }
 
 export interface InitialStudyEventState {
   data: StudyEvent[];
   loading: boolean;
   error: null | string | unknown;
+}
+
+export interface TaskTypes {
+  taskType: string;
+  taskList?: string;
+  criteria?: string;
+  submit?: string;
+  howToCheck?: string;
+  materials?: string;
 }

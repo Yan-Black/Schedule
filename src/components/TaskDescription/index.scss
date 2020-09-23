@@ -49,6 +49,14 @@
   margin-left: 10px !important;
 }
 
+.modal-task-wrapper {
+  text-align: inherit;
+}
+
+.edit-buttons {
+  text-align: right;
+}
+
 @media only screen and (max-width: 740px) {
   .task-desc-nav {
     display: none;
