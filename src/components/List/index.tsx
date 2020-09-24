@@ -1,74 +1,51 @@
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
-import { Collapse, Skeleton, Timeline, Card, Button } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useMemo } from 'react';
+import { Skeleton, Timeline, Card } from 'antd';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { eventTypes } from '@constants';
-import {
-  generatePanelHader,
-  sortDataByDate,
-  getKeyByValue,
-  currentDay,
-} from 'helpers';
-// import Item from './Item';
-import './index.scss';
+import { generateHeader, sortDataByDate } from 'helpers';
 import { StudyEvent } from 'reducers/events/models';
-import { setEventPageId } from 'reducers/eventId';
-
-const { Panel } = Collapse;
-const { Item } = Timeline;
+import ListRow from './Item';
+import './index.scss';
 
 const List: React.FC = () => {
-  const dispatch = useDispatch();
   const {
     events: { data },
   } = useSelector((state: RootState) => state);
-  const { colors } = useSelector((state: RootState) => state);
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const ref = useRef<HTMLHeadingElement>(null);
-  const clickHandler = (eId: string) => dispatch(setEventPageId(eId));
 
-  const dataToApply = [...data].sort(sortDataByDate);
-
-  const groupedData = Object.entries(
-    dataToApply.reduce((wrap: { [x: string]: StudyEvent[] }, obj) => {
-      wrap[obj.dateTime] = wrap[obj.dateTime] || ([] as StudyEvent[]);
-      wrap[obj.dateTime].push(obj);
-      return wrap;
-    }, {}),
-  );
-
-  let currentIdx: number;
-
-  if (dataToApply.length > 0) {
-    dataToApply.forEach((obj) => {
-      if (+obj.dateTime.slice(4, 7) >= currentDay) {
-        currentIdx = dataToApply.indexOf(obj);
-      }
-    });
-  }
+  const groupedEvents = useMemo(() => {
+    return Object.entries(
+      [...data]
+        .sort(sortDataByDate)
+        .reduce((wrap: { [x: string]: StudyEvent[] }, obj) => {
+          wrap[obj.dateTime] = wrap[obj.dateTime] || ([] as StudyEvent[]);
+          wrap[obj.dateTime].push(obj);
+          return wrap;
+        }, {}),
+    );
+  }, [data]);
 
   useEffect(() => {
     window.scrollTo(0, ref?.current?.getBoundingClientRect().top);
-  });
+  }, [data]);
 
-  if (isLoading) {
-    return <Skeleton active />;
-  }
-
-  return (
+  return isLoading ? (
+    <Skeleton active />
+  ) : (
     <Timeline>
-      {groupedData.map(([dateTime, info], i) => (
-        <Card
-          title={generatePanelHader(currentIdx, dateTime, i, ref)}
-          key={Math.random()}
-        >
-          {info.map(({ description, id }) => (
-            <Item key={id} color="green">
-              <button type="button" onClick={clickHandler.bind(null, id)}>
-                {`${description}`}
-              </button>
-            </Item>
+      {groupedEvents.map(([dateTime, info]) => (
+        <Card title={generateHeader(dateTime, ref)} key={dateTime}>
+          {info.map(({ description, id, type, eventTime, name }) => (
+            <ListRow
+              key={id}
+              eventId={id}
+              desc={description}
+              time={eventTime}
+              type={type}
+              name={name}
+            />
           ))}
         </Card>
       ))}

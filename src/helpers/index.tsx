@@ -3,22 +3,25 @@ import { StudyEvent } from 'reducers/events/models';
 
 export const currentDay = new Date().getDate();
 export const year = new Date().getFullYear();
-export const generatePanelHader = (
-  currentIdx: number,
+
+export const generateHeader = (
   dateTime: string,
-  i: number,
   ref: React.MutableRefObject<HTMLHeadingElement>,
 ): JSX.Element => {
-  const eventMs = Date.parse(
-    `${2020}-${dateTime.slice(8, 10)}-${dateTime.slice(4, 7)}`,
-  );
-  const currentMs = Date.now();
-  return eventMs <= currentMs ? (
-    <h4 style={{ color: 'lightgray' }} ref={ref}>
-      {dateTime}
-    </h4>
+  const eventDay = Number(dateTime.slice(4, 7));
+  const eventMoth = Number(dateTime.slice(8, 10));
+  const currentMonth = new Date().getMonth() + 1;
+  const eventMs = Date.parse(`${year}-${eventMoth}-${eventDay}`);
+  return eventDay === currentDay && eventMoth === currentMonth ? (
+    <h4 ref={ref}>{dateTime}</h4>
   ) : (
-    <h4 style={{ color: 'black' }}>{dateTime}</h4>
+    <h4>
+      <span
+        style={{ color: `${eventMs < Date.now() ? 'lightgray' : 'black'}` }}
+      >
+        {dateTime}
+      </span>
+    </h4>
   );
 };
 
