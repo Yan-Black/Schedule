@@ -69,6 +69,29 @@ export const taskTypes = {
   standartTask: 'Standart task',
 };
 
+export const codewarsSections = [
+  {
+    name: 'Список заданий',
+    id: 'taskList',
+  },
+  {
+    name: 'Критерии оценки',
+    id: 'criteria',
+  },
+  {
+    name: 'Как сабмитнуть',
+    id: 'submit',
+  },
+  {
+    name: 'Auto-check',
+    id: 'howToCheck',
+  },
+  {
+    name: 'Материалы',
+    id: 'materials',
+  },
+];
+
 export const globalFunctions: {
   [key: string]: (key?: unknown) => void | unknown;
 } = {};

@@ -18,6 +18,7 @@ const eventPageSlice = createSlice({
     closeEventPage: (state) => {
       state.isOpen = false;
       state.eventId = '';
+      state.isEditMode = false;
     },
     setTaskType: (state, { payload }: PayloadAction<string>) => {
       state.taskType = payload;

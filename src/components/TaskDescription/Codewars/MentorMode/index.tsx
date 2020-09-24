@@ -7,6 +7,7 @@ import { changeEvent } from 'reducers/events';
 // import InlineEdit from 'react-edit-inline';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { codewarsSections } from '@constants';
 
 // import axios from 'utils';
 
@@ -31,11 +32,11 @@ const Codewars: React.FC = () => {
 
   const additionalDetails = {
     taskType: 'codawars',
-    taskList: 'something',
-    criteria: 'some criteria',
-    submit: 'how to submit',
-    howToCheck: 'what should I do',
-    materials: 'what to read',
+    taskList: details ? details.taskList : '',
+    criteria: details ? details.criteria : '',
+    submit: details ? details.submit : '',
+    howToCheck: details ? details.howToCheck : '',
+    materials: details ? details.materials : '',
   };
   const changedEvent = {
     ...changed,
@@ -79,7 +80,7 @@ const Codewars: React.FC = () => {
             mode="inline"
           >
             <Menu.Item key="1">
-              <a href="#task-list">Список задач</a>
+              <a href="#taskList">Список задач</a>
             </Menu.Item>
             <Menu.Item key="2">
               <a href="#criteria">Критерии оценки</a>
@@ -88,7 +89,7 @@ const Codewars: React.FC = () => {
               <a href="#submit">Как сабмитнуть</a>
             </Menu.Item>
             <Menu.Item key="4">
-              <a href="#auto-check">Auto-check</a>
+              <a href="#howToCheck">Auto-check</a>
             </Menu.Item>
             <Menu.Item key="5">
               <a href="#materials">Материалы</a>
@@ -113,92 +114,35 @@ const Codewars: React.FC = () => {
               style={{ color: 'green' }}
               onClick={() => {
                 dispatch(disableEditMode());
+                updateState();
               }}
             >
               Save
             </Button>
           </div>
-          <h2 className="task-main-headline" id="task-list">
-            Список задач
-          </h2>
-          {isEditMode ? (
-            <CKEditor
-              editor={ClassicEditor}
-              data="<p>Hello from CKEditor 5!</p>"
-              onChange={(event, editor) => {
-                const dataEditor = editor.getData();
-                additionalDetails.taskList = dataEditor;
-                updateState();
-              }}
-            />
-          ) : (
-            // showTasksList()
-            showEditInfo('taskList')
-          )}
-          <h2 className="task-main-headline" id="criteria">
-            Критерии оценки
-          </h2>
-          {isEditMode ? (
-            <CKEditor
-              editor={ClassicEditor}
-              data="<p>Hello from CKEditor 5!</p>"
-              onChange={(event, editor) => {
-                const dataCriteriaEditor = editor.getData();
-                additionalDetails.criteria = dataCriteriaEditor;
-                updateState();
-              }}
-            />
-          ) : (
-            showEditInfo('criteria')
-          )}
-          <h2 className="task-main-headline" id="submit">
-            Как сабмитнуть
-          </h2>
-          {isEditMode ? (
-            <CKEditor
-              editor={ClassicEditor}
-              data="<p>Hello from CKEditor 5!</p>"
-              onChange={(event, editor) => {
-                const dataSubmitEditor = editor.getData();
-                additionalDetails.submit = dataSubmitEditor;
-                updateState();
-              }}
-            />
-          ) : (
-            showEditInfo('submit')
-          )}
-          <h2 className="task-main-headline" id="auto-check">
-            Auto-check
-          </h2>
-          {isEditMode ? (
-            <CKEditor
-              editor={ClassicEditor}
-              data="<p>Hello from CKEditor 5!</p>"
-              onChange={(event, editor) => {
-                const dataCheckEditor = editor.getData();
-                additionalDetails.howToCheck = dataCheckEditor;
-                updateState();
-              }}
-            />
-          ) : (
-            showEditInfo('howToCheck')
-          )}
-          <h2 className="task-main-headline" id="materials">
-            Материалы
-          </h2>
-          {isEditMode ? (
-            <CKEditor
-              editor={ClassicEditor}
-              data="<p>Hello from CKEditor 5!</p>"
-              onChange={(event, editor) => {
-                const dataMaterialsEditor = editor.getData();
-                additionalDetails.materials = dataMaterialsEditor;
-                updateState();
-              }}
-            />
-          ) : (
-            showEditInfo('materials')
-          )}
+          {codewarsSections.map((el) => {
+            return (
+              <>
+                <h2 className="task-main-headline" id={el.id}>
+                  {el.name}
+                </h2>
+                {isEditMode ? (
+                  <CKEditor
+                    editor={ClassicEditor}
+                    data={
+                      details ? details[el.id] : '<p>Text your task list</p>'
+                    }
+                    onChange={(event, editor) => {
+                      const dataEditor = editor.getData();
+                      additionalDetails[el.id] = dataEditor;
+                    }}
+                  />
+                ) : (
+                  showEditInfo(el.id)
+                )}
+              </>
+            );
+          })}
         </div>
       </div>
     </>
