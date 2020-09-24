@@ -1,5 +1,6 @@
+import { postOrganizer } from '@constants/api';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchOrganizres } from 'requests';
+import { fetchOrganizres, postLector } from 'requests';
 import { InitialOrganizerState } from './models';
 
 const initialState: InitialOrganizerState = {
@@ -25,6 +26,17 @@ const organizersSlice = createSlice({
       state.data = payload;
     });
     builder.addCase(fetchOrganizres.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+    builder.addCase(postLector.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(postLector.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.data.push(payload);
+    });
+    builder.addCase(postLector.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });

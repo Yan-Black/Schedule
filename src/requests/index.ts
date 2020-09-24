@@ -4,6 +4,7 @@ import {
   getAllEventsUrl,
   getAllOrganizers,
   postEventUrl,
+  postOrganizer,
 } from '@constants/api';
 import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';
@@ -46,6 +47,22 @@ export const postEvent = createAsyncThunk(
       const newEvent = { ...obj };
       newEvent.id = id;
       return newEvent;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const postLector = createAsyncThunk(
+  'organizers/postOrganizer',
+  async (obj: Organizer, { rejectWithValue }) => {
+    try {
+      const {
+        data: { id },
+      }: { data: { id: string } } = await axios.post(postOrganizer, obj);
+      const newOrganizer = { ...obj };
+      newOrganizer.id = id;
+      return newOrganizer;
     } catch (e) {
       return rejectWithValue(e);
     }

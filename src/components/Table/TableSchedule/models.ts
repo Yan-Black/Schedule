@@ -75,6 +75,7 @@ export interface FormFields {
   materials?: string;
   description?: string;
   lector?: string;
+  newLector?: string;
   comments?: string;
   additional1?: string;
   additional2?: string;

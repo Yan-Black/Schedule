@@ -17,8 +17,10 @@ const OkButton = ({
 }: OkButtonProps): JSX.Element => {
   const dispatch = useDispatch();
   const events = useSelector((state: RootState) => state.events.data);
+
   const save = async (key: React.Key) => {
     try {
+      setIsLoad(true);
       const row: FormFields = await form.validateFields();
       const newData = sortedData.slice();
       const index = newData.findIndex((item) => key === item.key);
@@ -42,8 +44,6 @@ const OkButton = ({
         ...changed,
         name: row.name,
         place: row.place,
-        // to do: handle organizer editing properly (add new organizer to backend and set organizer id to
-        // editing event or only set organizer id, if such organizer exists)
         organizerId,
         comment: row.comments,
         dateTime,
@@ -56,7 +56,7 @@ const OkButton = ({
         additional2: row.additional2,
         additional3: row.additional3,
       };
-      setIsLoad(true);
+
       await axios.put(putEventUrl(events[changedInd].id), changedEvent);
       dispatch(changeEvent({ changedEvent, changedInd }));
     } catch (errInfo) {
