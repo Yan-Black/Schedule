@@ -1,9 +1,10 @@
 import { noType } from '@constants/_tableConstants';
 import { Button } from 'antd';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { StudyEvent } from 'reducers/events/models';
 import { postEvent } from 'requests';
+import { RootState } from 'store';
 import { midnight } from '../EditableCell/getOriginData';
 import { AddButtonProps } from '../models';
 
@@ -13,6 +14,8 @@ const AddButton = ({
   ind,
 }: AddButtonProps): JSX.Element => {
   const dispatch = useDispatch();
+  const loading = useSelector((state: RootState) => state.events.idLoading);
+
   const add = () => {
     const newItem: StudyEvent = {
       dateTime:
@@ -22,12 +25,13 @@ const AddButton = ({
       eventTime: midnight,
       type: noType,
       week: sortedData.length > 0 ? sortedData[0].week : ind.toString(),
+      // to do: here we can set time zone also, time zone is taking from settings
     };
     dispatch(postEvent(newItem));
   };
 
   return (
-    <Button type="primary" onClick={add}>
+    <Button type="primary" onClick={add} loading={loading}>
       Add event
     </Button>
   );

@@ -105,6 +105,8 @@ export interface DeleteButtonProps {
   setIsLoad: React.Dispatch<React.SetStateAction<boolean>>;
   events: StudyEvent[];
   recordId: string;
+  setEditingKey: React.Dispatch<React.SetStateAction<string>>;
+  record: ScheduleData;
 }
 
 export interface AddButtonProps {

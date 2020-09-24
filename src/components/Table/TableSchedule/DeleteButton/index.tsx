@@ -11,11 +11,14 @@ const DeleteButton = ({
   setIsLoad,
   events,
   recordId,
+  setEditingKey,
+  record,
 }: DeleteButtonProps): JSX.Element => {
   const dispatch = useDispatch();
   const del = async (id: string) => {
     const delId = events.findIndex((event) => event.id === id);
     try {
+      setEditingKey(record.key.toString())
       setIsLoad(true);
       await axios.delete(deleteEventUrl(id));
       dispatch(deleteEvent(delId));
@@ -23,6 +26,7 @@ const DeleteButton = ({
       console.log(e);
     } finally {
       setIsLoad(false);
+      setEditingKey('');
     }
   };
 

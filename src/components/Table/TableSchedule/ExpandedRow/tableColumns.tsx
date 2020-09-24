@@ -183,6 +183,8 @@ const tableColumns = (
               setIsLoad={setIsLoad}
               events={events}
               recordId={record.id}
+              setEditingKey={setEditingKey}
+              record={record}
             />
           </Space>
         );
