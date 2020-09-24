@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { generateHeader, sortDataByDate } from 'helpers';
 import { StudyEvent } from 'reducers/events/models';
-import ListRow from './Item';
+import ListRow from './ListRow';
 import './index.scss';
 
 const List: React.FC = () => {
