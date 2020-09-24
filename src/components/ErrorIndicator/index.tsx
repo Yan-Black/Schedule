@@ -19,8 +19,8 @@ const ErrorIndicator: React.FC<IErrorIndicator> = ({ handleCloseError }) => {
   return (
     <div className="error">
       <img src={imageError} alt="" />
-      <span>Something went wrong !</span>
-      <span>We are working on it!</span>
+      <p>Something went wrong !</p>
+      <p>We are working on it!</p>
       <Button type="primary" onClick={handleButton}>
         Go Home
       </Button>
