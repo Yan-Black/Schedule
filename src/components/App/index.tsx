@@ -7,6 +7,7 @@ import Tabs from 'components/Tabs';
 import Footer from 'components/Footer';
 import ModalWindow from 'components/ModalWindow';
 import fetchStudyEvents, { fetchOrganizres } from 'requests';
+
 import './index.scss';
 
 const App: React.FC = () => {
