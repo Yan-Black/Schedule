@@ -9,18 +9,19 @@ export interface ScheduleData {
   comments?: string;
   deadlineDay?: string;
   deadlineTime?: string;
-  key: number;
-  name: string;
+  key?: number;
+  name?: string;
   startDay: string;
   startTime?: string;
   type: string;
   place?: string;
-  materials: string;
-  description: string;
+  materials?: string;
+  description?: string;
   additional1?: string;
   additional2?: string;
   additional3?: string;
-  id: string;
+  id?: string;
+  week?: string;
 }
 
 export interface WeekData {
@@ -33,14 +34,18 @@ export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: string;
-  inputType:
-    | 'number'
-    | 'text'
-    | 'integer'
-    | 'decimal'
-    | 'local datetime'
-    | 'instant';
+  inputType: 'date' | 'time' | 'text' | 'number' | 'select';
   record: ScheduleData;
   index: number;
   children: React.ReactNode;
+  handleDate?: (date: moment.Moment, dateString: string) => void;
+  handleWeek?: (value: string | number) => void;
+  handleTime?: (time: moment.Moment, dateString: string) => void;
+  handleLink?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleDescription?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleType?: (value: string) => void;
+  handleLector?: (
+    value: string,
+    option: { key: string; value: string; children: string },
+  ) => void;
 }

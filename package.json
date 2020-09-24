@@ -40,7 +40,7 @@
     "antd": "^4.6.2",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
-    "moment": "^2.27.0",
+    "moment": "^2.28.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-axios": "^2.0.3",
