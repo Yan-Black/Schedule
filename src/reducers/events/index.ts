@@ -50,5 +50,6 @@ export const {
   deleteEvent,
   changeEvent,
   updateEventsTime,
+  addEvent,
 } = eventsSlice.actions;
 export default eventsSlice.reducer;
