@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
-import { Collapse, Skeleton } from 'antd';
-import { useSelector } from 'react-redux';
+import { Collapse, Skeleton, Timeline, Card, Button } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { eventTypes } from '@constants';
 import {
@@ -10,32 +10,39 @@ import {
   getKeyByValue,
   currentDay,
 } from 'helpers';
-import Item from './Item';
+// import Item from './Item';
 import './index.scss';
+import { StudyEvent } from 'reducers/events/models';
+import { setEventPageId } from 'reducers/eventId';
 
 const { Panel } = Collapse;
+const { Item } = Timeline;
 
 const List: React.FC = () => {
+  const dispatch = useDispatch();
   const {
     events: { data },
   } = useSelector((state: RootState) => state);
   const { colors } = useSelector((state: RootState) => state);
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const ref = useRef<HTMLHeadingElement>(null);
+  const clickHandler = (eId: string) => dispatch(setEventPageId(eId));
 
   const dataToApply = [...data].sort(sortDataByDate);
 
+  const groupedData = Object.entries(
+    dataToApply.reduce((wrap: { [x: string]: StudyEvent[] }, obj) => {
+      wrap[obj.dateTime] = wrap[obj.dateTime] || ([] as StudyEvent[]);
+      wrap[obj.dateTime].push(obj);
+      return wrap;
+    }, {}),
+  );
+
   let currentIdx: number;
-  let defaultKey;
 
   if (dataToApply.length > 0) {
-    const [{ id }] = dataToApply.filter(
-      ({ dateTime }) => +dateTime.slice(4, 7) >= currentDay,
-    );
-    defaultKey = id;
-
     dataToApply.forEach((obj) => {
-      if (obj.id === id) {
+      if (+obj.dateTime.slice(4, 7) >= currentDay) {
         currentIdx = dataToApply.indexOf(obj);
       }
     });
@@ -50,18 +57,22 @@ const List: React.FC = () => {
   }
 
   return (
-    <Collapse defaultActiveKey={[defaultKey]}>
-      {dataToApply.map(({ id, dateTime, name, type, eventTime }, i) => (
-        <Panel
-          header={generatePanelHader(currentIdx, dateTime, i, ref)}
-          key={id}
-          style={{ opacity: `${i < currentIdx && 0.7}` }}
-          className={colors[getKeyByValue(eventTypes, type)] as string}
+    <Timeline>
+      {groupedData.map(([dateTime, info], i) => (
+        <Card
+          title={generatePanelHader(currentIdx, dateTime, i, ref)}
+          key={Math.random()}
         >
-          <Item name={name} time={eventTime} type={type} eventId={id} />
-        </Panel>
+          {info.map(({ description, id }) => (
+            <Item key={id} color="green">
+              <button type="button" onClick={clickHandler.bind(null, id)}>
+                {`${description}`}
+              </button>
+            </Item>
+          ))}
+        </Card>
       ))}
-    </Collapse>
+    </Timeline>
   );
 };
 

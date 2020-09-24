@@ -1,27 +1,26 @@
 import * as React from 'react';
 import { StudyEvent } from 'reducers/events/models';
 
+export const currentDay = new Date().getDate();
+export const year = new Date().getFullYear();
 export const generatePanelHader = (
   currentIdx: number,
   dateTime: string,
   i: number,
   ref: React.MutableRefObject<HTMLHeadingElement>,
-): JSX.Element =>
-  currentIdx === i ? (
-    <h4
-      style={{ color: `${currentIdx > i ? 'lightgray' : 'black'}` }}
-      ref={ref}
-    >
+): JSX.Element => {
+  const eventMs = Date.parse(
+    `${2020}-${dateTime.slice(8, 10)}-${dateTime.slice(4, 7)}`,
+  );
+  const currentMs = Date.now();
+  return eventMs <= currentMs ? (
+    <h4 style={{ color: 'lightgray' }} ref={ref}>
       {dateTime}
     </h4>
   ) : (
-    <h4 style={{ color: `${currentIdx > i ? 'lightgray' : 'black'}` }}>
-      {dateTime}
-    </h4>
+    <h4 style={{ color: 'black' }}>{dateTime}</h4>
   );
-
-export const currentDay = new Date().getDate();
-export const year = new Date().getFullYear();
+};
 
 export const sortDataByDate = (
   prevObject: StudyEvent,
