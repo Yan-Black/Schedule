@@ -53,9 +53,9 @@ export const columns = {
   materials: 'Materials',
   lector: 'Lector',
   comments: 'Comments',
-  additional1: 'Additional',
-  additional2: 'Additional',
-  additional3: 'Additional',
+  // additional1: 'Additional',
+  // additional2: 'Additional',
+  // additional3: 'Additional',
   operation: 'Action',
 };
 

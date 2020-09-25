@@ -210,3 +210,8 @@
     border: 1px solid #000;
   }
 }
+
+.settings__options-column {
+  display: flex;
+  flex-wrap: nowrap;
+}
