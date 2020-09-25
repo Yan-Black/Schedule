@@ -101,6 +101,7 @@ const Settings: React.FC = () => {
                     className="settings__option-type settings__option-select"
                     onChange={handleSelectSettings}
                     name={name}
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     value={settings[name]}
                   >
                     {options.map((value) => (
