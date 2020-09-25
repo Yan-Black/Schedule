@@ -20,7 +20,7 @@ const List: React.FC = () => {
       [...data]
         .sort(sortDataByDate)
         .reduce((wrap: { [x: string]: StudyEvent[] }, obj) => {
-          wrap[obj.dateTime] = wrap[obj.dateTime] || ([] as StudyEvent[]);
+          wrap[obj.dateTime] ||= [];
           wrap[obj.dateTime].push(obj);
           return wrap;
         }, {}),

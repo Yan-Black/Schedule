@@ -4,13 +4,16 @@ import { Provider } from 'react-redux';
 import App from 'components/App';
 import store from 'store';
 import { BrowserRouter as Router } from 'react-router-dom';
+import ErrorBoundary from 'errorBoundary/errorBoundary';
 
 import './styles/index.scss';
 
 const Index: React.FC = () => (
   <Router>
     <Provider store={store}>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </Provider>
   </Router>
 );

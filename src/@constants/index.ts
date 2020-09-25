@@ -10,6 +10,18 @@ export const timeZone: string[] = [
   'Asia/Tbilisi',
 ];
 
+export const utcOffsets: { [x: string]: string } = {
+  'Europe/London': '1',
+  'Europe/Warsaw': '2',
+  'Europe/Kiev': '3',
+  'Europe/Minsk': '3',
+  'Europe/Moscow': '3',
+  'Europe/Volgograd': '4',
+  'Europe/Yekaterenburg': '5',
+  'Asia/Tashkent': '5',
+  'Asia/Tbilisi': '4',
+}
+
 export const backgrounds: string[] = [
   'vanilla-ice',
   'remy',
