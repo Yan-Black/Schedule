@@ -3,124 +3,134 @@
 @import '../../../styles/event-bg';
 
 .ant-table-thead > tr > th {
-    background: #d2ecf8;
+  background: #d2ecf8;
 }
 
-.currentWeek1 {
-    background: #5bfa2733;
+.currentWeek {
+  background: #5bfa2733;
 }
 
-.currentWeek0 {
-    background: #f0f0f0;
-    color: #0000004d;
+.pastWeek {
+  background: #f0f0f0;
+  color: #0000004d;
+}
+
+.disabledWeek {
+  display: none;
 }
 
 .materials-link {
-    display: block;
+  display: block;
 }
 
 .rating-positive {
-    & .ant-badge-count {
-        background: #52c41a;
-    }
+  & .ant-badge-count {
+    background: #52c41a;
+  }
 }
 
 .no-rating {
-    & .ant-badge-count {
-        background-color: #fff;
-        color: #999;
-        box-shadow: 0 0 0 1px #d9d9d9 inset;
-    }
+  & .ant-badge-count {
+    background-color: #fff;
+    color: #999;
+    box-shadow: 0 0 0 1px #d9d9d9 inset;
+  }
 }
 
 .ant-table-container {
-    font-family: 'system-ui';
-    & .ant-table {
-        font-size: inherit;
-    }
+  font-family: 'system-ui';
+  & .ant-table {
+    font-size: inherit;
+    //new
+  }
 }
 
-.add-row-button-wrapper {
-    display: flex;
-    & button {
-        margin: 0 0 10px auto;
-    }
+.table-btns-wrapper {
+  display: flex;
+  justify-content: space-between;
+  & button {
+    margin-bottom: 10px;
+  }
+}
+
+.hide-btn {
+  margin-right: 5px;
 }
 
 .vanilla-ice .ant-table-cell {
-    background-color: $vanilla-ice;
-    width: 100%;
-    height: 100%;
+  background-color: $vanilla-ice;
+  width: 100%;
+  height: 100%;
 }
 .remy .ant-table-cell {
-    background-color: $remy;
-    width: 100%;
-    height: 100%;
+  background-color: $remy;
+  width: 100%;
+  height: 100%;
 }
 .white-lilac .ant-table-cell {
-    background-color: $white-lilac;
-    width: 100%;
-    height: 100%;
+  background-color: $white-lilac;
+  width: 100%;
+  height: 100%;
 }
 .blue-chalk .ant-table-cell {
-    background-color: $blue-chalk;
-    width: 100%;
-    height: 100%;
+  background-color: $blue-chalk;
+  width: 100%;
+  height: 100%;
 }
 .pattens-blue-light .ant-table-cell {
-    background-color: $pattens-blue-light;
-    width: 100%;
-    height: 100%;
+  background-color: $pattens-blue-light;
+  width: 100%;
+  height: 100%;
 }
 .pattens-blue .ant-table-cell {
-    background-color: $pattens-blue;
-    width: 100%;
-    height: 100%;
+  background-color: $pattens-blue;
+  width: 100%;
+  height: 100%;
 }
 .humming-bird .ant-table-cell {
-    background-color: $humming-bird;
-    width: 100%;
-    height: 100%;
+  background-color: $humming-bird;
+  width: 100%;
+  height: 100%;
 }
 .foam .ant-table-cell {
-    background-color: $foam;
-    width: 100%;
-    height: 100%;
+  background-color: $foam;
+  width: 100%;
+  height: 100%;
 }
 .white-ice-light .ant-table-cell {
-    background-color: $white-ice-light;
-    width: 100%;
-    height: 100%;
+  background-color: $white-ice-light;
+  width: 100%;
+  height: 100%;
 }
 .white-ice .ant-table-cell {
-    background-color: $white-ice;
-    width: 100%;
-    height: 100%;
+  background-color: $white-ice;
+  width: 100%;
+  height: 100%;
 }
 .china-ivory .ant-table-cell {
-    background-color: $china-ivory;
-    width: 100%;
-    height: 100%;
+  background-color: $china-ivory;
+  width: 100%;
+  height: 100%;
 }
 .blanched-almond .ant-table-cell {
-    background-color: $blanched-almond;
-    width: 100%;
-    height: 100%;
+  background-color: $blanched-almond;
+  width: 100%;
+  height: 100%;
 }
 .serenade .ant-table-cell {
-    background-color: $serenade;
-    width: 100%;
-    height: 100%;
+  background-color: $serenade;
+  width: 100%;
+  height: 100%;
 }
 .sazerac .ant-table-cell {
-    background-color: $sazerac;
-    width: 100%;
-    height: 100%;
+  background-color: $sazerac;
+  width: 100%;
+  height: 100%;
 }
 .azure .ant-table-cell {
-    background-color: $azure;
-    width: 100%;
-    height: 100%;
+  background-color: $azure;
+  width: 100%;
+  height: 100%;
 }
 
 .disable {
@@ -128,13 +138,13 @@
 }
 
 .event-type, .lector {
-    margin: auto;
-    width: fit-content;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 2px 3px;
-    background: #f0eded;
-    text-align: center;
+  margin: auto;
+  width: fit-content;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 2px 3px;
+  background: #f0eded;
+  text-align: center;
 }
 
 .ok-btn {

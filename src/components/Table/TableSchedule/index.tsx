@@ -1,17 +1,30 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 import { Table } from 'antd';
 import './index.scss';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { WeekData } from './models';
 import expandedRow from './ExpandedRow';
 import ColumnVisibility from '../../ColumsVisibility';
+import { getCurrentWeek } from './EditableCell/getOriginData';
 
 const TableSchedule: React.FC = () => {
-  const currentVisual = useSelector(
-    (state: RootState) => state.settings.visual,
-  );
-  const visual = currentVisual ? 'week__visual-size' : '';
+  const events = useSelector((state: RootState) => state.events.data);
+  const currentWeek = getCurrentWeek(events);
+
+  let weekAmount = 0;
+  events.forEach((event) => {
+    if (+event.week > weekAmount) weekAmount = +event.week;
+  });
+
+  const data: WeekData[] = [];
+  for (let i = 0; i < 50; ++i) {
+    data.push({
+      key: i,
+      name: `Week ${i}`,
+      weekData: expandedRow(i),
+    });
+  }
 
   const columns = [
     {
@@ -27,23 +40,21 @@ const TableSchedule: React.FC = () => {
     },
   ];
 
-  const data: WeekData[] = [];
-  for (let i = 0; i < 5; ++i) {
-    data.push({
-      key: i,
-      name: `Week ${i}`,
-      weekData: expandedRow(i),
-    });
-  }
-
   return (
     <Table<WeekData>
       columns={columns}
-      expandable={{ expandedRowRender: (record) => record.weekData }}
-      defaultExpandedRowKeys={[1]}
+      expandable={{
+        expandedRowRender: (record) => record.weekData,
+      }}
+      defaultExpandedRowKeys={[currentWeek]}
       dataSource={data}
       pagination={false}
-      rowClassName={(record, index) => `${visual} currentWeek${index}`}
+      rowClassName={(record, index) => {
+        if (index < currentWeek) return 'pastWeek';
+        if (index === currentWeek) return 'currentWeek';
+        if (index > weekAmount) return 'disabledWeek';
+        return null;
+      }}
       scroll={{ y: 500 }}
     />
   );
