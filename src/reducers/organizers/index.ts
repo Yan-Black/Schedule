@@ -38,7 +38,7 @@ const organizersSlice = createSlice({
     });
     builder.addCase(postLector.rejected, (state, { payload }) => {
       state.loading = false;
-      state.error = payload;
+      // state.error = payload;
     });
   },
 });

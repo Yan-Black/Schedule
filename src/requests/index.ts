@@ -8,6 +8,7 @@ import {
 } from '@constants/api';
 import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';
+import { errorHandler } from '@constants';
 
 export default createAsyncThunk(
   'events/fetchStudyEvents',
@@ -48,7 +49,7 @@ export const postEvent = createAsyncThunk(
       newEvent.id = id;
       return newEvent;
     } catch (e) {
-      return rejectWithValue(e);
+      return rejectWithValue(errorHandler());
     }
   },
 );
@@ -64,7 +65,7 @@ export const postLector = createAsyncThunk(
       newOrganizer.id = id;
       return newOrganizer;
     } catch (e) {
-      return rejectWithValue(e);
+      return rejectWithValue(errorHandler());
     }
   },
 );

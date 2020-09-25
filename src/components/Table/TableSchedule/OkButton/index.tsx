@@ -1,4 +1,5 @@
 import { CheckSquareTwoTone } from '@ant-design/icons';
+import { errorHandler } from '@constants';
 import { putEventUrl } from '@constants/api';
 import { Tooltip, Button } from 'antd';
 import * as React from 'react';
@@ -61,7 +62,7 @@ const OkButton = ({
       await axios.put(putEventUrl(events[changedInd].id), changedEvent);
       dispatch(changeEvent({ changedEvent, changedInd }));
     } catch (errInfo) {
-      window.console.error(errInfo);
+      errorHandler();
     } finally {
       setIsLoad(false);
       setEditingKey('');

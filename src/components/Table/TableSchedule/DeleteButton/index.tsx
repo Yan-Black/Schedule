@@ -1,4 +1,5 @@
 import { DeleteOutlined } from '@ant-design/icons';
+import { errorHandler, globalFunctions } from '@constants';
 import { deleteEventUrl } from '@constants/api';
 import { Popconfirm, Tooltip, Button } from 'antd';
 import * as React from 'react';
@@ -23,7 +24,7 @@ const DeleteButton = ({
       await axios.delete(deleteEventUrl(id));
       dispatch(deleteEvent(delId));
     } catch (e) {
-      console.log(e);
+      errorHandler();
     } finally {
       setIsLoad(false);
       setEditingKey('');
