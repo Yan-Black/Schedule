@@ -44,7 +44,7 @@ const TableSchedule: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, ref?.current?.getBoundingClientRect().top);
-  }, [data]);
+  }, []);
 
   return (
     <Table<WeekData>
@@ -68,7 +68,7 @@ const TableSchedule: React.FC = () => {
         if (index > weekAmount) return 'disabledWeek';
         return null;
       }}
-      scroll={{ y: 5000 }}
+      scroll={{ y: 1500 }}
     />
   );
 };

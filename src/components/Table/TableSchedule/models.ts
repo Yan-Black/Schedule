@@ -30,7 +30,7 @@ export interface ScheduleData {
 
 export interface WeekData {
   key: number;
-  name: string;
+  name: any;
   weekData: JSX.Element;
 }
 

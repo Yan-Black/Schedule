@@ -81,6 +81,7 @@ const expandedRow = (ind: number): JSX.Element => {
               dataSource={sortedData}
               rowSelection={rowSelection}
               scroll={{ y: 800 }}
+              sticky
               rowClassName={(record) => {
                 const type = getKeyByValue(eventTypes, record.type);
                 const rowClass = eventTypeColors[type] as string;
