@@ -15,7 +15,7 @@ import AddButton from '../AddButton';
 import HideButton from '../HideButton';
 import ShowButton from '../ShowButton';
 
-const expandedRow = (ind: number): JSX.Element => {
+const expandedRow = (ind: number, windowSize: number): JSX.Element => {
   const columnVisibility: TableColumn = useSelector(
     (state: RootState) => state.column,
   );
@@ -25,7 +25,7 @@ const expandedRow = (ind: number): JSX.Element => {
   const organizers = useSelector((state: RootState) => state.organizers.data);
   const originData = getOriginData(events, organizers, ind);
   const sortedData = originData.slice().sort(sortEvents);
-  const { mergedColumns, form } = tableColumns(events, sortedData);
+  const { mergedColumns, form } = tableColumns(events, sortedData, windowSize);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [hiddenRowKeys, setHiddenRowKeys] = useState([]);
 
@@ -37,6 +37,7 @@ const expandedRow = (ind: number): JSX.Element => {
     selectedRowKeys,
     onChange: onSelectChange,
     columnWidth: 30,
+    fixed: true,
   };
 
   const filteredColumns = [];
@@ -68,7 +69,11 @@ const expandedRow = (ind: number): JSX.Element => {
               <AddButton sortedData={sortedData} events={events} ind={ind} />
             )}
           </div>
-          <Form form={form} component={false}>
+          <Form
+            form={form}
+            component={false}
+            size={windowSize > 600 ? 'middle' : 'small'}
+          >
             <Table
               components={{
                 body: {

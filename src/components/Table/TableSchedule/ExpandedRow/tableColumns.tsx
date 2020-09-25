@@ -17,6 +17,7 @@ const { Link } = Typography;
 const tableColumns = (
   events: StudyEvent[],
   sortedData: ScheduleData[],
+  windowSize: number,
 ): { mergedColumns: MergedColumnsProps[]; form: FormInstance<FormFields> } => {
   const [form] = Form.useForm();
   const organizers = useSelector((state: RootState) => state.organizers.data);
@@ -30,22 +31,22 @@ const tableColumns = (
       title: 'Date',
       dataIndex: 'startDay',
       key: 'startDay',
-      width: 140,
-      fixed: 'left',
+      width: windowSize > 600 ? 140 : 100,
+      fixed: windowSize > 600 ? 'left' : '',
       editable: true,
     },
     {
       title: 'Time',
       dataIndex: 'startTime',
       key: 'startTime',
-      width: 120,
+      width: windowSize > 600 ? 120 : 100,
       editable: true,
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: 150,
+      width: windowSize > 600 ? 150 : 100,
       editable: true,
       render: (text: string) => (
         <Link href="https://ant.design" target="_blank">
@@ -57,7 +58,7 @@ const tableColumns = (
       title: 'Type',
       dataIndex: 'type',
       key: 'type',
-      width: 140,
+      width: windowSize > 600 ? 140 : 100,
       editable: true,
       filters,
       onFilter: (value: string, record: ScheduleData) =>
@@ -81,7 +82,7 @@ const tableColumns = (
       title: 'Materials',
       dataIndex: 'materials',
       key: 'materials',
-      width: 170,
+      width: windowSize > 600 ? 170 : 100,
       editable: true,
       ellipsis: {
         showTitle: false,
@@ -100,7 +101,7 @@ const tableColumns = (
       title: 'Lector',
       dataIndex: 'lector',
       key: 'lector',
-      width: 150,
+      width: windowSize > 600 ? 150 : 100,
       editable: true,
       render: (text: string) => {
         if (text) {
@@ -117,7 +118,7 @@ const tableColumns = (
       title: 'Comments',
       dataIndex: 'comments',
       key: 'comments',
-      width: 200,
+      width: windowSize > 600 ? 200 : 100,
       editable: true,
       ellipsis: {
         showTitle: false,
@@ -132,34 +133,38 @@ const tableColumns = (
       title: 'Additional',
       dataIndex: 'additional1',
       key: 'additional1',
-      width: 120,
+      width: windowSize > 600 ? 120 : 100,
       editable: true,
     },
     {
       title: 'Additional',
       dataIndex: 'additional2',
       key: 'additional2',
-      width: 120,
+      width: windowSize > 600 ? 120 : 100,
       editable: true,
     },
     {
       title: 'Additional',
       dataIndex: 'additional3',
       key: 'additional3',
-      width: 120,
+      width: windowSize > 600 ? 120 : 100,
       editable: true,
     },
     {
       title: 'Action',
       dataIndex: 'operation',
       key: 'operation',
-      width: 100,
+      width: windowSize > 600 ? 90 : 60,
       fixed: 'right',
+      className: 'action-wrapper',
       render: (_: ScheduleData, record: ScheduleData) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
-            <Space size="middle">
+            <Space
+              size="small"
+              direction={windowSize > 600 ? 'horizontal' : 'vertical'}
+            >
               <OkButton
                 recordKey={record.key}
                 form={form}
@@ -172,7 +177,10 @@ const tableColumns = (
             </Space>
           </span>
         ) : (
-          <Space size="middle">
+          <Space
+            size="small"
+            direction={windowSize > 600 ? 'horizontal' : 'vertical'}
+          >
             <EditButton
               recordData={record}
               setEditingKey={setEditingKey}
@@ -214,6 +222,7 @@ const tableColumns = (
         title: col.title,
         editing: isEditing(record),
         isLoad,
+        windowSize,
       }),
     };
   });

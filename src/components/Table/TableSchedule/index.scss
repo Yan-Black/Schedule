@@ -6,6 +6,10 @@
   background: #d2ecf8;
 }
 
+.ant-table-small .ant-table-thead > tr > th {
+  background: #d2ecf8;
+}
+
 .currentWeek {
   background: #5bfa2733;
 }
@@ -132,9 +136,11 @@
   text-align: center;
 }
 
-.ok-btn {
-  padding: 6px;
-  line-height: normal;
+@media(max-width: 600px) {
+  .ant-table.ant-table-small .ant-table-tbody > tr > td{
+    &.action-wrapper {
+      padding-left: 18px;
+    }
+  }
 }
-
 

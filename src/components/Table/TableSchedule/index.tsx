@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import './index.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { WeekData } from './models';
 import expandedRow from './ExpandedRow';
 import ColumnVisibility from '../../ColumsVisibility';
@@ -13,6 +13,21 @@ const TableSchedule: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
   const currentWeek = getCurrentWeek(events);
   const ref = useRef<HTMLHeadingElement>(null);
+
+  const useWindowSize = () => {
+    const [width, setWidth] = useState(0);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setWidth(window.innerWidth);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return width;
+  }
+
+  const windowSize = useWindowSize();
 
   let weekAmount = 0;
   events.forEach((event) => {
@@ -24,7 +39,7 @@ const TableSchedule: React.FC = () => {
     data.push({
       key: i,
       name: `Week ${i}`,
-      weekData: expandedRow(i),
+      weekData: expandedRow(i, windowSize),
     });
   }
 
@@ -39,6 +54,7 @@ const TableSchedule: React.FC = () => {
       dataIndex: 'test',
       key: 'name',
       className: 'column-visibility',
+      style: { padding: windowSize > 400 ? '0 15px 0 0' : 'inherit' }
     },
   ];
 

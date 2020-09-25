@@ -1,3 +1,4 @@
+import { CheckSquareTwoTone } from '@ant-design/icons';
 import { putEventUrl } from '@constants/api';
 import { Tooltip, Button } from 'antd';
 import * as React from 'react';
@@ -69,9 +70,7 @@ const OkButton = ({
 
   return (
     <Tooltip title="Save">
-      <Button type="primary" className="ok-btn" onClick={() => save(recordKey)}>
-        OK
-      </Button>
+      <Button icon={<CheckSquareTwoTone />} onClick={() => save(recordKey)} />
     </Tooltip>
   );
 };

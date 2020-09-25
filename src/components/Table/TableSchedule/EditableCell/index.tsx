@@ -29,6 +29,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   index,
   children,
   isLoad,
+  windowSize,
   ...restProps
 }: EditableCellProps) => {
   const dispatch = useDispatch();
@@ -64,7 +65,9 @@ const EditableCell: React.FC<EditableCellProps> = ({
     inputNode = <DatePicker format="DD.MM.YYYY" size="small" />;
     extraName = 'week';
     extraLabel = 'Week';
-    extraNode = <InputNumber min={0} max={50} size="small" />;
+    extraNode = (
+      <InputNumber min={0} max={50} size="small" style={{ width: '50px' }} />
+    );
   }
   if (dataIndex === 'materials') {
     name = dataIndex;
@@ -84,7 +87,6 @@ const EditableCell: React.FC<EditableCellProps> = ({
     inputNode = (
       <Select
         size="small"
-        style={{ width: 120 }}
         dropdownMatchSelectWidth={false}
         placeholder="Select"
       >
@@ -102,7 +104,6 @@ const EditableCell: React.FC<EditableCellProps> = ({
     inputNode = (
       <Select
         size="small"
-        style={{ width: 120 }}
         dropdownMatchSelectWidth={false}
         placeholder="select"
         dropdownRender={(menu) => (

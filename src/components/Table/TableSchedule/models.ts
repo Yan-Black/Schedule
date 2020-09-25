@@ -43,6 +43,7 @@ export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   index: number;
   children: React.ReactNode;
   isLoad: boolean;
+  windowSize: number;
 }
 
 export interface MergedColumnsProps {

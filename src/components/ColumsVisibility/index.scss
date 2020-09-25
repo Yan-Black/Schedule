@@ -9,3 +9,12 @@
     font-size: 14px !important;
   }
 }
+
+
+@media (max-width: 400px) {
+  .ant-table-cell {
+    &.column-visibility {
+      padding: 0 15px 0 0;
+    }
+  }
+}

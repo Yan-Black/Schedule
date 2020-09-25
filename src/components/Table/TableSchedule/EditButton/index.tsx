@@ -38,6 +38,7 @@ const EditButton = ({
   return (
     <Tooltip title="Edit">
       <Button
+        className="edit-btn"
         type="dashed"
         icon={<EditTwoTone />}
         onClick={() => edit(recordData)}
