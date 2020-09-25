@@ -1,6 +1,7 @@
-.column-visibility {
-  display: flex;
-  justify-content: flex-end;
+.ant-table-cell {
+  &.column-visibility {
+    text-align: end;
+  }
 }
 
 .columns-visibility__button {

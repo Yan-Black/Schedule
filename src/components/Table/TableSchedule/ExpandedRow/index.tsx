@@ -80,7 +80,7 @@ const expandedRow = (ind: number): JSX.Element => {
               pagination={false}
               dataSource={sortedData}
               rowSelection={rowSelection}
-              scroll={{ y: 400 }}
+              scroll={{ y: 800 }}
               rowClassName={(record) => {
                 const type = getKeyByValue(eventTypes, record.type);
                 const rowClass = eventTypeColors[type] as string;
