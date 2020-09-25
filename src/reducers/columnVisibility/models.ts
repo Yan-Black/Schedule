@@ -1,18 +1,3 @@
-// export interface TableColumn {
-//   startDay: boolean;
-//   startTime: boolean;
-//   name: boolean;
-//   type: boolean;
-//   place: boolean;
-//   materials: boolean;
-//   lector: boolean;
-//   comments: boolean;
-//   additional1: boolean;
-//   additional2: boolean;
-//   additional3: boolean;
-//   operation: boolean;
-// }
-
 export interface TableColumn {
   startDay: {
     status: boolean;
@@ -46,18 +31,6 @@ export interface TableColumn {
     status: boolean;
     name: string;
   };
-  // additional1: {
-  //   status: boolean;
-  //   name: string;
-  // };
-  // additional2: {
-  //   status: boolean;
-  //   name: string;
-  // };
-  // additional3: {
-  //   status: boolean;
-  //   name: string;
-  // };
   operation: {
     status: boolean;
     name: string;
