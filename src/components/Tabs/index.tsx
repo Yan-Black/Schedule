@@ -13,7 +13,6 @@ import List from 'components/List';
 import ToolBar from 'components/ToolBar';
 
 import './index.scss';
-import TaskDescription from 'components/TaskDescription';
 
 const Tabs: React.FC = () => {
   const { TabPane } = TabsWrapper;
@@ -27,20 +26,6 @@ const Tabs: React.FC = () => {
       defaultActiveKey="/"
       tabBarExtraContent={<ToolBar />}
     >
-      <TabPane
-        key="/taskdescription"
-        tab={
-          <Link to="/taskdescription">
-            <span>
-              <TableOutlined />
-              TaskDescription
-            </span>
-          </Link>
-        }
-      >
-        <TaskDescription />
-      </TabPane>
-
       <TabPane
         key="/"
         tab={
