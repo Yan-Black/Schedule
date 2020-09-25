@@ -1,3 +1,5 @@
+import { TaskSections } from '../components/TaskDescription/models';
+
 export const timeZone: string[] = [
   'Europe/London',
   'Europe/Warsaw',
@@ -69,7 +71,7 @@ export const taskTypes = {
   standartTask: 'Standart task',
 };
 
-export const codewarsSections = [
+export const codewarsSections: TaskSections = [
   {
     name: 'Список заданий',
     id: 'taskList',
@@ -89,6 +91,55 @@ export const codewarsSections = [
   {
     name: 'Материалы',
     id: 'materials',
+  },
+];
+
+export const coreJsSections: TaskSections = [
+  {
+    name: 'Описание заданий',
+    id: 'description',
+  },
+  {
+    name: 'Требования для установки',
+    id: 'requirement',
+  },
+  {
+    name: 'Как сабмитнуть',
+    id: 'submit',
+  },
+  {
+    name: 'Материалы',
+    id: 'materials',
+  },
+];
+
+export const interviewSections: TaskSections = [
+  {
+    name: 'Примеры вопросов',
+    id: 'questionsExamples',
+  },
+  {
+    name: 'Критерии оценки',
+    id: 'marks',
+  },
+  {
+    name: 'Дата дедлайна',
+    id: 'taskDeadline',
+  },
+];
+
+export const meetupSections: TaskSections = [
+  {
+    name: 'Программа',
+    id: 'program',
+  },
+  {
+    name: 'Язык выступления',
+    id: 'language',
+  },
+  {
+    name: 'Место встречи',
+    id: 'place',
   },
 ];
 

@@ -28,4 +28,12 @@ export interface TaskTypes {
   submit?: string;
   howToCheck?: string;
   materials?: string;
+  description?: string;
+  requirement?: string;
+  questionsExamples?: string;
+  marks?: string;
+  taskDeadline?: string;
+  program?: string;
+  language?: string;
+  place?: string;
 }

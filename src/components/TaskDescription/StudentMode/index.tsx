@@ -1,30 +1,58 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Menu } from 'antd';
-import { codewarsSections } from '@constants';
+import {
+  codewarsSections,
+  coreJsSections,
+  interviewSections,
+  meetupSections,
+} from '@constants';
 import { RootState } from 'store';
+import { TaskTypes } from 'reducers/events/models';
+import { TaskSections } from '../models';
 
 const StudentMode: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const eventId = useSelector((state: RootState) => state.eventId.eventId);
   const events = useSelector((state: RootState) => state.events.data);
   const changedInd = events.findIndex((event) => event.id === eventId);
-  const details = useSelector(
+  const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
+  let sections: TaskSections = [];
 
-  const showEditInfo = (info) => {
-    let newInfo = '';
+  if (isLoading) {
+    return <p>loading...</p>;
+  }
+
+  const showEditInfo = (info: string) => {
+    let newInfo: string;
     if (details !== undefined) {
       newInfo = details[info];
     } else {
       newInfo = '';
     }
-    return <div dangerouslySetInnerHTML={{ __html: newInfo }} />;
+    return (
+      // eslint-disable-next-line react/no-danger
+      <div dangerouslySetInnerHTML={{ __html: newInfo }} />
+    );
   };
 
-  if (isLoading) {
-    return <p>loading...</p>;
+  switch (details.taskType) {
+    case 'codewars':
+      sections = codewarsSections;
+      break;
+    case 'coreJS':
+      sections = coreJsSections;
+      break;
+    case 'interview':
+      sections = interviewSections;
+      break;
+    case 'meetup':
+      sections = meetupSections;
+      break;
+    default:
+      sections = codewarsSections;
   }
 
   return (
@@ -37,9 +65,9 @@ const StudentMode: React.FC = () => {
             defaultOpenKeys={['sub1']}
             mode="inline"
           >
-            {codewarsSections.map((el) => {
+            {sections.map((el, index) => {
               return (
-                <Menu.Item key={el.id}>
+                <Menu.Item key={changedInd.toString().concat(index.toString())}>
                   <a href={'#'.concat(el.id)}>{el.name}</a>
                 </Menu.Item>
               );
@@ -47,10 +75,14 @@ const StudentMode: React.FC = () => {
           </Menu>
         </div>
         <div className="task-desc-area">
-          {codewarsSections.map((el) => {
+          {sections.map((el, index) => {
             return (
               <>
-                <h2 className="task-main-headline" id={el.id}>
+                <h2
+                  className="task-main-headline"
+                  id={el.id}
+                  key={changedInd.toString().concat(index.toString())}
+                >
                   {el.name}
                 </h2>
                 {showEditInfo(el.id)}

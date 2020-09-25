@@ -1,37 +1,41 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Button } from 'antd';
 import { EditOutlined, CheckSquareOutlined } from '@ant-design/icons';
-
 import { changeEvent } from 'reducers/events';
-// import InlineEdit from 'react-edit-inline';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { codewarsSections } from '@constants';
-
-// import axios from 'utils';
-
+import {
+  codewarsSections,
+  coreJsSections,
+  interviewSections,
+  meetupSections,
+} from '@constants';
 import { RootState } from 'store';
 import { disableEditMode, enableEditMode } from 'reducers/eventId';
+import { TaskTypes } from 'reducers/events/models';
+import { TaskSections, TaskSection } from '../models';
+
 // import { putEventUrl } from '@constants/api';
 
-const Codewars: React.FC = () => {
+const MentorMode: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const dispatch = useDispatch();
   const eventId = useSelector((state: RootState) => state.eventId.eventId);
-  const isOpen = useSelector((state: RootState) => state.eventId.isOpen);
   const events = useSelector((state: RootState) => state.events.data);
   const changedInd = events.findIndex((event) => event.id === eventId);
   const changed = events.find((event) => event.id === eventId);
   const isEditMode = useSelector(
     (state: RootState) => state.eventId.isEditMode,
   );
-  const details = useSelector(
+  const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
+  let sections: TaskSections = [];
 
   const additionalDetails = {
-    taskType: 'codawars',
+    taskType: details ? details.taskType : '',
     taskList: details ? details.taskList : '',
     criteria: details ? details.criteria : '',
     submit: details ? details.submit : '',
@@ -44,25 +48,39 @@ const Codewars: React.FC = () => {
   };
 
   const updateState = () => {
-    console.log(`events: ${events[0].name}`);
-    console.log(`changedInd: ${changedInd}`);
-    console.log(`changed: ${changed.name}`);
-    // console.log(`changedEvent: ${changedEvent}`);
     dispatch(changeEvent({ changedEvent, changedInd }));
-
     // dispatch
     // axios.put(putEventUrl(id), сам объект)
   };
 
-  const showEditInfo = (info) => {
-    let newInfo = '';
+  switch (details.taskType) {
+    case 'codewars':
+      sections = codewarsSections;
+      break;
+    case 'coreJS':
+      sections = coreJsSections;
+      break;
+    case 'interview':
+      sections = interviewSections;
+      break;
+    case 'meetup':
+      sections = meetupSections;
+      break;
+    default:
+      sections = codewarsSections;
+  }
+
+  const showEditInfo = (info: string) => {
+    let newInfo: string;
     if (details !== undefined) {
       newInfo = details[info];
-      console.log(`details taskList: ${details[info]}`);
     } else {
       newInfo = '';
     }
-    return <div dangerouslySetInnerHTML={{ __html: newInfo }} />;
+    return (
+      // eslint-disable-next-line react/no-danger
+      <div dangerouslySetInnerHTML={{ __html: newInfo }} />
+    );
   };
 
   if (isLoading) {
@@ -79,21 +97,13 @@ const Codewars: React.FC = () => {
             defaultOpenKeys={['sub1']}
             mode="inline"
           >
-            <Menu.Item key="1">
-              <a href="#taskList">Список задач</a>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <a href="#criteria">Критерии оценки</a>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <a href="#submit">Как сабмитнуть</a>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <a href="#howToCheck">Auto-check</a>
-            </Menu.Item>
-            <Menu.Item key="5">
-              <a href="#materials">Материалы</a>
-            </Menu.Item>
+            {sections.map((el, index) => {
+              return (
+                <Menu.Item key={changedInd.toString().concat(index.toString())}>
+                  <a href={'#'.concat(el.id)}>{el.name}</a>
+                </Menu.Item>
+              );
+            })}
           </Menu>
         </div>
         <div className="task-desc-area">
@@ -120,26 +130,34 @@ const Codewars: React.FC = () => {
               Save
             </Button>
           </div>
-          {codewarsSections.map((el) => {
+          {sections.map((el: TaskSection, index) => {
             return (
               <>
-                <h2 className="task-main-headline" id={el.id}>
-                  {el.name}
-                </h2>
-                {isEditMode ? (
-                  <CKEditor
-                    editor={ClassicEditor}
-                    data={
-                      details ? details[el.id] : '<p>Text your task list</p>'
-                    }
-                    onChange={(event, editor) => {
-                      const dataEditor = editor.getData();
-                      additionalDetails[el.id] = dataEditor;
-                    }}
-                  />
-                ) : (
-                  showEditInfo(el.id)
-                )}
+                <div key={changedInd.toString().concat(index.toString())}>
+                  <h2
+                    className="task-main-headline"
+                    id={el.id}
+                    key={changedInd.toString().concat(index.toString())}
+                  >
+                    {el.name}
+                  </h2>
+                  {isEditMode ? (
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data={
+                        details ? details[el.id] : '<p>Text your task list</p>'
+                      }
+                      onChange={(event, editor) => {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                        const dataEditor: string = editor.getData();
+                        additionalDetails[el.id] = dataEditor;
+                      }}
+                      key={changedInd.toString().concat(index.toString())}
+                    />
+                  ) : (
+                    showEditInfo(el.id)
+                  )}
+                </div>
               </>
             );
           })}
@@ -149,4 +167,4 @@ const Codewars: React.FC = () => {
   );
 };
 
-export default Codewars;
+export default MentorMode;
