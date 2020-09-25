@@ -2,13 +2,14 @@ import * as React from 'react';
 import { Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 
-import imageError from '../../assets/images/error-boundary.png';
+import imageError from 'assets/images/error-boundary.png';
 import { IErrorIndicator } from './models';
 
 import './index.scss';
 
-// eslint-disable-next-line react/prop-types
-const ErrorIndicator: React.FC<IErrorIndicator> = ({ handleCloseError }) => {
+const ErrorIndicator: React.FC<IErrorIndicator> = ({
+  handleCloseError,
+}: IErrorIndicator) => {
   const history = useHistory();
 
   const handleButton = () => {
