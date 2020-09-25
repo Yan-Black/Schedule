@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { recountDate } from 'helpers';
 import fetchStudyEvents, { postEvent } from 'requests';
 import { InitialStudyEventState, StudyEvent } from './models';
 
@@ -27,6 +28,9 @@ const eventsSlice = createSlice({
     addEvent: (state, { payload }) => {
       state.data.push(payload);
     },
+    updateEventsTime: (state, { payload }: PayloadAction<string>) => {
+      state.data.forEach(recountDate.bind(null, payload));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchStudyEvents.pending, (state) => {
@@ -54,5 +58,10 @@ const eventsSlice = createSlice({
   },
 });
 
-export const { deleteEvent, changeEvent, addEvent } = eventsSlice.actions;
+export const {
+  deleteEvent,
+  changeEvent,
+  updateEventsTime,
+  addEvent,
+} = eventsSlice.actions;
 export default eventsSlice.reducer;

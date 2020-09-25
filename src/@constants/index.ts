@@ -10,6 +10,18 @@ export const timeZone: string[] = [
   'Asia/Tbilisi',
 ];
 
+export const utcOffsets: { [x: string]: string } = {
+  'Europe/London': '1',
+  'Europe/Warsaw': '2',
+  'Europe/Kiev': '3',
+  'Europe/Minsk': '3',
+  'Europe/Moscow': '3',
+  'Europe/Volgograd': '4',
+  'Europe/Yekaterenburg': '5',
+  'Asia/Tashkent': '5',
+  'Asia/Tbilisi': '4',
+}
+
 export const backgrounds: string[] = [
   'vanilla-ice',
   'remy',
@@ -44,6 +56,22 @@ export const eventTypes = {
   crossCheckDeadline: 'Cross-check deadline',
   interviewStart: 'Interview start',
 };
+
+export const listMarkerColors = {
+  onlineLecture: '#F1C40F',
+  meetupOffline: '#C0392B',
+  taskStart: '#27AE60',
+  taskDeadline: '#E74C3C',
+  optionalTaskStart: '#1ABC9C',
+  optionalTaskDeadline: '#E74C3C',
+  selfEducation: '#2980B9',
+  testGrade: '#D35400',
+  testWithoutGrade: '#9B59B6',
+  crossCheckStart: '#F39C12',
+  crossCheckDeadline: '#E74C3C',
+  interviewStart: '#3498DB',
+};
+
 export const columns = {
   startDay: 'Date',
   startTime: 'Time',
