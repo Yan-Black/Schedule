@@ -1,10 +1,20 @@
-.column-visibility {
-  display: flex;
-  justify-content: flex-end;
+.ant-table-cell {
+  &.column-visibility {
+    text-align: end;
+  }
 }
 
-// .columns-visibility__button {
-//   & .columns-visibility__title {
-//     font-size: 14px !important;
-//   }
-// }
+.columns-visibility__button {
+  & .columns-visibility__title {
+    font-size: 14px !important;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .ant-table-cell {
+    &.column-visibility {
+      padding: 0 15px 0 0;
+    }
+  }
+}

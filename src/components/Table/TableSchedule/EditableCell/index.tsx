@@ -1,9 +1,22 @@
 import * as React from 'react';
-import { Input, Form, DatePicker, TimePicker, InputNumber, Select } from 'antd';
+import {
+  Input,
+  Form,
+  DatePicker,
+  TimePicker,
+  InputNumber,
+  Select,
+  Skeleton,
+  Divider,
+  Spin,
+} from 'antd';
 import { eventTypes } from '@constants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setFont } from 'helpers';
 import { RootState } from 'store';
+import { useState } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
+import { postLector } from 'requests';
 import { EditableCellProps } from '../models';
 
 const { Option } = Select;
@@ -16,70 +29,128 @@ const EditableCell: React.FC<EditableCellProps> = ({
   record,
   index,
   children,
+  isLoad,
+  windowSize,
   ...restProps
 }: EditableCellProps) => {
+  const dispatch = useDispatch();
+  const [inputLector, setInputLector] = useState('');
   const types = Object.values(eventTypes);
   const organizers = useSelector((state: RootState) => state.organizers.data);
+  const { loading } = useSelector((state: RootState) => state.organizers);
   const currentVersion = useSelector(
     (state: RootState) => state.settings.visual,
   );
 
   const font = setFont(currentVersion);
-  let inputNode = <Input.TextArea />;
+  const placeholder = `Add ${dataIndex}`;
+  let inputNode = <Input.TextArea placeholder={placeholder} />;
   let extraNode: JSX.Element;
   let name = '';
   let extraName = '';
   let label = title;
   let extraLabel = '';
+
+  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputLector(event.target.value);
+  };
+
+  const addLectorHandler = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  ) => {
+    event.preventDefault();
+    const newOrganizer = {
+      name: inputLector,
+    };
+    dispatch(postLector(newOrganizer));
+    setInputLector('');
+  };
+
   if (inputType === 'date') {
     name = 'date';
-    label = 'Date';
     inputNode = <DatePicker format="DD.MM.YYYY" size="small" />;
     extraName = 'week';
     extraLabel = 'Week';
-    extraNode = <InputNumber min={0} max={50} size="small" />;
+    extraNode = (
+      <InputNumber min={0} max={50} size="small" style={{ width: '50px' }} />
+    );
   }
   if (dataIndex === 'materials') {
-    name = 'materials';
+    name = dataIndex;
     extraName = 'description';
     label = 'Link';
     extraLabel = 'Description';
-    inputNode = <Input.TextArea />;
-    extraNode = <Input.TextArea />;
+    inputNode = <Input.TextArea placeholder={placeholder} />;
+    extraNode = <Input.TextArea placeholder={placeholder} />;
   }
   if (inputType === 'time') {
     name = 'time';
-    label = 'Time';
     inputNode = <TimePicker size="small" />;
   }
-  if (inputType === 'select') {
-    name = dataIndex === 'type' ? 'type' : 'lector';
+  if (inputType === 'select' && dataIndex === 'type') {
+    name = 'type';
+    extraName = 'newLector';
     inputNode = (
       <Select
         size="small"
-        style={{ width: 120 }}
         dropdownMatchSelectWidth={false}
+        placeholder="Select"
       >
-        {dataIndex === 'type'
-          ? types.map((type) => (
-              <Option value={type} key={type}>
-                {type}
-              </Option>
-            ))
-          : organizers.map((organizer) => (
-              <Option value={organizer.name} key={organizer.id}>
-                {organizer.name}
-              </Option>
-            ))}
-        {dataIndex === 'lector' && (
-          <Option
-            value="no lector"
-            key="noLector"
-            style={{ background: '#f2d0d0d9' }}
-          >
-            delete lector
+        {types.map((type) => (
+          <Option value={type} key={type}>
+            {type}
           </Option>
+        ))}
+      </Select>
+    );
+  }
+
+  if (inputType === 'select' && dataIndex === 'lector') {
+    name = 'lector';
+    inputNode = (
+      <Select
+        size="small"
+        dropdownMatchSelectWidth={false}
+        placeholder="select"
+        dropdownRender={(menu) => (
+          <div>
+            {menu}
+            <Divider style={{ margin: '4px 0' }} />
+            <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
+              <Input
+                value={inputLector}
+                size="small"
+                style={{ flex: 'auto' }}
+                placeholder={placeholder}
+                onChange={inputChangeHandler}
+              />
+
+              <a
+                href="/"
+                style={{
+                  flex: 'none',
+                  padding: '8px',
+                  display: 'block',
+                  cursor: 'pointer',
+                }}
+                onClick={addLectorHandler}
+              >
+                <Spin spinning={loading}>
+                  <PlusOutlined /> Add
+                </Spin>
+              </a>
+            </div>
+          </div>
         )}
+      >
+        <Option value="no lector" key="no lector" style={{ color: 'red' }}>
+          no lector
+        </Option>
+        {organizers.map((organizer) => (
+          <Option value={organizer.name} key={organizer.name}>
+            {organizer.name}
+          </Option>
+        ))}
       </Select>
     );
   }
@@ -88,7 +159,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
     dataIndex === 'comments' ||
     dataIndex === 'place' ||
     dataIndex === 'materials' ||
-    dataIndex === 'lector' ||
+    (dataIndex === 'lector' && title === 'Lector') ||
     dataIndex === 'additional1' ||
     dataIndex === 'additional2' ||
     dataIndex === 'additional3'
@@ -96,23 +167,26 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
   return (
     <td {...restProps} style={font}>
-      {editing && (
-        <Form.Item
-          name={name === '' ? dataIndex : name}
-          style={{ margin: 0 }}
-          label={label === '' ? null : label}
-          rules={[
-            {
-              required,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      )}
+      {editing &&
+        (isLoad ? (
+          <Skeleton active paragraph={{ rows: 0 }} />
+        ) : (
+          <Form.Item
+            name={name === '' ? dataIndex : name}
+            style={{ margin: 0 }}
+            label={label === '' ? null : label}
+            rules={[
+              {
+                required,
+                message: `Please Input ${title}!`,
+              },
+            ]}
+          >
+            {inputNode}
+          </Form.Item>
+        ))}
       {!editing && children}
-      {editing && extraNode && (
+      {editing && extraNode && !isLoad && (
         <Form.Item
           name={extraName}
           style={{ margin: 0 }}

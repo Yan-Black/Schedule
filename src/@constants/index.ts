@@ -20,7 +20,7 @@ export const utcOffsets: { [x: string]: string } = {
   'Europe/Yekaterenburg': '5',
   'Asia/Tashkent': '5',
   'Asia/Tbilisi': '4',
-}
+};
 
 export const backgrounds: string[] = [
   'vanilla-ice',
@@ -76,3 +76,7 @@ export const userRoles: string[] = ['Student', 'Mentor'];
 export const globalFunctions: {
   [key: string]: (key?: unknown) => void | unknown;
 } = {};
+
+export const errorHandler = (): void => {
+  globalFunctions.showModalWindow();
+};
