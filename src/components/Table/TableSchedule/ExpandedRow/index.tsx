@@ -1,20 +1,21 @@
 import * as React from 'react';
-import { Button, Table, Form } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { Table, Form } from 'antd';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { getKeyByValue } from 'helpers';
 import { useState } from 'react';
-import { addEvent } from 'reducers/events';
 import { TableColumn } from 'reducers/columnVisibility/models';
 import { eventTypes } from '@constants';
-import getOriginData, { midnight } from '../EditableCell/getOriginData';
+import { mentorRole, operationColKey } from '@constants/_tableConstants';
+import getOriginData from '../EditableCell/getOriginData';
 import EditableCell from '../EditableCell';
 import sortEvents from './sortEvents';
 import tableColumns from './tableColumns';
+import AddButton from '../AddButton';
+import HideButton from '../HideButton';
+import ShowButton from '../ShowButton';
 
-const expandedRow = (ind: number): JSX.Element => {
-  const dispatch = useDispatch();
-
+const expandedRow = (ind: number, windowSize: number): JSX.Element => {
   const columnVisibility: TableColumn = useSelector(
     (state: RootState) => state.column,
   );
@@ -24,7 +25,7 @@ const expandedRow = (ind: number): JSX.Element => {
   const organizers = useSelector((state: RootState) => state.organizers.data);
   const originData = getOriginData(events, organizers, ind);
   const sortedData = originData.slice().sort(sortEvents);
-  const { mergedColumns, form } = tableColumns(events, sortedData);
+  const { mergedColumns, form } = tableColumns(events, sortedData, windowSize);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [hiddenRowKeys, setHiddenRowKeys] = useState([]);
 
@@ -36,32 +37,14 @@ const expandedRow = (ind: number): JSX.Element => {
     selectedRowKeys,
     onChange: onSelectChange,
     columnWidth: 30,
-  };
-
-  const hideHandler = () => setHiddenRowKeys(selectedRowKeys);
-  const showHandler = () => {
-    setSelectedRowKeys([]);
-    setHiddenRowKeys([]);
-  };
-
-  const add = () => {
-    const newItem = {
-      dateTime:
-        sortedData.length > 0
-          ? sortedData[0].startDay
-          : events[events.length - 1].dateTime,
-      eventTime: midnight,
-      type: 'no type',
-      week: sortedData.length > 0 ? sortedData[0].week : ind,
-    };
-    dispatch(addEvent(newItem));
+    fixed: true,
   };
 
   const filteredColumns = [];
   mergedColumns.map((col) => {
-    if (columnVisibility[col.key] && currentRole === 'Mentor')
+    if (columnVisibility[col.key] && currentRole === mentorRole)
       filteredColumns.push(col);
-    else if (columnVisibility[col.key] && col.key !== 'operation')
+    else if (columnVisibility[col.key] && col.key !== operationColKey)
       filteredColumns.push(col);
     return col;
   });
@@ -72,29 +55,25 @@ const expandedRow = (ind: number): JSX.Element => {
         <>
           <div className="table-btns-wrapper">
             <div className="hide-show-btns">
-              <Button
-                className="hide-btn"
-                type="primary"
-                disabled={selectedRowKeys.length === 0}
-                onClick={hideHandler}
-              >
-                Hide
-              </Button>
-              <Button
-                type="primary"
-                disabled={hiddenRowKeys.length === 0}
-                onClick={showHandler}
-              >
-                Show
-              </Button>
+              <HideButton
+                selectedRowKeys={selectedRowKeys}
+                setHiddenRowKeys={setHiddenRowKeys}
+              />
+              <ShowButton
+                hiddenRowKeys={hiddenRowKeys}
+                setSelectedRowKeys={setSelectedRowKeys}
+                setHiddenRowKeys={setHiddenRowKeys}
+              />
             </div>
-            {currentRole === 'Mentor' && (
-              <Button type="primary" onClick={add}>
-                Add event
-              </Button>
+            {currentRole === mentorRole && (
+              <AddButton sortedData={sortedData} events={events} ind={ind} />
             )}
           </div>
-          <Form form={form} component={false}>
+          <Form
+            form={form}
+            component={false}
+            size={windowSize > 600 ? 'middle' : 'small'}
+          >
             <Table
               components={{
                 body: {
@@ -106,7 +85,8 @@ const expandedRow = (ind: number): JSX.Element => {
               pagination={false}
               dataSource={sortedData}
               rowSelection={rowSelection}
-              scroll={{ y: 400 }}
+              scroll={{ y: 800 }}
+              sticky
               rowClassName={(record) => {
                 const type = getKeyByValue(eventTypes, record.type);
                 const rowClass = eventTypeColors[type] as string;
