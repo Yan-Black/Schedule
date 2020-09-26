@@ -21,5 +21,5 @@ export interface InitialStudyEventState {
   data: StudyEvent[];
   loading: boolean;
   error: null | string | unknown;
-  idLoading: boolean;
+  isLoading: boolean;
 }

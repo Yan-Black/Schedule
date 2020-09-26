@@ -1,5 +1,5 @@
 import { CheckSquareTwoTone } from '@ant-design/icons';
-import { errorHandler } from '@constants';
+import { errorHandler, utcOffsets } from '@constants';
 import { putEventUrl } from '@constants/api';
 import { Tooltip, Button } from 'antd';
 import * as React from 'react';
@@ -19,6 +19,8 @@ const OkButton = ({
 }: OkButtonProps): JSX.Element => {
   const dispatch = useDispatch();
   const events = useSelector((state: RootState) => state.events.data);
+  const zoneName = useSelector((state: RootState) => state.settings.time);
+  const timeZone = utcOffsets[zoneName];
 
   const save = async (key: React.Key) => {
     try {
@@ -51,6 +53,7 @@ const OkButton = ({
         dateTime,
         week: row.week.toString(),
         eventTime,
+        timeZone,
         description: row.description,
         descriptionUrl: row.materials,
         type: row.type,

@@ -1,3 +1,4 @@
+import { utcOffsets } from '@constants';
 import { noType } from '@constants/_tableConstants';
 import { Button } from 'antd';
 import * as React from 'react';
@@ -14,7 +15,9 @@ const AddButton = ({
   ind,
 }: AddButtonProps): JSX.Element => {
   const dispatch = useDispatch();
-  const loading = useSelector((state: RootState) => state.events.idLoading);
+  const loading = useSelector((state: RootState) => state.events.isLoading);
+  const zoneName = useSelector((state: RootState) => state.settings.time);
+  const timeZone = utcOffsets[zoneName];
 
   const add = () => {
     const newItem: StudyEvent = {
@@ -25,7 +28,7 @@ const AddButton = ({
       eventTime: midnight,
       type: noType,
       week: sortedData.length > 0 ? sortedData[0].week : ind.toString(),
-      // to do: here we can set time zone also, time zone is taking from settings
+      timeZone,
     };
     dispatch(postEvent(newItem));
   };

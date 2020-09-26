@@ -6,7 +6,7 @@ import { InitialStudyEventState, StudyEvent } from './models';
 const initialState: InitialStudyEventState = {
   data: [],
   loading: true,
-  idLoading: false,
+  isLoading: false,
   error: null,
 };
 
@@ -45,14 +45,14 @@ const eventsSlice = createSlice({
       state.error = payload;
     });
     builder.addCase(postEvent.pending, (state) => {
-      state.idLoading = true;
+      state.isLoading = true;
     });
     builder.addCase(postEvent.fulfilled, (state, { payload }) => {
-      state.idLoading = false;
+      state.isLoading = false;
       state.data.push(payload);
     });
     builder.addCase(postEvent.rejected, (state, { payload }) => {
-      state.idLoading = false;
+      state.isLoading = false;
       state.error = payload;
     });
   },

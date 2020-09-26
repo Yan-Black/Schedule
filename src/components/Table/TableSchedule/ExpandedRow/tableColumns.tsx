@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Tooltip, Space, Typography, Form } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { useState } from 'react';
 import { StudyEvent } from 'reducers/events/models';
 import { FormInstance } from 'antd/lib/form/hooks/useForm';
 import { filters } from '@constants/_tableConstants';
+import { setEventPageId } from 'reducers/eventId';
 import { FormFields, MergedColumnsProps, ScheduleData } from '../models';
 import OkButton from '../OkButton';
 import CloseButton from '../CloseButton';
@@ -19,6 +20,7 @@ const tableColumns = (
   sortedData: ScheduleData[],
   windowSize: number,
 ): { mergedColumns: MergedColumnsProps[]; form: FormInstance<FormFields> } => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const organizers = useSelector((state: RootState) => state.organizers.data);
   const [editingKey, setEditingKey] = useState('');
@@ -48,8 +50,16 @@ const tableColumns = (
       key: 'name',
       width: windowSize > 600 ? 150 : 100,
       editable: true,
-      render: (text: string) => (
-        <Link href="https://ant.design" target="_blank">
+      render: (text: string, record: ScheduleData) => (
+        <Link
+          href="/"
+          target="_blank"
+          onClick={(e) => {
+            console.log(record.id)
+            e.preventDefault();
+            dispatch(setEventPageId(record.id));
+          }}
+        >
           {text}
         </Link>
       ),
