@@ -6,11 +6,14 @@ import {
   UnorderedListOutlined,
   TableOutlined,
 } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 
 import Table from 'components/Table';
 import Calendar from 'components/Calendar';
 import List from 'components/List';
 import ToolBar from 'components/ToolBar';
+import { setFont } from 'helpers';
+import { RootState } from 'store';
 
 import './index.scss';
 
@@ -18,6 +21,10 @@ const Tabs: React.FC = () => {
   const { TabPane } = TabsWrapper;
   const location = useLocation();
   const currentLocation = () => location.pathname;
+  const currentVersion = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
+  const font = setFont(currentVersion);
 
   return (
     <TabsWrapper
@@ -29,9 +36,9 @@ const Tabs: React.FC = () => {
       <TabPane
         key="/"
         tab={
-          <Link to="/">
+          <Link to="/" style={font}>
             <span>
-              <TableOutlined />
+              <TableOutlined style={font} />
               Table
             </span>
           </Link>
@@ -43,9 +50,9 @@ const Tabs: React.FC = () => {
       <TabPane
         key="/calendar"
         tab={
-          <Link to="/calendar">
+          <Link to="/calendar" style={font}>
             <span>
-              <CalendarOutlined />
+              <CalendarOutlined style={font} />
               Calendar
             </span>
           </Link>
@@ -57,9 +64,9 @@ const Tabs: React.FC = () => {
       <TabPane
         key="/list"
         tab={
-          <Link to="/list">
+          <Link to="/list" style={font}>
             <span>
-              <UnorderedListOutlined />
+              <UnorderedListOutlined style={font} />
               List
             </span>
           </Link>

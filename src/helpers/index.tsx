@@ -85,3 +85,9 @@ export const recountDate = (payload: string, obj: StudyEvent): void => {
   obj.eventTime = `${hoursToApply}:${obj.eventTime.slice(3)}`;
   obj.timeZone = payload;
 };
+
+export const setFont: (value: boolean) => { fontSize: string } = (
+  value: boolean,
+) => {
+  return value ? { fontSize: '16px' } : { fontSize: '12px' };
+};

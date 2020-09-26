@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Table, Form } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { getKeyByValue } from 'helpers';
+import { getKeyByValue, setFont } from 'helpers';
 import { useState } from 'react';
 import { TableColumn } from 'reducers/columnVisibility/models';
 import { eventTypes } from '@constants';
@@ -28,6 +28,9 @@ const expandedRow = (ind: number, windowSize: number): JSX.Element => {
   const { mergedColumns, form } = tableColumns(events, sortedData, windowSize);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [hiddenRowKeys, setHiddenRowKeys] = useState([]);
+  const currentVersion = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
 
   const onSelectChange = (selectedRows: number[]) => {
     setSelectedRowKeys(selectedRows);
@@ -48,13 +51,13 @@ const expandedRow = (ind: number, windowSize: number): JSX.Element => {
       filteredColumns.push(col);
     return col;
   });
-
+  const font = setFont(currentVersion);
   return (
     <>
       {sortedData.length > 0 && (
         <>
           <div className="table-btns-wrapper">
-            <div className="hide-show-btns">
+            <div className="hide-show-btns" style={font}>
               <HideButton
                 selectedRowKeys={selectedRowKeys}
                 setHiddenRowKeys={setHiddenRowKeys}

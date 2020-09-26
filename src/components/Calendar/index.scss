@@ -1,5 +1,9 @@
 @import '../../styles/variables';
 
 .ant-badge-status-text {
-  font-size: 12px;
+  font-size: inherit;
+}
+
+.ant-picker-calendar-date-value {
+  font-size: inherit;
 }

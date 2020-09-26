@@ -20,7 +20,7 @@ export const utcOffsets: { [x: string]: string } = {
   'Europe/Yekaterenburg': '5',
   'Asia/Tashkent': '5',
   'Asia/Tbilisi': '4',
-}
+};
 
 export const backgrounds: string[] = [
   'vanilla-ice',
@@ -70,21 +70,6 @@ export const listMarkerColors = {
   crossCheckStart: '#F39C12',
   crossCheckDeadline: '#E74C3C',
   interviewStart: '#3498DB',
-};
-
-export const columns = {
-  startDay: 'Date',
-  startTime: 'Time',
-  name: 'Name',
-  type: 'Type',
-  place: 'Place',
-  materials: 'Materials',
-  lector: 'Lector',
-  comments: 'Comments',
-  additional1: 'Additional',
-  additional2: 'Additional',
-  additional3: 'Additional',
-  operation: 'Action',
 };
 
 export const userRoles: string[] = ['Student', 'Mentor'];

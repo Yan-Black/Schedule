@@ -3,7 +3,7 @@ import { useEffect, useRef, useMemo } from 'react';
 import { Skeleton, Timeline, Card } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { generateHeader, sortDataByDate } from 'helpers';
+import { generateHeader, sortDataByDate, setFont } from 'helpers';
 import { StudyEvent } from 'reducers/events/models';
 import ListRow from './ListRow';
 import './index.scss';
@@ -14,6 +14,10 @@ const List: React.FC = () => {
   } = useSelector((state: RootState) => state);
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const ref = useRef<HTMLHeadingElement>(null);
+  const currentVisual = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
+  const font = setFont(currentVisual);
 
   const groupedEvents = useMemo(() => {
     return Object.entries(
@@ -36,7 +40,7 @@ const List: React.FC = () => {
   ) : (
     <Timeline>
       {groupedEvents.map(([dateTime, info]) => (
-        <Card title={generateHeader(dateTime, ref)} key={dateTime}>
+        <Card title={generateHeader(dateTime, ref)} key={dateTime} style={font}>
           {info.map(({ description, id, type, eventTime, name }) => (
             <ListRow
               key={id}

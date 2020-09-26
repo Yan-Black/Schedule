@@ -30,7 +30,7 @@
 .ant-table-container {
   font-family: 'system-ui';
   & .ant-table {
-    font-size: 12px;
+    font-size: inherit;
   }
 }
 
@@ -142,5 +142,13 @@
       padding-left: 18px;
     }
   }
+}
+
+.ant-table-cell {
+  font-size: inherit;
+}
+
+.week__visual-size {
+  font-size: 16px;
 }
 
