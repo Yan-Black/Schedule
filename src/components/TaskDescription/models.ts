@@ -4,3 +4,10 @@ export interface TaskSection {
 }
 
 export type TaskSections = Array<TaskSection>;
+
+export interface Review {
+  feedBack: {
+    review: string;
+    stars: number;
+  };
+}

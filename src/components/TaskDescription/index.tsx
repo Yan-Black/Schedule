@@ -34,6 +34,7 @@ const TaskDescription: React.FC = () => {
         width={1000}
         keyboard
         footer={null}
+        zIndex={7}
       >
         <div className="task-description-wrapper">
           {role === 'Mentor' ? <TaskSelector /> : ''}

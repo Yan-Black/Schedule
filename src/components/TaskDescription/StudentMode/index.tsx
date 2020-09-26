@@ -1,15 +1,18 @@
+import './index.scss';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { Menu } from 'antd';
+import { Menu, Card } from 'antd';
 import {
   codewarsSections,
   coreJsSections,
   interviewSections,
   meetupSections,
+  columns,
 } from '@constants';
 import { RootState } from 'store';
 import { TaskTypes } from 'reducers/events/models';
 import { TaskSections } from '../models';
+import Rating from './Rating';
 
 const StudentMode: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.events.loading);
@@ -24,6 +27,8 @@ const StudentMode: React.FC = () => {
   if (isLoading) {
     return <p>loading...</p>;
   }
+
+  console.log(changedInd);
 
   const showEditInfo = (info: string) => {
     let newInfo: string;
@@ -75,6 +80,28 @@ const StudentMode: React.FC = () => {
           </Menu>
         </div>
         <div className="task-desc-area">
+          <div className="main-task-info">
+            <Card
+              size="small"
+              title="Краткая информация"
+              style={{ width: 300 }}
+              className="short-info"
+            >
+              {Object.values(columns).map((el, index) => {
+                return (
+                  <>
+                    <h4>
+                      {el}:
+                      <span>
+                        {events[changedInd][Object.keys(columns)[index]]}
+                      </span>
+                    </h4>
+                  </>
+                );
+              })}
+            </Card>
+            <Rating />
+          </div>
           {sections.map((el, index) => {
             return (
               <>

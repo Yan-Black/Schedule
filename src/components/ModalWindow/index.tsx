@@ -48,7 +48,7 @@ const ModalWindow: React.FC = () => {
               </Button>,
             ]}
           >
-            <p>Запрашиваемого модального окна не существует.</p>
+            <p>Ooops! An error occurred! Try again later.</p>
           </Modal>
         );
     }

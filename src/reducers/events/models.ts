@@ -16,6 +16,8 @@ export interface StudyEvent {
   additional1?: string;
   additional2?: string;
   additional3?: string;
+  feedBack?: Feedbacks;
+  totalRaiting?: number;
 }
 
 export interface InitialStudyEventState {
@@ -39,4 +41,14 @@ export interface TaskTypes {
   program?: string;
   language?: string;
   place?: string;
+}
+
+export interface Feedback {
+  author?: string;
+  raiting?: number;
+  text?: string;
+}
+
+export interface Feedbacks {
+  comments?: Array<Feedback>;
 }
