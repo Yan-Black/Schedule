@@ -8,7 +8,7 @@ import { RootState } from 'store';
 import { putEventUrl } from '@constants/api';
 import { changeEvent } from 'reducers/events';
 import { globalFunctions } from '@constants';
-
+import DownloadModal, { downloadDocument } from './DownloadModal/index';
 import './index.scss';
 
 const ModalWindow: React.FC = () => {
@@ -23,7 +23,7 @@ const ModalWindow: React.FC = () => {
   const handleCancel = () => {
     setVisible(false);
   };
-  const showModalWindow = (windowType) => {
+  const showModalWindow = (windowType: string) => {
     setType(windowType);
     setVisible(true);
   };
@@ -52,10 +52,14 @@ const ModalWindow: React.FC = () => {
           <Modal
             title="Download Schedule"
             visible={visible}
-            onOk={handleOk}
+            onOk={() => {
+              downloadDocument();
+              handleOk();
+            }}
             onCancel={handleCancel}
           >
             <p>Download logic</p>
+            <DownloadModal />
           </Modal>
         );
 
