@@ -17,6 +17,8 @@ import { RootState } from 'store';
 import { disableEditMode, enableEditMode } from 'reducers/eventId';
 import { TaskTypes } from 'reducers/events/models';
 import { TaskSections, TaskSection } from '../models';
+import TaskSelector from '../TaskSelector';
+import StandartTask from '../StandartTask';
 
 // import { putEventUrl } from '@constants/api';
 
@@ -31,11 +33,23 @@ const MentorMode: React.FC = () => {
   const isEditMode = useSelector(
     (state: RootState) => state.eventId.isEditMode,
   );
-  const feedbacks = events[changedInd].feedBack.comments;
+  const feedbacks = events[changedInd].feedBack ? events[changedInd].feedBack.comments : [];
   const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
   let sections: TaskSections = [];
+  const isTaskStart =
+    events[changedInd].type === 'Task start' ||
+    events[changedInd].type === 'Optional task start';
+  const isTaskWithSections =
+    events[changedInd].type === 'Meetup' ||
+    events[changedInd].type === 'Interview start';
+  // const isStandartTask = details.taskType === 'StandartTask';
+
+  console.log(`events: ${events}`);
+  console.log(`changedInd: ${changedInd}`);
+  console.log(`events[changedInd].feedBack: ${events[changedInd].feedBack}`);
+
 
   const additionalDetails = {
     taskType: details ? details.taskType : '',
@@ -63,21 +77,26 @@ const MentorMode: React.FC = () => {
     // axios.put(putEventUrl(id), сам объект)
   };
 
-  switch (details.taskType) {
+  switch (details ? details.taskType : '') {
     case 'codewars':
       sections = codewarsSections;
       break;
     case 'coreJS':
       sections = coreJsSections;
       break;
-    case 'interview':
-      sections = interviewSections;
-      break;
-    case 'meetup':
-      sections = meetupSections;
-      break;
     default:
       sections = codewarsSections;
+  }
+
+  switch (events[changedInd].type) {
+    case 'Meetup':
+      sections = meetupSections;
+      break;
+    case 'Interview start':
+      sections = interviewSections;
+      break;
+    default:
+      sections = interviewSections;
   }
 
   const showEditInfo = (info: string) => {
@@ -103,22 +122,29 @@ const MentorMode: React.FC = () => {
 
   return (
     <>
+      {isTaskStart ? <TaskSelector /> : ''}
       <div className="task-desc-container">
         <div className="task-desc-nav">
-          <Menu
-            style={{ width: 256 }}
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            mode="inline"
-          >
-            {sections.map((el, index) => {
-              return (
-                <Menu.Item key={changedInd.toString().concat(index.toString())}>
-                  <a href={'#'.concat(el.id)}>{el.name}</a>
-                </Menu.Item>
-              );
-            })}
-          </Menu>
+          {isTaskWithSections ? (
+            <Menu
+              style={{ width: 256 }}
+              defaultSelectedKeys={['1']}
+              defaultOpenKeys={['sub1']}
+              mode="inline"
+            >
+              {sections.map((el, index) => {
+                return (
+                  <Menu.Item
+                    key={changedInd.toString().concat(index.toString())}
+                  >
+                    <a href={'#'.concat(el.id)}>{el.name}</a>
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
+          ) : (
+            ''
+          )}
         </div>
         <div className="task-desc-area">
           <div className="edit-buttons">
@@ -144,38 +170,47 @@ const MentorMode: React.FC = () => {
               Save
             </Button>
           </div>
-          {sections.map((el: TaskSection, index) => {
-            return (
-              <React.Fragment
-                key={changedInd.toString().concat(index.toString())}
-              >
-                <div>
-                  <h2
-                    className="task-main-headline"
-                    id={el.id}
+          {isTaskWithSections ? (
+            <React.Fragment key={changedInd.toString()}>
+              {sections.map((el: TaskSection, index) => {
+                return (
+                  <React.Fragment
                     key={changedInd.toString().concat(index.toString())}
                   >
-                    {el.name}
-                  </h2>
-                  {isEditMode ? (
-                    <CKEditor
-                      editor={ClassicEditor}
-                      data={
-                        details ? details[el.id] : '<p>Text your task list</p>'
-                      }
-                      onChange={(event, editor) => {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                        const dataEditor: string = editor.getData();
-                        additionalDetails[el.id] = dataEditor;
-                      }}
-                    />
-                  ) : (
-                    showEditInfo(el.id)
-                  )}
-                </div>
-              </React.Fragment>
-            );
-          })}
+                    <div>
+                      <h2
+                        className="task-main-headline"
+                        id={el.id}
+                        key={changedInd.toString().concat(index.toString())}
+                      >
+                        {el.name}
+                      </h2>
+                      {isEditMode ? (
+                        <CKEditor
+                          editor={ClassicEditor}
+                          data={
+                            details
+                              ? details[el.id]
+                              : '<p>Text your task list</p>'
+                          }
+                          onChange={(event, editor) => {
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                            const dataEditor: string = editor.getData();
+                            additionalDetails[el.id] = dataEditor;
+                          }}
+                        />
+                      ) : (
+                        showEditInfo(el.id)
+                      )}
+                    </div>
+                  </React.Fragment>
+                );
+              })}
+            </React.Fragment>
+          ) : (
+            ''
+          )}
+          {/* {isStandartTask ? <StandartTask /> : ''} */}
           {isEditMode ? (
             <Checkbox
               className="toggle-add-review"

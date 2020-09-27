@@ -55,7 +55,7 @@ const tableColumns = (
           href="/"
           target="_blank"
           onClick={(e) => {
-            console.log(record.id)
+            console.log(record.id);
             e.preventDefault();
             dispatch(setEventPageId(record.id));
           }}

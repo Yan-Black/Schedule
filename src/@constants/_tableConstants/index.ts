@@ -1,4 +1,4 @@
-import { eventTypes } from "@constants";
+import { eventTypes } from '@constants';
 
 export const noType = 'no type';
 export const mentorRole = 'Mentor';

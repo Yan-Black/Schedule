@@ -25,7 +25,7 @@ const TableSchedule: React.FC = () => {
       return () => window.removeEventListener('resize', updateSize);
     }, []);
     return width;
-  }
+  };
 
   const windowSize = useWindowSize();
 
@@ -54,7 +54,7 @@ const TableSchedule: React.FC = () => {
       dataIndex: 'test',
       key: 'name',
       className: 'column-visibility',
-      style: { padding: windowSize > 400 ? '0 15px 0 0' : 'inherit' }
+      style: { padding: windowSize > 400 ? '0 15px 0 0' : 'inherit' },
     },
   ];
 

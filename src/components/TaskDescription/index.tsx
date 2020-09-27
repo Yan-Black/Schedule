@@ -37,7 +37,8 @@ const TaskDescription: React.FC = () => {
         zIndex={7}
       >
         <div className="task-description-wrapper">
-          {role === 'Mentor' ? <TaskSelector /> : ''}
+          {role === 'Mentor' ? <MentorMode /> : <StudentMode />}
+          {/* {role === 'Mentor' ? <TaskSelector /> : ''}
           {
             {
               codewars: role === 'Mentor' ? <MentorMode /> : <StudentMode />,
@@ -47,7 +48,7 @@ const TaskDescription: React.FC = () => {
               interview: role === 'Mentor' ? <MentorMode /> : <StudentMode />,
               coreJS: role === 'Mentor' ? <MentorMode /> : <StudentMode />,
             }[details ? details.taskType : '']
-          }
+          } */}
         </div>
       </Modal>
     </>

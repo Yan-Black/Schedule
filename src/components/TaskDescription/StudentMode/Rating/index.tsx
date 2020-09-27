@@ -5,6 +5,7 @@ import { RootState } from 'store';
 import { Button, Modal, Rate, Input, Form } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 import { changeEvent } from 'reducers/events';
+import { faTruckMonster } from '@fortawesome/free-solid-svg-icons';
 
 const Rating: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -14,16 +15,18 @@ const Rating: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
   const changedInd = events.findIndex((event) => event.id === eventId);
   const changed = events.find((event) => event.id === eventId);
-  const feedbacks = events[changedInd].feedBack.comments;
-  const isAddReview = events[changedInd].feedBack.isEnableAddReview;
+  const feedbacks = events[changedInd].feedBack
+    ? events[changedInd].feedBack.comments
+    : [];
+  const isAddReview = events[changedInd].feedBack
+    ? events[changedInd].feedBack.isEnableAddReview
+    : true;
   const totalRating = Number(
     feedbacks
       .map((el) => {
         return Number(el.raiting);
       })
-      .reduce((a, b) => {
-        return a + b;
-      }),
+      .reduce((x, y) => x + y, 0),
   );
 
   let newTotalRating = 0;
@@ -74,7 +77,7 @@ const Rating: React.FC = () => {
     <div className="rating">
       <div>
         <span className="rating-num">
-          {(totalRating / feedbacks.length).toFixed(1)}
+          {feedbacks.length ? (totalRating / feedbacks.length).toFixed(1) : 0}
           <span className="max-rating">/5</span>
         </span>
       </div>
