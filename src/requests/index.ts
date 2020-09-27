@@ -5,6 +5,7 @@ import {
   getAllOrganizers,
   postEventUrl,
   postOrganizer,
+  putEventUrl,
 } from '@constants/api';
 import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';

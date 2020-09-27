@@ -1,4 +1,3 @@
-import { postOrganizer } from '@constants/api';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchOrganizres, postLector } from 'requests';
 import { InitialOrganizerState } from './models';
@@ -38,7 +37,6 @@ const organizersSlice = createSlice({
     });
     builder.addCase(postLector.rejected, (state, { payload }) => {
       state.loading = false;
-      // state.error = payload;
     });
   },
 });
