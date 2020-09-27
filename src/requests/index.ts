@@ -5,6 +5,7 @@ import {
   getAllOrganizers,
   postEventUrl,
   postOrganizer,
+  putEventUrl,
 } from '@constants/api';
 import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';
@@ -66,6 +67,23 @@ export const postLector = createAsyncThunk(
       return newOrganizer;
     } catch (e) {
       return rejectWithValue(errorHandler());
+    }
+  },
+);
+
+export const addFavourite = createAsyncThunk(
+  'events/addFavourite',
+  async (obj: StudyEvent, { rejectWithValue }) => {
+    try {
+      const {
+        data: { id },
+      }: { data: { id: string } } = await axios.put(putEventUrl(obj.id), obj);
+      const newEvent = { ...obj };
+      newEvent.id = id;
+
+      return newEvent;
+    } catch (e) {
+      return rejectWithValue(e);
     }
   },
 );

@@ -1,10 +1,13 @@
 import './index.scss';
 import * as React from 'react';
+import axios from 'utils';
 import { Modal } from 'antd';
 import { RootState } from 'store';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeEventPage } from 'reducers/eventId';
 import { HeartTwoTone } from '@ant-design/icons';
+import { changeEvent } from 'reducers/events';
+import { putEventUrl } from '@constants/api';
 import MentorMode from './MentorMode';
 import StudentMode from './StudentMode';
 import TaskSelector from './TaskSelector';
@@ -20,13 +23,22 @@ const TaskDescription: React.FC = () => {
   const details = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
-  const favorite = useSelector((state: RootState) => state.events.favorite);
+
+  const heartColor = events[changedInd].favourite ? 'red' : 'blue';
 
   if (isLoading) {
     return <p>loading...</p>;
   }
 
-  // const styles = twoToneColor '#eb2f96';
+  const handleFavourite = async () => {
+    const favEvent = {
+      ...events[changedInd],
+      favourite: !events[changedInd].favourite,
+    };
+
+    await axios.put(putEventUrl(events[changedInd].id), favEvent);
+    dispatch(changeEvent({ changedEvent: favEvent, changedInd }));
+  };
 
   return (
     <>
@@ -34,9 +46,14 @@ const TaskDescription: React.FC = () => {
         title={
           <>
             <span>{events[changedInd].name}</span>&nbsp;
-            <span className="task-favorite" style={{ cursor: 'pointer' }}>
-              <HeartTwoTone />
-            </span>
+            <button
+              type="button"
+              className="task-favourite"
+              style={{ cursor: 'pointer' }}
+              onClick={handleFavourite}
+            >
+              <HeartTwoTone twoToneColor={heartColor} />
+            </button>
           </>
         }
         visible={isOpen}

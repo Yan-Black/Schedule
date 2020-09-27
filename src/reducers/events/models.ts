@@ -18,6 +18,7 @@ export interface StudyEvent {
   additional3?: string;
   feedBack?: Feedbacks;
   totalRaiting?: number;
+  favourite?: boolean;
 }
 
 export interface InitialStudyEventState {
@@ -25,7 +26,7 @@ export interface InitialStudyEventState {
   loading: boolean;
   error: null | string | unknown;
   isLoading: boolean;
-  favorite: boolean;
+  favourite: boolean;
 }
 
 export interface TaskTypes {
