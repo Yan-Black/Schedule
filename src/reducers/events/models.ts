@@ -25,6 +25,7 @@ export interface InitialStudyEventState {
   loading: boolean;
   error: null | string | unknown;
   isLoading: boolean;
+  favorite: boolean;
 }
 
 export interface TaskTypes {

@@ -4,6 +4,7 @@ import { Modal } from 'antd';
 import { RootState } from 'store';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeEventPage } from 'reducers/eventId';
+import { HeartTwoTone } from '@ant-design/icons';
 import MentorMode from './MentorMode';
 import StudentMode from './StudentMode';
 import TaskSelector from './TaskSelector';
@@ -19,15 +20,25 @@ const TaskDescription: React.FC = () => {
   const details = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
+  const favorite = useSelector((state: RootState) => state.events.favorite);
 
   if (isLoading) {
     return <p>loading...</p>;
   }
 
+  // const styles = twoToneColor '#eb2f96';
+
   return (
     <>
       <Modal
-        title={events[changedInd].name}
+        title={
+          <>
+            <span>{events[changedInd].name}</span>&nbsp;
+            <span className="task-favorite" style={{ cursor: 'pointer' }}>
+              <HeartTwoTone />
+            </span>
+          </>
+        }
         visible={isOpen}
         onOk={() => dispatch(closeEventPage())}
         onCancel={() => dispatch(closeEventPage())}

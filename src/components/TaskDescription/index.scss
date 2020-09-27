@@ -30,6 +30,11 @@
   margin: 0 auto;
 }
 
+.task-favorite:hover .anticon-heart {
+  transition: 0.2s;
+  transform: scale(1.05);
+}
+
 .deadline-table {
   width: 400px;
 }
