@@ -59,7 +59,7 @@ const ModalWindow: React.FC = () => {
             }}
             onCancel={handleCancel}
           >
-            <p>Download logic</p>
+            <p>Choose format:</p>
             <DownloadModal />
           </Modal>
         );

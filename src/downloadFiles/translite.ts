@@ -1,7 +1,7 @@
 interface Letters {
   [key: string]: string;
 }
-export default function rusConvert(str: string): string {
+export default function translite(str: string): string {
   const ru: Letters = {
     а: 'a',
     б: 'b',
@@ -45,6 +45,6 @@ export default function rusConvert(str: string): string {
         ru[str[i].toLowerCase()].toUpperCase(),
     );
   }
-
+  
   return newStr.join('');
 }

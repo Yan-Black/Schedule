@@ -1,18 +1,23 @@
 import store from 'store';
 import jsPDF from './jsPDF';
+import translite from './translite';
 
 interface DataI {
   [key: string]: string;
 }
 
 const downloadDocument = (format: string): void => {
-  const downloadPDF = (text) => {
+  const downloadPDF = (textArr) => {
     const doc = jsPDF();
-    console.log(text);
-
     doc.setFontSize(8);
-    doc.text(10, 15, text);
-    //  doc.save('Schedule.pdf');
+    let pull: [string];
+    const count = textArr.length / 12;
+    for (let i = 0; i <= count; i++) {
+      pull = textArr.splice(0, 12);
+      doc.text(10, 15, pull.join('\n\n'));
+      doc.addPage();
+    }
+    doc.save('Schedule.pdf');
   };
   const download = (text) => {
     const element = document.createElement('a');
@@ -62,27 +67,28 @@ const downloadDocument = (format: string): void => {
       download(schedule);
       break;
     case 'xls':
-      schedule =
-        '<table><tr><td width="184">a</td><td>s</td><td>d</td></tr></table>';
-      download(schedule);
-      break;
-    case 'pdf':
       schedule = workableArray
         .map((e: DataI) => {
-          return `${e.dateTime}\n    ${e.name}\n    ${e.description}\n    ${e.descriptionUrl}\n    ${e.type}\n    ${e.eventTime} MSK`;
+          return `<tr><td>${e.dateTime}</td><td>${e.name}</td><td>${translite(
+            e.description,
+          )}</td><td>${e.descriptionUrl}</td><td>${e.type}</td><td>${
+            e.eventTime
+          }</td></tr>`;
         })
         .join('\n\n');
-      downloadPDF('a'.charCodeAt(0));
+      download(`<table>${schedule}</table>`);
+      break;
+    case 'pdf':
+      schedule = workableArray.map((e: DataI) => {
+        return `${e.dateTime}\n    ${e.name}\n    ${translite(
+          e.description,
+        )}\n    ${e.descriptionUrl}\n    ${e.type}\n    ${e.eventTime} MSK`;
+      });
+      downloadPDF(schedule);
       break;
     default:
       schedule = null;
   }
 };
-// function toUTF16(text) {
-//   const byteArray = new Uint8Array(text.length * 2);
-//   for (let i = 0; i < text.length; i++) {
-//     byteArray[i * 2] = text.charCodeAt(i); // & 0xff;
-//   }
-//   куегкт;
-// }
+
 export default downloadDocument;
