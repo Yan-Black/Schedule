@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'utils';
 import { Button, Modal } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CloseOutlined } from '@ant-design/icons';
 
 import { RootState } from 'store';
-import { globalFunctions } from '../../@constants';
+import { putEventUrl } from '@constants/api';
+import { changeEvent } from 'reducers/events';
+import { globalFunctions } from '@constants';
 
 import './index.scss';
 
 const ModalWindow: React.FC = () => {
+  const dispatch = useDispatch();
   const events = useSelector((state: RootState) => state.events.data);
   const [visible, setVisible] = useState(false);
   const [type, setType] = useState('basic');
@@ -25,6 +29,18 @@ const ModalWindow: React.FC = () => {
   };
 
   const items = events.filter((item) => item.favourite === true);
+
+  const handleFavourite = async (fav) => {
+    const favEvent = {
+      ...fav,
+      favourite: false,
+    };
+
+    const changedInd = events.findIndex((event) => event.id === fav.id);
+
+    await axios.put(putEventUrl(favEvent.id), favEvent);
+    dispatch(changeEvent({ changedEvent: favEvent, changedInd }));
+  };
 
   useEffect(() => {
     globalFunctions.showModalWindow = showModalWindow;
@@ -72,9 +88,14 @@ const ModalWindow: React.FC = () => {
                     <span style={{ fontWeight: 'bold' }}>
                       {fav.description}
                     </span>
-                    <CloseOutlined
+                    <button
+                      type="button"
+                      className="modal-favourite"
                       style={{ marginLeft: 'auto', cursor: 'pointer' }}
-                    />
+                      onClick={() => handleFavourite(fav)}
+                    >
+                      <CloseOutlined />
+                    </button>
                   </li>
                 );
               })}
