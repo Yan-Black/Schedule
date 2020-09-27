@@ -1,5 +1,8 @@
 export interface StudyEvent {
   organizerId?: string;
+  favourite?: boolean;
+  coords?: number[];
+  address?: string;
   key?: string;
   eventTime?: string;
   place?: string;

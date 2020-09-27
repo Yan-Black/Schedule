@@ -17,13 +17,16 @@ import TaskDescription from 'components/TaskDescription';
 const App: React.FC = () => {
   const isOpen = useSelector((state: RootState) => state.eventId.isOpen);
   const dispatch = useDispatch();
-  const { time } = JSON.parse(localStorage.getItem('settings')) as Settings;
+  const settings =
+    (JSON.parse(localStorage.getItem('settings')) as Settings) || null;
   const {
     events: { data },
   } = useSelector((state: RootState) => state);
 
   useEffect(() => {
-    dispatch(updateEventsTime(utcOffsets[time]));
+    if (settings) {
+      dispatch(updateEventsTime(utcOffsets[settings.time]));
+    }
   }, [data]);
 
   useEffect(() => {
@@ -35,7 +38,7 @@ const App: React.FC = () => {
     <>
       <Header />
       <Switch>
-        {isOpen ? <TaskDescription /> : ''}
+        {isOpen && <TaskDescription />}
         <Tabs />
       </Switch>
       <Footer />
