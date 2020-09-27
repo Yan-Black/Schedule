@@ -51,4 +51,5 @@ export interface Feedback {
 
 export interface Feedbacks {
   comments?: Array<Feedback>;
+  isEnableAddReview?: boolean;
 }

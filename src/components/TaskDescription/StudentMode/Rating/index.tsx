@@ -17,6 +17,7 @@ const Rating: React.FC = () => {
   const changedInd = events.findIndex((event) => event.id === eventId);
   const changed = events.find((event) => event.id === eventId);
   const feedbacks = events[changedInd].feedBack.comments;
+  const isAddReview = events[changedInd].feedBack.isEnableAddReview;
   const totalRating = Number(
     feedbacks
       .map((el) => {
@@ -31,6 +32,7 @@ const Rating: React.FC = () => {
 
   const comments = {
     comments: [...feedbacks],
+    isEnableAddReview: isAddReview,
   };
 
   const changedEvent = {
@@ -97,7 +99,15 @@ const Rating: React.FC = () => {
           zIndex={10}
         >
           <Form className="review-add" name="nest-messages" onFinish={onFinish}>
-            <Form.Item name={['feedback', 'stars']}>
+            <Form.Item
+              name={['feedback', 'stars']}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter stars!',
+                },
+              ]}
+            >
               <Rate />
             </Form.Item>
             <Form.Item name={['feedback', 'review']}>

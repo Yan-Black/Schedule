@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { Menu, Card } from 'antd';
+import { Menu, Card, Avatar, Rate } from 'antd';
 import {
   codewarsSections,
   coreJsSections,
@@ -14,6 +14,8 @@ import { TaskTypes } from 'reducers/events/models';
 import { TaskSections } from '../models';
 import Rating from './Rating';
 
+const { Meta } = Card;
+
 const StudentMode: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const eventId = useSelector((state: RootState) => state.eventId.eventId);
@@ -22,6 +24,7 @@ const StudentMode: React.FC = () => {
   const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
+  const feedbacks = events[changedInd].feedBack.comments;
   let sections: TaskSections = [];
 
   if (isLoading) {
@@ -113,6 +116,21 @@ const StudentMode: React.FC = () => {
                   {el.name}
                 </h2>
                 {showEditInfo(el.id)}
+              </>
+            );
+          })}
+          <h2 className="task-main-headline">Рейтинг</h2>
+          {feedbacks.map((el) => {
+            return (
+              <>
+                <Rate className="user-stars" disabled defaultValue={el.raiting} />
+                <Meta
+                  className="user-rating"
+                  avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                  title={el.author}
+                  description={el.text}
+                />
+                <hr className="rate-line" />
               </>
             );
           })}

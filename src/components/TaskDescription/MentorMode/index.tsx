@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import * as React from 'react';
+import './index.scss';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Menu, Button } from 'antd';
+import { Menu, Button, Checkbox } from 'antd';
 import { EditOutlined, CheckSquareOutlined } from '@ant-design/icons';
 import { changeEvent } from 'reducers/events';
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -20,6 +21,7 @@ import { TaskSections, TaskSection } from '../models';
 // import { putEventUrl } from '@constants/api';
 
 const MentorMode: React.FC = () => {
+  const [isEnable, toggleAddReview] = useState(true);
   const isLoading = useSelector((state: RootState) => state.events.loading);
   const dispatch = useDispatch();
   const eventId = useSelector((state: RootState) => state.eventId.eventId);
@@ -29,10 +31,12 @@ const MentorMode: React.FC = () => {
   const isEditMode = useSelector(
     (state: RootState) => state.eventId.isEditMode,
   );
+  const feedbacks = events[changedInd].feedBack.comments;
   const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
   let sections: TaskSections = [];
+  let newEnableAddReview: boolean;
 
   const additionalDetails = {
     taskType: details ? details.taskType : '',
@@ -42,9 +46,16 @@ const MentorMode: React.FC = () => {
     howToCheck: details ? details.howToCheck : '',
     materials: details ? details.materials : '',
   };
+
+  const comments = {
+    comments: [...feedbacks],
+    isEnableAddReview: isEnable,
+  };
+
   const changedEvent = {
     ...changed,
     details: additionalDetails,
+    feedBack: comments,
   };
 
   const updateState = () => {
@@ -86,6 +97,10 @@ const MentorMode: React.FC = () => {
   if (isLoading) {
     return <p>loading...</p>;
   }
+
+  const onChangeEnableAddReviews = () => {
+    toggleAddReview(!isEnable);
+  };
 
   return (
     <>
@@ -161,6 +176,11 @@ const MentorMode: React.FC = () => {
               </>
             );
           })}
+          {isEditMode ? (
+            <Checkbox className="toggle-add-review" onChange={onChangeEnableAddReviews}>Enable adding reviews</Checkbox>
+          ) : (
+            <Checkbox disabled defaultChecked={isEnable}>Enable adding reviews</Checkbox>
+          )}
         </div>
       </div>
     </>
