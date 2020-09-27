@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { useEffect, useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useLayoutEffect } from 'react';
 import { Skeleton, Timeline, Card } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { generateHeader, sortDataByDate, setFont } from 'helpers';
 import { StudyEvent } from 'reducers/events/models';
+import { ArrowUpOutlined } from '@ant-design/icons';
 import ListRow from './ListRow';
 import './index.scss';
 
@@ -31,8 +32,32 @@ const List: React.FC = () => {
     );
   }, [data]);
 
-  useEffect(() => {
+  const [active, setActive] = useState(false);
+
+  const clickHandler = () => {
+    window.scrollTo(0, 0);
+  };
+
+  const scrollHandler = () => {
+    if (
+      window.pageYOffset >=
+      ref?.current?.getBoundingClientRect().top + window.pageYOffset / 2
+    ) {
+      setActive(true);
+    } else if (
+      window.pageYOffset <=
+      ref?.current?.getBoundingClientRect().top + window.pageYOffset / 2
+    ) {
+      setActive(false);
+    }
+  };
+
+  useLayoutEffect(() => {
     window.scrollTo(0, ref?.current?.getBoundingClientRect().top);
+    document.addEventListener('scroll', scrollHandler);
+    return () => {
+      document.removeEventListener('scroll', scrollHandler);
+    };
   }, [data]);
 
   return isLoading ? (
@@ -40,7 +65,11 @@ const List: React.FC = () => {
   ) : (
     <Timeline>
       {groupedEvents.map(([dateTime, info]) => (
-        <Card title={generateHeader(dateTime, ref)} key={dateTime} style={font}>
+        <Card
+          title={generateHeader(data, dateTime, ref)}
+          key={dateTime}
+          style={font}
+        >
           {info.map(({ description, id, type, eventTime, name }) => (
             <ListRow
               key={id}
@@ -53,6 +82,17 @@ const List: React.FC = () => {
           ))}
         </Card>
       ))}
+      <button
+        type="button"
+        className={
+          active
+            ? 'list__button up_button'
+            : 'list__button up_button button_disabled'
+        }
+        onClick={clickHandler}
+      >
+        <ArrowUpOutlined />
+      </button>
     </Timeline>
   );
 };

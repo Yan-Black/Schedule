@@ -4,27 +4,6 @@ import { StudyEvent } from 'reducers/events/models';
 export const currentDay = new Date().getDate();
 export const year = new Date().getFullYear();
 
-export const generateHeader = (
-  dateTime: string,
-  ref: React.MutableRefObject<HTMLHeadingElement>,
-): JSX.Element => {
-  const eventDay = Number(dateTime.slice(4, 7));
-  const eventMoth = Number(dateTime.slice(8, 10));
-  const currentMonth = new Date().getMonth() + 1;
-  const eventMs = Date.parse(`${year}-${eventMoth}-${eventDay}`);
-  return eventDay === currentDay && eventMoth === currentMonth ? (
-    <h4 ref={ref}>{dateTime}</h4>
-  ) : (
-    <h4>
-      <span
-        style={{ color: `${eventMs < Date.now() ? 'lightgray' : 'black'}` }}
-      >
-        {dateTime}
-      </span>
-    </h4>
-  );
-};
-
 export const sortDataByDate = (
   prevObject: StudyEvent,
   nextObj: StudyEvent,
@@ -37,6 +16,39 @@ export const sortDataByDate = (
     new Date(year, +prevMonth, +prevDay)
     ? 1
     : -1;
+};
+
+export const generateHeader = (
+  events: StudyEvent[],
+  dateTime: string,
+  ref: React.MutableRefObject<HTMLHeadingElement>,
+): JSX.Element => {
+  const eventDay = (dateTime: string): number => Number(dateTime.slice(4, 7));
+  const eventMoth = (dateTime: string): number => Number(dateTime.slice(8, 10));
+  const currentMonth = new Date().getMonth() + 1;
+  const eventMs = Date.parse(
+    `${year}-${eventMoth(dateTime)}-${eventDay(dateTime)}`,
+  );
+  const [{ dateTime: closestDate }] = events
+    .filter((obj) => {
+      return (
+        eventDay(obj.dateTime) >= currentDay &&
+        eventMoth(obj.dateTime) >= currentMonth
+      );
+    })
+    .sort(sortDataByDate);
+
+  return closestDate === dateTime ? (
+    <h4 ref={ref}>{dateTime}</h4>
+  ) : (
+    <h4>
+      <span
+        style={{ color: `${eventMs < Date.now() ? 'lightgray' : 'black'}` }}
+      >
+        {dateTime}
+      </span>
+    </h4>
+  );
 };
 
 export const getKeyByValue = (
@@ -88,6 +100,4 @@ export const recountDate = (payload: string, obj: StudyEvent): void => {
 
 export const setFont: (value: boolean) => { fontSize: string } = (
   value: boolean,
-) => {
-  return value ? { fontSize: '16px' } : { fontSize: '12px' };
-};
+) => (value ? { fontSize: '16px' } : { fontSize: '12px' });
