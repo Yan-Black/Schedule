@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import './index.scss';
 import { Button, Modal } from 'antd';
+import { useSelector } from 'react-redux';
+import { CloseOutlined } from '@ant-design/icons';
+
+import { RootState } from 'store';
 import { globalFunctions } from '../../@constants';
 
+import './index.scss';
+
 const ModalWindow: React.FC = () => {
+  const events = useSelector((state: RootState) => state.events.data);
   const [visible, setVisible] = useState(false);
   const [type, setType] = useState('basic');
   const handleOk = () => {
@@ -17,6 +23,8 @@ const ModalWindow: React.FC = () => {
     setType(windowType);
     setVisible(true);
   };
+
+  const items = events.filter((item) => item.favourite === true);
 
   useEffect(() => {
     globalFunctions.showModalWindow = showModalWindow;
@@ -35,6 +43,44 @@ const ModalWindow: React.FC = () => {
           </Modal>
         );
 
+      case 'favourite':
+        return (
+          <Modal
+            title="Favourites"
+            visible={visible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <ul>
+              {items.map((fav) => {
+                return (
+                  <li
+                    key={fav.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textAlign: 'left',
+                      border: '1px solid lightgrey',
+                      borderRadius: '5px',
+                      marginBottom: '5px',
+                      padding: '10px',
+                    }}
+                  >
+                    <span style={{ color: 'green' }}>{fav.dateTime}</span>
+                    &nbsp;
+                    <span>{fav.eventTime}</span>&nbsp;
+                    <span style={{ fontWeight: 'bold' }}>
+                      {fav.description}
+                    </span>
+                    <CloseOutlined
+                      style={{ marginLeft: 'auto', cursor: 'pointer' }}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          </Modal>
+        );
       default:
         return (
           <Modal
@@ -53,7 +99,6 @@ const ModalWindow: React.FC = () => {
         );
     }
   };
-  // useEffect(() => {});
   return <>{currentModalWindow(type)}</>;
 };
 

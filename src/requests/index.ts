@@ -70,20 +70,3 @@ export const postLector = createAsyncThunk(
     }
   },
 );
-
-export const addFavourite = createAsyncThunk(
-  'events/addFavourite',
-  async (obj: StudyEvent, { rejectWithValue }) => {
-    try {
-      const {
-        data: { id },
-      }: { data: { id: string } } = await axios.put(putEventUrl(obj.id), obj);
-      const newEvent = { ...obj };
-      newEvent.id = id;
-
-      return newEvent;
-    } catch (e) {
-      return rejectWithValue(e);
-    }
-  },
-);
