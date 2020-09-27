@@ -14,9 +14,9 @@ const DownloadModal: React.FC = () => {
   return (
     <>
       <Select onChange={changeHandler} defaultValue="txt">
-        <Option value="txt">txt</Option>
-        <Option value="csv">csv</Option>
-        <Option value="pdf">pdf</Option>
+        <Option value="txt">Text</Option>
+        <Option value="xls">Excel</Option>
+        <Option value="pdf">PDF</Option>
       </Select>
     </>
   );
