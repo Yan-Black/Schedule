@@ -1,0 +1,36 @@
+.short-info {
+  text-align: left;
+  flex-basis: 0;
+  flex-grow: 1;
+  min-width: 0;
+  max-width: 100%;
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.main-task-info {
+   display: flex;
+   justify-content: space-between;
+}
+
+.user-rating {
+  text-align: initial;
+}
+
+.user-stars {
+  text-align: left;
+  display: inherit;
+  margin: 10px 0;
+}
+
+.rate-line {
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 576px) {
+  .main-task-info {
+    display: block;
+  }
+}

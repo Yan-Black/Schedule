@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 import Table from 'components/Table';
 import Calendar from 'components/Calendar';
 import List from 'components/List';
-import EventMap from 'components/EventMap';
 import ToolBar from 'components/ToolBar';
 import { setFont } from 'helpers';
 import { RootState } from 'store';
@@ -74,20 +73,6 @@ const Tabs: React.FC = () => {
         }
       >
         <Route path="/list" component={List} />
-      </TabPane>
-
-      <TabPane
-        key="/eventmap"
-        tab={
-          <Link to="/eventmap" style={font}>
-            <span>
-              <UnorderedListOutlined style={font} />
-              eventmap
-            </span>
-          </Link>
-        }
-      >
-        <Route path="/eventmap" component={EventMap} />
       </TabPane>
     </TabsWrapper>
   );

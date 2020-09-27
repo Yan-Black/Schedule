@@ -5,18 +5,18 @@ import { fetchCoords } from 'requests';
 import Map from './Map';
 import './index.scss';
 
-const EventMap: React.FC = () => {
+interface EventMapProp {
+  address: string;
+}
+
+const EventMap: React.FC<EventMapProp> = ({ address }: EventMapProp) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCoords('Улица Фабрициуса 4, Минск'));
+    dispatch(fetchCoords(address));
   }, []);
 
-  return (
-    <div className="map__wrapper">
-      <Map />
-    </div>
-  );
+  return <Map />;
 };
 
 export default EventMap;
