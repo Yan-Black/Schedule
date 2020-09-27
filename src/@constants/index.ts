@@ -1,3 +1,5 @@
+import { TaskSections } from '../components/TaskDescription/models';
+
 export const timeZone: string[] = [
   'Europe/London',
   'Europe/Warsaw',
@@ -73,10 +75,106 @@ export const listMarkerColors = {
 };
 
 export const userRoles: string[] = ['Student', 'Mentor'];
+
+export const taskTypes = {
+  codewars: 'Codewars',
+  coreJS: 'Core JS',
+  interview: 'Interview',
+  meetup: 'Meetup',
+  standartTask: 'Standart task',
+};
+
+export const codewarsSections: TaskSections = [
+  {
+    name: 'Список заданий',
+    id: 'taskList',
+  },
+  {
+    name: 'Критерии оценки',
+    id: 'criteria',
+  },
+  {
+    name: 'Как сабмитнуть',
+    id: 'submit',
+  },
+  {
+    name: 'Auto-check',
+    id: 'howToCheck',
+  },
+  {
+    name: 'Материалы',
+    id: 'materials',
+  },
+];
+
+export const coreJsSections: TaskSections = [
+  {
+    name: 'Описание заданий',
+    id: 'description',
+  },
+  {
+    name: 'Требования для установки',
+    id: 'requirement',
+  },
+  {
+    name: 'Как сабмитнуть',
+    id: 'submit',
+  },
+  {
+    name: 'Материалы',
+    id: 'materials',
+  },
+];
+
+export const interviewSections: TaskSections = [
+  {
+    name: 'Примеры вопросов',
+    id: 'questionsExamples',
+  },
+  {
+    name: 'Критерии оценки',
+    id: 'marks',
+  },
+  {
+    name: 'Дата дедлайна',
+    id: 'taskDeadline',
+  },
+];
+
+export const meetupSections: TaskSections = [
+  {
+    name: 'Программа',
+    id: 'program',
+  },
+  {
+    name: 'Язык выступления',
+    id: 'language',
+  },
+  {
+    name: 'Место встречи',
+    id: 'place',
+  },
+];
+
 export const globalFunctions: {
   [key: string]: (key?: unknown) => void | unknown;
 } = {};
 
 export const errorHandler = (): void => {
   globalFunctions.showModalWindow();
+};
+
+export const columns = {
+  startDay: 'Date',
+  startTime: 'Time',
+  name: 'Name',
+  type: 'Type',
+  place: 'Place',
+  materials: 'Materials',
+  lector: 'Lector',
+  comments: 'Comments',
+  additional1: 'Additional',
+  additional2: 'Additional',
+  additional3: 'Additional',
+  operation: 'Action',
 };

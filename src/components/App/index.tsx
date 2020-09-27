@@ -12,8 +12,10 @@ import { utcOffsets } from '@constants';
 import { Settings } from 'reducers/settings/models';
 import { RootState } from 'store';
 import './index.scss';
+import TaskDescription from 'components/TaskDescription';
 
 const App: React.FC = () => {
+  const isOpen = useSelector((state: RootState) => state.eventId.isOpen);
   const dispatch = useDispatch();
   const { time } = JSON.parse(localStorage.getItem('settings')) as Settings;
   const {
@@ -33,6 +35,7 @@ const App: React.FC = () => {
     <>
       <Header />
       <Switch>
+        {isOpen ? <TaskDescription /> : ''}
         <Tabs />
       </Switch>
       <Footer />
