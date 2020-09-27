@@ -8,6 +8,7 @@ import {
   interviewSections,
   meetupSections,
   columns,
+  standartTaskSections,
 } from '@constants';
 import { RootState } from 'store';
 import { TaskTypes } from 'reducers/events/models';
@@ -49,41 +50,60 @@ const StudentMode: React.FC = () => {
     );
   };
 
-  switch (details ? details.taskType : '') {
-    case 'codewars':
-      sections = codewarsSections;
-      break;
-    case 'coreJS':
-      sections = coreJsSections;
-      break;
-    case 'interview':
-      sections = interviewSections;
-      break;
-    case 'meetup':
+  const checkSubDetails = () => {
+    switch (details ? details.taskType : '') {
+      case 'codewars':
+        sections = codewarsSections;
+        break;
+      case 'coreJS':
+        sections = coreJsSections;
+        break;
+      case 'standartTask':
+        sections = standartTaskSections;
+        break;
+      default:
+        sections = codewarsSections;
+    }
+  };
+
+  switch (events[changedInd].type) {
+    case 'Meetup':
       sections = meetupSections;
       break;
+    case 'Interview start':
+      sections = interviewSections;
+      break;
     default:
-      sections = codewarsSections;
+      checkSubDetails();
   }
 
   return (
     <React.Fragment key={changedInd.toString()}>
       <div className="task-desc-container">
         <div className="task-desc-nav">
-          <Menu
-            style={{ width: 256 }}
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            mode="inline"
-          >
-            {sections.map((el, index) => {
-              return (
-                <Menu.Item key={changedInd.toString().concat(index.toString())}>
-                  <a href={'#'.concat(el.id)}>{el.name}</a>
-                </Menu.Item>
-              );
-            })}
-          </Menu>
+          {details ? (
+            <Menu
+              style={{ width: 256 }}
+              defaultSelectedKeys={['1']}
+              defaultOpenKeys={['sub1']}
+              mode="inline"
+            >
+              {sections.map((el, index) => {
+                return (
+                  <Menu.Item
+                    key={changedInd.toString().concat(index.toString())}
+                  >
+                    <a href={'#'.concat(el.id)}>{el.name}</a>
+                  </Menu.Item>
+                );
+              })}
+              <Menu.Item>
+                <a href="#rating">Рейтинг</a>
+              </Menu.Item>
+            </Menu>
+          ) : (
+            ''
+          )}
         </div>
         <div className="task-desc-area">
           <div className="main-task-info">
@@ -106,21 +126,36 @@ const StudentMode: React.FC = () => {
             </Card>
             {isAddReview ? <Rating /> : ''}
           </div>
-          {sections.map((el, index) => {
-            return (
-              <React.Fragment
-                key={changedInd.toString().concat(index.toString())}
-              >
-                <h2 className="task-main-headline" id={el.id}>
-                  {el.name}
-                </h2>
-                {showEditInfo(el.id)}
-              </React.Fragment>
-            );
-          })}
-          {isAddReview ? (
+          {details ? (
             <React.Fragment key={changedInd.toString()}>
-              <h2 className="task-main-headline">Рейтинг</h2>
+              {sections.map((el, index) => {
+                return (
+                  <React.Fragment
+                    key={changedInd.toString().concat(index.toString())}
+                  >
+                    {details[el.id] ? (
+                      <h2 className="task-main-headline" id={el.id}>
+                        {el.name}
+                      </h2>
+                    ) : (
+                      ''
+                    )}
+                    {/* <h2 className="task-main-headline" id={el.id}>
+                      {el.name}
+                    </h2> */}
+                    {showEditInfo(el.id)}
+                  </React.Fragment>
+                );
+              })}
+            </React.Fragment>
+          ) : (
+            ''
+          )}
+          {isAddReview && events[changedInd].feedBack ? (
+            <React.Fragment key={changedInd.toString()}>
+              <h2 className="task-main-headline" id="rating">
+                Рейтинг
+              </h2>
               {feedbacks.map((el, index) => {
                 return (
                   <React.Fragment

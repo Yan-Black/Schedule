@@ -42,6 +42,18 @@ export interface TaskTypes {
   program?: string;
   language?: string;
   place?: string;
+  deadline?: string;
+  folderName?: string;
+  branchName?: string;
+  taskGoals?: string;
+  appFeatures?: string;
+  taskFeatures?: string;
+  demo?: string;
+  taskSpecification?: string;
+  repositoryRequires?: string;
+  technicalRequires?: string;
+  answersDoc?: string;
+  crossCheck?: string;
 }
 
 export interface Feedback {

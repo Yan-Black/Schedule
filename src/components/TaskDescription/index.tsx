@@ -38,17 +38,6 @@ const TaskDescription: React.FC = () => {
       >
         <div className="task-description-wrapper">
           {role === 'Mentor' ? <MentorMode /> : <StudentMode />}
-          {/* {role === 'Mentor' ? <TaskSelector /> : ''}
-          {
-            {
-              codewars: role === 'Mentor' ? <MentorMode /> : <StudentMode />,
-              meetup: role === 'Mentor' ? <MentorMode /> : <StudentMode />,
-              standartTask:
-                role === 'Mentor' ? <MentorMode /> : <StudentMode />, // change component
-              interview: role === 'Mentor' ? <MentorMode /> : <StudentMode />,
-              coreJS: role === 'Mentor' ? <MentorMode /> : <StudentMode />,
-            }[details ? details.taskType : '']
-          } */}
         </div>
       </Modal>
     </>

@@ -12,13 +12,13 @@ import {
   coreJsSections,
   interviewSections,
   meetupSections,
+  standartTaskSections,
 } from '@constants';
 import { RootState } from 'store';
 import { disableEditMode, enableEditMode } from 'reducers/eventId';
 import { TaskTypes } from 'reducers/events/models';
 import { TaskSections, TaskSection } from '../models';
 import TaskSelector from '../TaskSelector';
-import StandartTask from '../StandartTask';
 
 // import { putEventUrl } from '@constants/api';
 
@@ -33,7 +33,9 @@ const MentorMode: React.FC = () => {
   const isEditMode = useSelector(
     (state: RootState) => state.eventId.isEditMode,
   );
-  const feedbacks = events[changedInd].feedBack ? events[changedInd].feedBack.comments : [];
+  const feedbacks = events[changedInd].feedBack
+    ? events[changedInd].feedBack.comments
+    : [];
   const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
@@ -43,13 +45,9 @@ const MentorMode: React.FC = () => {
     events[changedInd].type === 'Optional task start';
   const isTaskWithSections =
     events[changedInd].type === 'Meetup' ||
-    events[changedInd].type === 'Interview start';
-  // const isStandartTask = details.taskType === 'StandartTask';
-
-  console.log(`events: ${events}`);
-  console.log(`changedInd: ${changedInd}`);
-  console.log(`events[changedInd].feedBack: ${events[changedInd].feedBack}`);
-
+    events[changedInd].type === 'Interview start' ||
+    events[changedInd].type === 'Task start' ||
+    events[changedInd].type === 'Optional task start';
 
   const additionalDetails = {
     taskType: details ? details.taskType : '',
@@ -77,16 +75,21 @@ const MentorMode: React.FC = () => {
     // axios.put(putEventUrl(id), сам объект)
   };
 
-  switch (details ? details.taskType : '') {
-    case 'codewars':
-      sections = codewarsSections;
-      break;
-    case 'coreJS':
-      sections = coreJsSections;
-      break;
-    default:
-      sections = codewarsSections;
-  }
+  const checkSubDetails = () => {
+    switch (details ? details.taskType : '') {
+      case 'codewars':
+        sections = codewarsSections;
+        break;
+      case 'coreJS':
+        sections = coreJsSections;
+        break;
+      case 'standartTask':
+        sections = standartTaskSections;
+        break;
+      default:
+        sections = codewarsSections;
+    }
+  };
 
   switch (events[changedInd].type) {
     case 'Meetup':
@@ -96,7 +99,7 @@ const MentorMode: React.FC = () => {
       sections = interviewSections;
       break;
     default:
-      sections = interviewSections;
+      checkSubDetails();
   }
 
   const showEditInfo = (info: string) => {
@@ -210,7 +213,6 @@ const MentorMode: React.FC = () => {
           ) : (
             ''
           )}
-          {/* {isStandartTask ? <StandartTask /> : ''} */}
           {isEditMode ? (
             <Checkbox
               className="toggle-add-review"
