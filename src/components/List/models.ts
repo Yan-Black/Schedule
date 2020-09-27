@@ -3,4 +3,5 @@ export interface ItemProps {
   time: string;
   type: string;
   eventId: string;
+  desc: string;
 }

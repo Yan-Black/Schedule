@@ -5,13 +5,20 @@ import { DownOutlined } from '@ant-design/icons';
 import { RootState } from 'store';
 import { useSelector, useDispatch } from 'react-redux';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { columns, permanentColumns } from '@constants';
+import { permanentColumns } from '@constants';
 import { changeColumnVisibility } from 'reducers/columnVisibility';
+import { TableColumn } from 'reducers/columnVisibility/models';
+import { setFont } from 'helpers';
 import './index.scss';
 
 const ColumnsVisibility: React.FC = () => {
   const dispatch = useDispatch();
-  const columnState = useSelector((state: RootState) => state.column);
+  const columnState: TableColumn = useSelector(
+    (state: RootState) => state.column,
+  );
+  const currentVersion = useSelector(
+    (state: RootState) => state.settings.visual,
+  );
 
   useEffect(() => {
     const columnsToJSON = JSON.stringify(columnState);
@@ -22,7 +29,8 @@ const ColumnsVisibility: React.FC = () => {
     dispatch(
       changeColumnVisibility({
         event: event.target.name,
-        status: event.target.checked,
+        checked: event.target.checked,
+        columnName: event.target.value,
       }),
     );
   };
@@ -33,28 +41,32 @@ const ColumnsVisibility: React.FC = () => {
 
   const menu = (
     <Menu>
-      {Object.entries(columns).map((item, index) => {
-        const [event, value] = item;
-        return (
-          <Menu.Item key={`${index * 1}`}>
-            <Checkbox
-              defaultChecked={columnState[event] as boolean}
-              name={event}
-              onChange={onChange}
-              disabled={disableColumn(value)}
-            >
-              {value}
-            </Checkbox>
-          </Menu.Item>
-        );
-      })}
+      {Object.entries(columnState).map(
+        (objects: [string, { status: boolean; name: string }]) => {
+          const [action, column] = objects;
+          const font = setFont(currentVersion);
+          return (
+            <Menu.Item key={`${action}`} style={font}>
+              <Checkbox
+                defaultChecked={column.status}
+                name={action}
+                value={column.name}
+                onChange={onChange}
+                disabled={disableColumn(column.name)}
+                style={font}
+              />
+              {column.name}
+            </Menu.Item>
+          );
+        },
+      )}
     </Menu>
   );
-
+  const font = setFont(currentVersion);
   return (
     <div>
       <Dropdown overlay={menu}>
-        <Button className="columns-visibility__button">
+        <Button className="columns-visibility__button" style={font}>
           <span className="columns-visibility__title">Columns</span>
           <DownOutlined />
         </Button>

@@ -7,6 +7,9 @@ import Tabs from 'components/Tabs';
 import Footer from 'components/Footer';
 import ModalWindow from 'components/ModalWindow';
 import fetchStudyEvents, { fetchOrganizres } from 'requests';
+import { updateEventsTime } from 'reducers/events';
+import { utcOffsets } from '@constants';
+import { Settings } from 'reducers/settings/models';
 import { RootState } from 'store';
 import './index.scss';
 import TaskDescription from 'components/TaskDescription';
@@ -14,6 +17,15 @@ import TaskDescription from 'components/TaskDescription';
 const App: React.FC = () => {
   const isOpen = useSelector((state: RootState) => state.eventId.isOpen);
   const dispatch = useDispatch();
+  const { time } = JSON.parse(localStorage.getItem('settings')) as Settings;
+  const {
+    events: { data },
+  } = useSelector((state: RootState) => state);
+
+  useEffect(() => {
+    dispatch(updateEventsTime(utcOffsets[time]));
+  }, [data]);
+
   useEffect(() => {
     dispatch(fetchStudyEvents());
     dispatch(fetchOrganizres());

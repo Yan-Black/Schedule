@@ -2,15 +2,15 @@ export interface StudyEvent {
   organizerId?: string;
   key?: string;
   eventTime?: string;
-  place: string;
-  descriptionUrl: string;
-  timeZone: string;
-  comment: string;
-  dateTime: string;
-  type: string;
-  description: string;
-  name: string;
-  id: string;
+  place?: string;
+  descriptionUrl?: string;
+  timeZone?: string;
+  comment?: string;
+  dateTime?: string;
+  type?: string;
+  description?: string;
+  name?: string;
+  id?: string;
   week?: string;
   details?: TaskTypes;
   additional1?: string;
@@ -24,6 +24,7 @@ export interface InitialStudyEventState {
   data: StudyEvent[];
   loading: boolean;
   error: null | string | unknown;
+  isLoading: boolean;
 }
 
 export interface TaskTypes {
