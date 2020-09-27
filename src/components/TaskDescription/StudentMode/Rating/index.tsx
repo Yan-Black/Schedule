@@ -5,8 +5,6 @@ import { RootState } from 'store';
 import { Button, Modal, Rate, Input, Form } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 import { changeEvent } from 'reducers/events';
-import Feedback from 'react-bootstrap/esm/Feedback';
-import { Review } from 'components/TaskDescription/models';
 
 const Rating: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -67,61 +65,59 @@ const Rating: React.FC = () => {
       text: values.feedback.review,
       author: 'author',
     });
-    newTotalRating = Number(values.stars);
+    newTotalRating = Number(values.feedback.stars);
     updateState();
     handleOk();
   };
 
   return (
-    <>
-      <div className="rating">
-        <div>
-          <span className="rating-num">
-            {(totalRating / feedbacks.length).toFixed(1)}
-            <span className="max-rating">/5</span>
-          </span>
-        </div>
-        <Button
-          type="dashed"
-          className="rating-btn"
-          icon={<StarOutlined />}
-          onClick={clickHandler}
-        >
-          Оценить
-        </Button>
-        <div className="reviews-amount">Всего оценок: {feedbacks.length}</div>
-        <Modal
-          title="Оцените задание:"
-          visible={visible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={false}
-          zIndex={10}
-        >
-          <Form className="review-add" name="nest-messages" onFinish={onFinish}>
-            <Form.Item
-              name={['feedback', 'stars']}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter stars!',
-                },
-              ]}
-            >
-              <Rate />
-            </Form.Item>
-            <Form.Item name={['feedback', 'review']}>
-              <Input.TextArea rows={4} />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Send review
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
+    <div className="rating">
+      <div>
+        <span className="rating-num">
+          {(totalRating / feedbacks.length).toFixed(1)}
+          <span className="max-rating">/5</span>
+        </span>
       </div>
-    </>
+      <Button
+        type="dashed"
+        className="rating-btn"
+        icon={<StarOutlined />}
+        onClick={clickHandler}
+      >
+        Оценить
+      </Button>
+      <div className="reviews-amount">Всего оценок: {feedbacks.length}</div>
+      <Modal
+        title="Оцените задание:"
+        visible={visible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={false}
+        zIndex={10}
+      >
+        <Form className="review-add" name="nest-messages" onFinish={onFinish}>
+          <Form.Item
+            name={['feedback', 'stars']}
+            rules={[
+              {
+                required: true,
+                message: 'Please enter stars!',
+              },
+            ]}
+          >
+            <Rate />
+          </Form.Item>
+          <Form.Item name={['feedback', 'review']}>
+            <Input.TextArea rows={4} />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Send review
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
   );
 };
 

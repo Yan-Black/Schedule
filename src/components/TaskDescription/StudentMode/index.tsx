@@ -26,12 +26,11 @@ const StudentMode: React.FC = () => {
   );
   const feedbacks = events[changedInd].feedBack.comments;
   let sections: TaskSections = [];
+  const isAddReview = events[changedInd].feedBack.isEnableAddReview;
 
   if (isLoading) {
     return <p>loading...</p>;
   }
-
-  console.log(changedInd);
 
   const showEditInfo = (info: string) => {
     let newInfo: string;
@@ -64,7 +63,7 @@ const StudentMode: React.FC = () => {
   }
 
   return (
-    <>
+    <React.Fragment key={changedInd.toString()}>
       <div className="task-desc-container">
         <div className="task-desc-nav">
           <Menu
@@ -92,51 +91,61 @@ const StudentMode: React.FC = () => {
             >
               {Object.values(columns).map((el, index) => {
                 return (
-                  <>
-                    <h4>
-                      {el}:
-                      <span>
-                        {events[changedInd][Object.keys(columns)[index]]}
-                      </span>
-                    </h4>
-                  </>
+                  <h4 key={changedInd.toString().concat(index.toString())}>
+                    {el}:
+                    <span>
+                      {events[changedInd][Object.keys(columns)[index]]}
+                    </span>
+                  </h4>
                 );
               })}
             </Card>
-            <Rating />
+            {isAddReview ? <Rating /> : ''}
           </div>
           {sections.map((el, index) => {
             return (
-              <>
-                <h2
-                  className="task-main-headline"
-                  id={el.id}
-                  key={changedInd.toString().concat(index.toString())}
-                >
+              <React.Fragment
+                key={changedInd.toString().concat(index.toString())}
+              >
+                <h2 className="task-main-headline" id={el.id}>
                   {el.name}
                 </h2>
                 {showEditInfo(el.id)}
-              </>
+              </React.Fragment>
             );
           })}
-          <h2 className="task-main-headline">Рейтинг</h2>
-          {feedbacks.map((el) => {
-            return (
-              <>
-                <Rate className="user-stars" disabled defaultValue={el.raiting} />
-                <Meta
-                  className="user-rating"
-                  avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                  title={el.author}
-                  description={el.text}
-                />
-                <hr className="rate-line" />
-              </>
-            );
-          })}
+          {isAddReview ? (
+            <React.Fragment key={changedInd.toString()}>
+              <h2 className="task-main-headline">Рейтинг</h2>
+              {feedbacks.map((el, index) => {
+                return (
+                  <React.Fragment
+                    key={changedInd.toString().concat(index.toString())}
+                  >
+                    <Rate
+                      className="user-stars"
+                      disabled
+                      defaultValue={el.raiting}
+                    />
+                    <Meta
+                      className="user-rating"
+                      avatar={
+                        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                      }
+                      title={el.author}
+                      description={el.text}
+                    />
+                    <hr className="rate-line" />
+                  </React.Fragment>
+                );
+              })}
+            </React.Fragment>
+          ) : (
+            ''
+          )}
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

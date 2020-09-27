@@ -36,7 +36,6 @@ const MentorMode: React.FC = () => {
     (state: RootState) => state.events.data[changedInd].details,
   );
   let sections: TaskSections = [];
-  let newEnableAddReview: boolean;
 
   const additionalDetails = {
     taskType: details ? details.taskType : '',
@@ -147,8 +146,10 @@ const MentorMode: React.FC = () => {
           </div>
           {sections.map((el: TaskSection, index) => {
             return (
-              <>
-                <div key={changedInd.toString().concat(index.toString())}>
+              <React.Fragment
+                key={changedInd.toString().concat(index.toString())}
+              >
+                <div>
                   <h2
                     className="task-main-headline"
                     id={el.id}
@@ -167,19 +168,25 @@ const MentorMode: React.FC = () => {
                         const dataEditor: string = editor.getData();
                         additionalDetails[el.id] = dataEditor;
                       }}
-                      key={changedInd.toString().concat(index.toString())}
                     />
                   ) : (
                     showEditInfo(el.id)
                   )}
                 </div>
-              </>
+              </React.Fragment>
             );
           })}
           {isEditMode ? (
-            <Checkbox className="toggle-add-review" onChange={onChangeEnableAddReviews}>Enable adding reviews</Checkbox>
+            <Checkbox
+              className="toggle-add-review"
+              onChange={onChangeEnableAddReviews}
+            >
+              Enable adding reviews
+            </Checkbox>
           ) : (
-            <Checkbox disabled defaultChecked={isEnable}>Enable adding reviews</Checkbox>
+            <Checkbox disabled defaultChecked={isEnable}>
+              Enable adding reviews
+            </Checkbox>
           )}
         </div>
       </div>
