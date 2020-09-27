@@ -19,6 +19,7 @@ import { disableEditMode, enableEditMode } from 'reducers/eventId';
 import { TaskTypes } from 'reducers/events/models';
 import { TaskSections, TaskSection } from '../models';
 import TaskSelector from '../TaskSelector';
+import TaskMainInfo from './TaskMainInfo';
 
 // import { putEventUrl } from '@constants/api';
 
@@ -173,6 +174,7 @@ const MentorMode: React.FC = () => {
               Save
             </Button>
           </div>
+          <TaskMainInfo />
           {isTaskWithSections ? (
             <React.Fragment key={changedInd.toString()}>
               {sections.map((el: TaskSection, index) => {

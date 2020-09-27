@@ -115,7 +115,9 @@ const StudentMode: React.FC = () => {
             >
               {Object.values(columns).map((el, index) => {
                 return (
-                  <React.Fragment key={changedInd.toString().concat(index.toString())}>
+                  <React.Fragment
+                    key={changedInd.toString().concat(index.toString())}
+                  >
                     {events[changedInd][Object.keys(columns)[index]] ? (
                       <h4 key={changedInd.toString().concat(index.toString())}>
                         <span className="main-info-header">{el}: </span>
