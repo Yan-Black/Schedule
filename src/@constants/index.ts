@@ -226,16 +226,17 @@ export const errorHandler = (): void => {
 };
 
 export const columns = {
-  startDay: 'Date',
-  startTime: 'Time',
+  dateTime: 'Date',
+  eventTime: 'Time',
   name: 'Name',
   type: 'Type',
   place: 'Place',
   materials: 'Materials',
   lector: 'Lector',
-  comments: 'Comments',
+  comment: 'Comment',
   additional1: 'Additional',
   additional2: 'Additional',
   additional3: 'Additional',
   operation: 'Action',
+  description: 'Description',
 };

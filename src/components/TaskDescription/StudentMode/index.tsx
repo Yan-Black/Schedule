@@ -109,18 +109,24 @@ const StudentMode: React.FC = () => {
           <div className="main-task-info">
             <Card
               size="small"
-              title="Краткая информация"
+              title="Main information"
               style={{ width: 300 }}
               className="short-info"
             >
               {Object.values(columns).map((el, index) => {
                 return (
-                  <h4 key={changedInd.toString().concat(index.toString())}>
-                    {el}:
-                    <span>
-                      {events[changedInd][Object.keys(columns)[index]]}
-                    </span>
-                  </h4>
+                  <React.Fragment key={changedInd.toString().concat(index.toString())}>
+                    {events[changedInd][Object.keys(columns)[index]] ? (
+                      <h4 key={changedInd.toString().concat(index.toString())}>
+                        <span className="main-info-header">{el}: </span>
+                        <span>
+                          {events[changedInd][Object.keys(columns)[index]]}
+                        </span>
+                      </h4>
+                    ) : (
+                      ''
+                    )}
+                  </React.Fragment>
                 );
               })}
             </Card>
