@@ -1,0 +1,12 @@
+@import './body';
+@import './event-bg';
+@import '~antd/dist/antd.css';
+
+.ant-tabs-content-holder {
+  margin-bottom: 40px;
+}
+
+.test {
+  font-size: 20px !important;
+}
+

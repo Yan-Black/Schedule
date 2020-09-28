@@ -1,0 +1,30 @@
+@import '../../styles/variables';
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+
+  a {
+    margin: 10px;
+  }
+
+  span {
+    font-size: 18px;
+
+    &:hover {
+      transition: .2s;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.anticon.anticon-setting {
+  &:hover {
+    transition: .4s;
+    transform: rotate(90deg);
+  }
+  &:active {
+    transition: .2s;
+    opacity: 0.5;
+  }
+}
