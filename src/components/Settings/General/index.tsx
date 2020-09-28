@@ -10,7 +10,9 @@ import {
 } from '@ant-design/icons';
 import { RootState } from 'store';
 import { setFont } from 'helpers';
-import { changeSettings } from '../../../reducers/settings';
+import { changeSettings } from 'reducers/settings';
+import { updateEventsTime } from 'reducers/events';
+import { utcOffsets } from '@constants';
 import selectList from '../list';
 
 type Props = {
@@ -38,6 +40,9 @@ const General: React.FC<Props> = ({ setStage }: Props) => {
     const currentEvent: string | boolean = event.target.name;
     const currentValue: string | boolean = event.target.value;
     dispatch(changeSettings({ event: currentEvent, value: currentValue }));
+    if (utcOffsets[currentValue]) {
+      dispatch(updateEventsTime(utcOffsets[currentValue]));
+    }
   };
 
   const optionalMentorSetting = () => {

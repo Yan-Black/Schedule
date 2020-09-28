@@ -12,6 +12,7 @@ import { utcOffsets } from '@constants';
 import { Settings } from 'reducers/settings/models';
 import { RootState } from 'store';
 import './index.scss';
+import TaskDescription from 'components/TaskDescription';
 
 const App: React.FC = () => {
   const isOpen = useSelector((state: RootState) => state.eventId.isOpen);
@@ -37,7 +38,7 @@ const App: React.FC = () => {
     <>
       <Header />
       <Switch>
-        {isOpen}
+        {isOpen && <TaskDescription />}
         <Tabs />
       </Switch>
       <Footer />

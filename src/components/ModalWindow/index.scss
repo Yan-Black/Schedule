@@ -1,4 +1,19 @@
 @import 'antd/dist/antd.css';
-.ant-modal-footer, .ant-modal-title, .ant-modal-body{
-    text-align: center;
+.ant-modal-footer,
+.ant-modal-title,
+.ant-modal-body {
+  text-align: center;
+}
+
+.review-add {
+  margin-top: 20px;
+}
+
+.modal-favourite {
+  border: 0;
+  text-align: left;
+
+  outline: none;
+
+  background-color: white;
 }

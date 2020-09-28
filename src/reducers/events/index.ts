@@ -8,6 +8,7 @@ const initialState: InitialStudyEventState = {
   loading: true,
   isLoading: false,
   error: null,
+  favourite: false,
 };
 
 const eventsSlice = createSlice({
@@ -24,9 +25,6 @@ const eventsSlice = createSlice({
       }: PayloadAction<{ changedEvent: StudyEvent; changedInd: number }>,
     ) => {
       state.data.splice(payload.changedInd, 1, payload.changedEvent);
-    },
-    addEvent: (state, { payload }) => {
-      state.data.push(payload);
     },
     updateEventsTime: (state, { payload }: PayloadAction<string>) => {
       state.data.forEach(recountDate.bind(null, payload));
@@ -62,6 +60,5 @@ export const {
   deleteEvent,
   changeEvent,
   updateEventsTime,
-  addEvent,
 } = eventsSlice.actions;
 export default eventsSlice.reducer;

@@ -5,6 +5,7 @@ import {
   getAllOrganizers,
   postEventUrl,
   postOrganizer,
+  putEventUrl,
 } from '@constants/api';
 import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';
@@ -66,6 +67,30 @@ export const postLector = createAsyncThunk(
       return newOrganizer;
     } catch (e) {
       return rejectWithValue(errorHandler());
+    }
+  },
+);
+
+interface LocationCoordsResponce {
+  results: {
+    geometry: { lat: number; lng: number };
+  }[];
+}
+
+export const fetchCoords = createAsyncThunk(
+  'coords/fetchCoords',
+  async (location: string, { rejectWithValue }) => {
+    try {
+      const rawResp = await fetch(
+        `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=0558628d9eba4dc98e9177e831c36e9d&pretty=1&no_annotations=1`,
+      );
+      const resp: LocationCoordsResponce = await rawResp.json();
+      const {
+        results: [,{ geometry }],
+      } = resp;
+      return geometry;
+    } catch (e) {
+      return rejectWithValue(e);
     }
   },
 );
