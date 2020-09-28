@@ -12,14 +12,24 @@ import { RootState } from 'store';
 
 const Columns: React.FC = () => {
   const [newColumn, setNewColumn] = useState<string>('');
-
-  const currentArray: string[] =
+  type ColumnsList = {
+    name: string;
+    event: string;
+  };
+  const currentArray: ColumnsList[] =
     localStorage.getItem('optionColumn') === null
       ? []
       : JSON.parse(localStorage.getItem('optionColumn'));
 
-  const [columns, setColumns] = useState<Array<string>>(currentArray);
-  const currentVisual = useSelector(
+  const initArray: string[] =
+    localStorage.getItem('names') === null
+      ? ['additional3', 'additional2', 'additional1']
+      : JSON.parse(localStorage.getItem('names'));
+
+  const [columns, setColumns] = useState<Array<ColumnsList>>(currentArray);
+  const [names, setNames] = useState<Array<string>>(initArray);
+
+  const currentVisual: boolean = useSelector(
     (state: RootState) => state.settings.visual,
   );
   const dispatch = useDispatch();
@@ -34,11 +44,14 @@ const Columns: React.FC = () => {
     localStorage.setItem('optionColumn', JSON.stringify(columns));
   }, [columns]);
 
+  useEffect(() => {
+    localStorage.setItem('names', JSON.stringify(names));
+  }, [names]);
+
   const updateState = () => {
-    const eventType = newColumn.toLowerCase().split(' ').join('');
     dispatch(
       changeColumnVisibility({
-        event: eventType,
+        event: names[names.length - 1],
         checked: true,
         columnName: newColumn,
       }),
@@ -46,28 +59,46 @@ const Columns: React.FC = () => {
   };
 
   const addColumn = () => {
-    setColumns((prev: string[]) => [...prev, newColumn]);
+    const lastName: string = names[names.length - 1];
+    setColumns((prev: ColumnsList[]) => [
+      ...prev,
+      { name: newColumn, event: lastName },
+    ]);
     updateState();
+    const newValue: string[] = names.filter(
+      (item: string) => item !== lastName,
+    );
+    setNames(newValue);
     setNewColumn('');
   };
 
   const clickEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setColumns((prev: string[]) => [...prev, newColumn]);
+    const lastName: string = names[names.length - 1];
+    setColumns((prev: ColumnsList[]) => [
+      ...prev,
+      { name: newColumn, event: lastName },
+    ]);
     updateState();
+    const newValue: string[] = names.filter(
+      (item: string) => item !== lastName,
+    );
+    setNames(newValue);
     setNewColumn('');
   };
 
   const removeColumn = (value: string) => {
-    const array: string[] = columns.filter((item: string) => item !== value);
-    const eventType: string = value.toLowerCase().split(' ').join('');
+    const array: ColumnsList[] = columns.filter(
+      (item: ColumnsList) => item.event !== value,
+    );
     dispatch(
       deleteColumnVisibility({
-        event: eventType,
+        event: value,
         checked: true,
         columnName: newColumn,
       }),
     );
+    setNames((prev) => [...prev, value]);
     setColumns(array);
   };
   const font = setFont(currentVisual);
@@ -96,15 +127,15 @@ const Columns: React.FC = () => {
     <>
       <form className="settings__options-column">{showInput()}</form>
       <div>
-        {columns.map((name: string, index: number) => {
+        {columns.map((item: ColumnsList, index: number) => {
           return (
             <Card
               title={`Option column № ${index + 1}`}
               style={font}
               key={`${index * 1}`}
-              extra={<CloseOutlined onClick={() => removeColumn(name)} />}
+              extra={<CloseOutlined onClick={() => removeColumn(item.event)} />}
             >
-              {name}
+              {item.name}
             </Card>
           );
         })}
