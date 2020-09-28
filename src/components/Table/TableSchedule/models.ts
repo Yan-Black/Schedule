@@ -115,15 +115,18 @@ export interface AddButtonProps {
   sortedData: ScheduleData[];
   events: StudyEvent[];
   ind: number;
+  fontSize: string;
 }
 
 export interface HideButtonProps {
   selectedRowKeys: number[];
   setHiddenRowKeys: React.Dispatch<React.SetStateAction<any[]>>;
+  fontSize: string;
 }
 
 export interface ShowButtonProps {
   hiddenRowKeys: number[];
   setSelectedRowKeys: React.Dispatch<React.SetStateAction<any[]>>;
   setHiddenRowKeys: React.Dispatch<React.SetStateAction<any[]>>;
+  fontSize: string;
 }

@@ -37,29 +37,35 @@ const OkButton = ({
         !row.lector || row.lector === 'no lector'
           ? ''
           : organizers.find((lector) => lector.name === row.lector).id;
+      let date: Date;
+      let dateTime: string;
+      if (row.date) {
+        date = row.date.toDate();
+        const dateString: string = date.toLocaleDateString();
+        const dayOfWeek: string = row.date.toDate().toString().slice(0, 3);
+        dateTime = `${dayOfWeek}, ${dateString}`;
+      }
 
-      const date = row.date.toDate();
-      const dateString: string = date.toLocaleDateString();
-      const dayOfWeek: string = row.date.toDate().toString().slice(0, 3);
-      const dateTime = `${dayOfWeek}, ${dateString}`;
-      const eventTime = row.time.toDate().toLocaleTimeString().slice(0, 5);
+      const eventTime = row.time
+        ? row.time.toDate().toLocaleTimeString().slice(0, 5)
+        : changed.eventTime;
 
       const changedEvent = {
         ...changed,
-        name: row.name,
-        place: row.place,
+        name: row.name || changed.name,
+        place: row.place || changed.place,
         organizerId,
-        comment: row.comments,
-        dateTime,
-        week: row.week.toString(),
+        comment: row.comments || changed.comment,
+        dateTime: dateTime || changed.dateTime,
+        week: row.week.toString() || changed.week,
         eventTime,
-        timeZone,
-        description: row.description,
-        descriptionUrl: row.materials,
-        type: row.type,
-        additional1: row.additional1,
-        additional2: row.additional2,
-        additional3: row.additional3,
+        timeZone: timeZone || changed.timeZone,
+        description: row.description || changed.description,
+        descriptionUrl: row.materials || changed.descriptionUrl,
+        type: row.type || changed.type,
+        additional1: row.additional1 || changed.additional1 || '',
+        additional2: row.additional2 || changed.additional2 || '',
+        additional3: row.additional3 || changed.additional3 || '',
       };
 
       await axios.put(putEventUrl(events[changedInd].id), changedEvent);

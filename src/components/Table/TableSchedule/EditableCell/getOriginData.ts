@@ -6,7 +6,7 @@ export const midnight = '00:00';
 const endOfDay = '23:59';
 
 const today = new Date();
-const todayDay = today.getDay();
+const todayDay = today.getDay() === 0 ? 7 : today.getDay();
 const firstDay = today.setDate(today.getDate() - todayDay + 1);
 const currentWeekDays = [];
 for (let i = 0; i < 7; i += 1) {

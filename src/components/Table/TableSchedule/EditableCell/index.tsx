@@ -12,7 +12,6 @@ import {
 } from 'antd';
 import { eventTypes } from '@constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFont } from 'helpers';
 import { RootState } from 'store';
 import { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
@@ -38,12 +37,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
   const types = Object.values(eventTypes);
   const organizers = useSelector((state: RootState) => state.organizers.data);
   const { loading } = useSelector((state: RootState) => state.organizers);
-  const currentVersion = useSelector(
-    (state: RootState) => state.settings.visual,
-  );
 
-  const font = setFont(currentVersion);
-  const placeholder = `Add ${dataIndex}`;
+  const placeholder = `Add ${title}`;
   let inputNode = <Input.TextArea placeholder={placeholder} />;
   let extraNode: JSX.Element;
   let name = '';
@@ -166,7 +161,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   );
 
   return (
-    <td {...restProps} style={font}>
+    <td {...restProps}>
       {editing &&
         (isLoad ? (
           <Skeleton active paragraph={{ rows: 0 }} />
