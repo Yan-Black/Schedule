@@ -41,14 +41,26 @@ const OkButton = ({
       let dateTime: string;
       if (row.date) {
         date = row.date.toDate();
-        const dateString: string = date.toLocaleDateString();
+        const dateDate = date.getDate();
+        const dateMonth =
+          (date.getMonth() + 1).toString().length < 2
+            ? `0${date.getMonth() + 1}`
+            : date.getMonth() + 1;
+        const dateYear = date.getFullYear();
         const dayOfWeek: string = row.date.toDate().toString().slice(0, 3);
-        dateTime = `${dayOfWeek}, ${dateString}`;
+        dateTime = `${dayOfWeek}, ${dateDate}.${dateMonth}.${dateYear}`;
       }
 
-      const eventTime = row.time
-        ? row.time.toDate().toLocaleTimeString().slice(0, 5)
-        : changed.eventTime;
+      const hours =
+        row.time.toDate().getHours().toString().length < 2
+          ? `0${row.time.toDate().getHours()}`
+          : row.time.toDate().getHours();
+      const minutes =
+        row.time.toDate().getMinutes().toString().length < 2
+          ? `0${row.time.toDate().getMinutes()}`
+          : row.time.toDate().getMinutes();
+
+      const eventTime = row.time ? `${hours}:${minutes}` : changed.eventTime;
 
       const changedEvent = {
         ...changed,

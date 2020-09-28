@@ -42,6 +42,7 @@ const EditButton = ({
         type="dashed"
         icon={<EditTwoTone />}
         onClick={() => edit(recordData)}
+        onKeyPress={(e) => console.log(e)}
       />
     </Tooltip>
   );
