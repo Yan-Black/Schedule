@@ -8,6 +8,23 @@
   font-size: inherit;
 }
 
+
+
+@media (max-width: 900px){
+  .ant-picker{
+    &-date-panel{
+      min-width:900px;
+    }
+    &-panel{
+      overflow: scroll;
+     }
+     &-calendar{
+       padding: 0!important;
+     }
+  }
+
+
+}
 @media screen and (min-width: 320px) {
   .ant-picker-date-panel .ant-picker-content th {
     width: 90px;
