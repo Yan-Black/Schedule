@@ -21,12 +21,13 @@ const Columns: React.FC = () => {
       ? []
       : JSON.parse(localStorage.getItem('optionColumn'));
 
+  const initArray: string[] =
+    localStorage.getItem('names') === null
+      ? ['additional3', 'additional2', 'additional1']
+      : JSON.parse(localStorage.getItem('names'));
+
   const [columns, setColumns] = useState<Array<ColumnsList>>(currentArray);
-  const [names, setNames] = useState<Array<string>>([
-    'additional1',
-    'additional2',
-    'additional3',
-  ]);
+  const [names, setNames] = useState<Array<string>>(initArray);
 
   const currentVisual: boolean = useSelector(
     (state: RootState) => state.settings.visual,
@@ -42,6 +43,10 @@ const Columns: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('optionColumn', JSON.stringify(columns));
   }, [columns]);
+
+  useEffect(() => {
+    localStorage.setItem('names', JSON.stringify(names));
+  }, [names]);
 
   const updateState = () => {
     dispatch(
