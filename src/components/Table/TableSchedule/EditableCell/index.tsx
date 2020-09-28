@@ -2,13 +2,13 @@ import * as React from 'react';
 import {
   Input,
   Form,
-  DatePicker,
   TimePicker,
   InputNumber,
   Select,
   Skeleton,
   Divider,
   Spin,
+  DatePicker,
 } from 'antd';
 import { eventTypes } from '@constants';
 import { useDispatch, useSelector } from 'react-redux';
