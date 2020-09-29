@@ -2,7 +2,7 @@
 import './index.scss';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Menu, Button, Checkbox } from 'antd';
+import { Menu, Button, Checkbox, Card, Input } from 'antd';
 import { EditOutlined, CheckSquareOutlined } from '@ant-design/icons';
 import { changeEvent } from 'reducers/events';
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -21,6 +21,7 @@ import { TaskSections, TaskSection } from '../models';
 import TaskSelector from '../TaskSelector';
 import TaskMainInfo from './TaskMainInfo';
 
+const { Search } = Input;
 // import { putEventUrl } from '@constants/api';
 
 const MentorMode: React.FC = () => {
@@ -64,13 +65,17 @@ const MentorMode: React.FC = () => {
     isEnableAddReview: isEnable,
   };
 
+  let newAddress = events[changedInd].address ? events[changedInd].address : '';
+
   const changedEvent = {
     ...changed,
+    address: 'test',
     details: additionalDetails,
     feedBack: comments,
   };
 
   const updateState = () => {
+    // console.log('1');
     dispatch(changeEvent({ changedEvent, changedInd }));
     // dispatch
     // axios.put(putEventUrl(id), сам объект)
@@ -88,7 +93,7 @@ const MentorMode: React.FC = () => {
         sections = standartTaskSections;
         break;
       default:
-        sections = codewarsSections;
+        sections = [];
     }
   };
 
@@ -104,6 +109,7 @@ const MentorMode: React.FC = () => {
   }
 
   const showEditInfo = (info: string) => {
+    console.log('showeditinfo');
     let newInfo: string;
     if (details !== undefined) {
       newInfo = details[info];
@@ -116,6 +122,12 @@ const MentorMode: React.FC = () => {
     );
   };
 
+  const searchAddress = (value) => {
+    console.log(value);
+    newAddress = value;
+    dispatch(changeEvent({ changedEvent, changedInd }));
+  };
+
   if (isLoading) {
     return <p>loading...</p>;
   }
@@ -126,7 +138,6 @@ const MentorMode: React.FC = () => {
 
   return (
     <>
-      {isTaskStart ? <TaskSelector /> : ''}
       <div className="task-desc-container">
         <div className="task-desc-nav">
           {isTaskWithSections ? (
@@ -151,82 +162,114 @@ const MentorMode: React.FC = () => {
           )}
         </div>
         <div className="task-desc-area">
-          <div className="edit-buttons">
-            <Button
-              type="dashed"
-              icon={<EditOutlined />}
-              style={{ marginRight: '10px' }}
-              onClick={() => {
-                dispatch(enableEditMode());
-              }}
-            >
-              Edit
-            </Button>
-            <Button
-              type="dashed"
-              icon={<CheckSquareOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => {
-                dispatch(disableEditMode());
-                updateState();
-              }}
-            >
-              Save
-            </Button>
-          </div>
           <TaskMainInfo />
-          {isTaskWithSections ? (
-            <React.Fragment key={changedInd.toString()}>
-              {sections.map((el: TaskSection, index) => {
-                return (
-                  <React.Fragment
-                    key={changedInd.toString().concat(index.toString())}
-                  >
-                    <div>
-                      <h2
-                        className="task-main-headline"
-                        id={el.id}
+          {isTaskStart ? <TaskSelector /> : ''}
+          <Card
+            size="small"
+            title="Additional information"
+            style={{ width: '100%' }}
+            className="short-info"
+            extra={
+              <Button
+                type="dashed"
+                icon={<EditOutlined />}
+                onClick={() => {
+                  dispatch(enableEditMode());
+                }}
+              >
+                Edit
+              </Button>
+            }
+          >
+            {isTaskWithSections ? (
+              <React.Fragment key={changedInd.toString()}>
+                {sections
+                  .filter((el) => el.id !== 'place')
+                  .map((el: TaskSection, index) => {
+                    return (
+                      <React.Fragment
                         key={changedInd.toString().concat(index.toString())}
                       >
-                        {el.name}
-                      </h2>
-                      {isEditMode ? (
-                        <CKEditor
-                          editor={ClassicEditor}
-                          data={
-                            details
-                              ? details[el.id]
-                              : '<p>Text your task list</p>'
-                          }
-                          onChange={(event, editor) => {
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                            const dataEditor: string = editor.getData();
-                            additionalDetails[el.id] = dataEditor;
-                          }}
-                        />
-                      ) : (
-                        showEditInfo(el.id)
-                      )}
-                    </div>
-                  </React.Fragment>
-                );
-              })}
-            </React.Fragment>
-          ) : (
-            ''
-          )}
-          {isEditMode ? (
-            <Checkbox
-              className="toggle-add-review"
-              onChange={onChangeEnableAddReviews}
-            >
-              Enable adding reviews
-            </Checkbox>
-          ) : (
-            <Checkbox disabled defaultChecked={isEnable}>
-              Enable adding reviews
-            </Checkbox>
-          )}
+                        <div>
+                          <h2
+                            className="task-main-headline"
+                            id={el.id}
+                            key={changedInd.toString().concat(index.toString())}
+                          >
+                            {el.name}
+                          </h2>
+
+                          {isEditMode ? (
+                            <CKEditor
+                              editor={ClassicEditor}
+                              data={
+                                details
+                                  ? details[el.id]
+                                  : '<p>Text your task list</p>'
+                              }
+                              onChange={(event, editor) => {
+                                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                                const dataEditor: string = editor.getData();
+                                additionalDetails[el.id] = dataEditor;
+                              }}
+                            />
+                          ) : (
+                            showEditInfo(el.id)
+                          )}
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
+                {sections
+                  .filter((el) => el.id === 'place')
+                  .map((el, index) => {
+                    return (
+                      <React.Fragment
+                        key={changedInd.toString().concat(index.toString())}
+                      >
+                        <h2 className="task-main-headline">Место встречи</h2>
+                        {isEditMode ? (
+                          <Search
+                            placeholder="Input address"
+                            onSearch={searchAddress}
+                            style={{ width: 200 }}
+                          />
+                        ) : (
+                          ''
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+              </React.Fragment>
+            ) : (
+              ''
+            )}
+            {isEditMode ? (
+              <Checkbox
+                className="toggle-add-review"
+                onChange={onChangeEnableAddReviews}
+              >
+                Enable adding reviews
+              </Checkbox>
+            ) : (
+              <Checkbox disabled defaultChecked={isEnable}>
+                Enable adding reviews
+              </Checkbox>
+            )}
+            <div className="save-btn">
+              <Button
+                type="dashed"
+                icon={<CheckSquareOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => {
+                  dispatch(disableEditMode());
+                  updateState();
+                }}
+              >
+                Save
+              </Button>
+            </div>
+          </Card>
         </div>
       </div>
     </>

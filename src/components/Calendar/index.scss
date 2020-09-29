@@ -7,3 +7,28 @@
 .ant-picker-calendar-date-value {
   font-size: inherit;
 }
+
+@media screen and (min-width: 320px) {
+  .ant-picker-date-panel .ant-picker-content th {
+    width: 90px;
+  }
+
+  .ant-picker-content--scroll {
+    display: block;
+    overflow-y: auto;
+  }
+}
+
+.events {
+  button {
+    border: 0;
+    text-align: left;
+
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+      color: blue;
+    }
+  }
+}

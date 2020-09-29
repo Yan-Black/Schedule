@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Calendar as CalendarWrapper, Badge, Skeleton } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from 'store';
 import { StudyEvent } from 'reducers/events/models';
 import { eventTypes } from '@constants';
 import { getKeyByValue, setFont } from 'helpers';
+import useWindowSize from 'hooks';
+import { setEventPageId } from 'reducers/eventId';
 import { ListData } from './models';
 
 import './index.scss';
@@ -17,6 +19,7 @@ const Calendar: React.FC = () => {
   const currentVersion = useSelector(
     (state: RootState) => state.settings.visual,
   );
+  const size = useWindowSize();
 
   if (isLoading) {
     return <Skeleton active />;
@@ -81,21 +84,22 @@ const Calendar: React.FC = () => {
   const dateCellRender = (value: moment.Moment) => {
     const listData = getListData(value);
     const font = setFont(currentVersion);
+    const dispatch = useDispatch();
+
     return (
       <ul className="events">
         {listData.map((item) => (
-          <li
-            key={item.content}
-            style={font}
-            className={
-              colors[getKeyByValue(eventTypes, item.typeColor)] as string
-            }
-          >
-            <Badge
-              style={font}
-              status={item.type}
-              text={`${item.eventTime} ${item.content}`}
-            />
+          <li key={item.content} style={font}>
+            <button
+              className={
+                colors[getKeyByValue(eventTypes, item.typeColor)] as string
+              }
+              type="button"
+              onClick={() => dispatch(setEventPageId(item.id))}
+            >
+              <Badge status={item.type} style={font} />
+              {`${item.eventTime} ${item.content}`}
+            </button>
           </li>
         ))}
       </ul>
@@ -160,30 +164,35 @@ const Calendar: React.FC = () => {
   const monthCellRender = (value: moment.Moment) => {
     const listData = getMonthData(value);
     const font = setFont(currentVersion);
+    const dispatch = useDispatch();
+
     return (
       <ul className="events">
         {listData.map((item) => (
-          <li
-            key={item.id}
-            style={font}
-            className={
-              colors[getKeyByValue(eventTypes, item.typeColor)] as string
-            }
-          >
-            <Badge
-              style={font}
-              status={item.type}
-              text={`${item.eventTime} ${item.content}`}
-            />
+          <li key={item.id} style={font}>
+            <button
+              type="button"
+              className={
+                colors[getKeyByValue(eventTypes, item.typeColor)] as string
+              }
+              onClick={() => dispatch(setEventPageId(item.id))}
+            >
+              <Badge style={font} status={item.type} />
+              {`${item.eventTime} ${item.content}`}
+            </button>
           </li>
         ))}
       </ul>
     );
   };
   const font = setFont(currentVersion);
+
+  const styles: React.CSSProperties =
+    size.width < 750 ? { ...font, overflowY: 'auto' } : font;
+
   return (
     <CalendarWrapper
-      style={font}
+      style={styles}
       className="container"
       dateCellRender={dateCellRender}
       monthCellRender={monthCellRender}

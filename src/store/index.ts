@@ -7,6 +7,7 @@ import settingReducer from 'reducers/settings';
 import colorsReducer from 'reducers/eventTypeColors';
 import roleReducer from 'reducers/role';
 import columnVisibilityReducer from 'reducers/columnVisibility';
+import coordsReducer from 'reducers/eventCoords';
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     colors: colorsReducer,
     role: roleReducer,
     columnVisibility: columnVisibilityReducer,
+    eventCoords: coordsReducer,
   },
 });
 

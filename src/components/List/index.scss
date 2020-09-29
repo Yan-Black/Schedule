@@ -20,3 +20,47 @@
     color: #1890ff;
   }
 }
+
+.up_button {
+  height: 60px;
+  width: 60px;
+  border-radius: 5px;
+  position: fixed;
+  top: 85%;
+  left: 85%;
+  cursor: pointer;
+  background: aliceblue;
+  animation: reveal .3s linear;
+}
+
+.button_disabled {
+  animation: close .3s linear both;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+  } to {
+    opacity: 1;
+  }
+}
+
+@keyframes close {
+  from {
+    opacity: 1;
+    visibility: visible;
+  } to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 640px) {
+  .up_button {
+    height: 40px;
+    width: 40px;
+    top: 85%;
+    left: 75%;
+  }
+}
+

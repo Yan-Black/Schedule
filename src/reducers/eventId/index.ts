@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState = {
   eventId: '',
   isOpen: false,
-  taskType: '',
   isEditMode: false,
 };
 
@@ -20,9 +19,6 @@ const eventPageSlice = createSlice({
       state.eventId = '';
       state.isEditMode = false;
     },
-    setTaskType: (state, { payload }: PayloadAction<string>) => {
-      state.taskType = payload;
-    },
     enableEditMode: (state) => {
       state.isEditMode = true;
     },
@@ -35,7 +31,6 @@ const eventPageSlice = createSlice({
 export const {
   setEventPageId,
   closeEventPage,
-  setTaskType,
   enableEditMode,
   disableEditMode,
 } = eventPageSlice.actions;

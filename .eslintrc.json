@@ -41,6 +41,7 @@
       "jsx-a11y/click-events-have-key-events": "warn",
       "jsx-a11y/no-static-element-interactions": "warn",
       "@typescript-eslint/no-unsafe-call": "warn",
+      "no-shadow": "off",
       "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
       "linebreak-style": "warn",
       "prettier/prettier": ["warn", {"endOfLine": "auto"}],
