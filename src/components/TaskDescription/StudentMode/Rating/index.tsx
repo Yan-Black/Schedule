@@ -1,11 +1,12 @@
 import './index.scss';
+import axios from 'utils';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { RootState } from 'store';
 import { Button, Modal, Rate, Input, Form } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 import { changeEvent } from 'reducers/events';
-import { faTruckMonster } from '@fortawesome/free-solid-svg-icons';
+import { putEventUrl } from '@constants/api';
 
 const Rating: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -58,7 +59,8 @@ const Rating: React.FC = () => {
     setVisible(false);
   };
 
-  const updateState = () => {
+  const updateState = async () => {
+    await axios.put(putEventUrl(events[changedInd].id), changedEvent);
     dispatch(changeEvent({ changedEvent, changedInd }));
   };
 

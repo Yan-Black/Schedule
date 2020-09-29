@@ -23,11 +23,11 @@ const App: React.FC = () => {
     events: { data },
   } = useSelector((state: RootState) => state);
 
-  // useEffect(() => {
-  //   if (settings) {
-  //     dispatch(updateEventsTime(utcOffsets[settings.time]));
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (settings) {
+      dispatch(updateEventsTime(utcOffsets[settings.time]));
+    }
+  }, [data]);
 
   useEffect(() => {
     dispatch(fetchStudyEvents());

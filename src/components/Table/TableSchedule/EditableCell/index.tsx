@@ -2,17 +2,16 @@ import * as React from 'react';
 import {
   Input,
   Form,
-  DatePicker,
   TimePicker,
   InputNumber,
   Select,
   Skeleton,
   Divider,
   Spin,
+  DatePicker,
 } from 'antd';
 import { eventTypes } from '@constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFont } from 'helpers';
 import { RootState } from 'store';
 import { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
@@ -38,13 +37,9 @@ const EditableCell: React.FC<EditableCellProps> = ({
   const types = Object.values(eventTypes);
   const organizers = useSelector((state: RootState) => state.organizers.data);
   const { loading } = useSelector((state: RootState) => state.organizers);
-  const currentVersion = useSelector(
-    (state: RootState) => state.settings.visual,
-  );
 
-  const font = setFont(currentVersion);
-  const placeholder = `Add ${dataIndex}`;
-  let inputNode = <Input.TextArea placeholder={placeholder} />;
+  const placeholder = `Add ${title}`;
+  let inputNode = <Input.TextArea placeholder={placeholder} maxLength={150} />;
   let extraNode: JSX.Element;
   let name = '';
   let extraName = '';
@@ -80,8 +75,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
     extraName = 'description';
     label = 'Link';
     extraLabel = 'Description';
-    inputNode = <Input.TextArea placeholder={placeholder} />;
-    extraNode = <Input.TextArea placeholder={placeholder} />;
+    inputNode = <Input.TextArea placeholder={placeholder} maxLength={150} />;
+    extraNode = <Input.TextArea placeholder={placeholder} maxLength={150} />;
   }
   if (inputType === 'time') {
     name = 'time';
@@ -166,7 +161,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   );
 
   return (
-    <td {...restProps} style={font}>
+    <td {...restProps}>
       {editing &&
         (isLoad ? (
           <Skeleton active paragraph={{ rows: 0 }} />

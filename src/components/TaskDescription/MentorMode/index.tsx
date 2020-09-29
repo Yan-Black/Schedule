@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import './index.scss';
+import axios from 'utils';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Button, Checkbox, Card, Input } from 'antd';
@@ -18,12 +19,12 @@ import { RootState } from 'store';
 import { disableEditMode, enableEditMode } from 'reducers/eventId';
 import { StudyEvent, TaskTypes } from 'reducers/events/models';
 import EventMap from 'components/EventMap';
+import { putEventUrl } from '@constants/api';
 import { TaskSections, TaskSection } from '../models';
 import TaskSelector from '../TaskSelector';
 import TaskMainInfo from './TaskMainInfo';
 
 const { Search } = Input;
-// import { putEventUrl } from '@constants/api';
 
 const MentorMode: React.FC = () => {
   const [isEnable, toggleAddReview] = useState(true);
@@ -97,9 +98,9 @@ const MentorMode: React.FC = () => {
     coords: [latitude, longtitude],
   };
 
-  const updateState = () => {
+  const updateState = async () => {
+    await axios.put(putEventUrl(events[changedInd].id), changedEvent);
     dispatch(changeEvent({ changedEvent, changedInd }));
-    // axios.put(putEventUrl(id), сам объект)
   };
 
   const checkSubDetails = () => {
@@ -142,11 +143,12 @@ const MentorMode: React.FC = () => {
     );
   };
 
-  const searchAddress = (value: string) => {
+  const searchAddress = async (value: string) => {
     const copy: StudyEvent = {
       ...changedEvent,
       address: value,
     };
+    await axios.put(putEventUrl(events[changedInd].id), copy);
     dispatch(changeEvent({ changedEvent: copy, changedInd }));
   };
 
@@ -162,7 +164,7 @@ const MentorMode: React.FC = () => {
     <>
       <div className="task-desc-container">
         <div className="task-desc-nav">
-          {isTaskWithSections ? (
+          {isTaskWithSections && (
             <Menu
               style={{ width: 256 }}
               defaultSelectedKeys={['1']}
@@ -179,13 +181,11 @@ const MentorMode: React.FC = () => {
                 );
               })}
             </Menu>
-          ) : (
-            ''
           )}
         </div>
         <div className="task-desc-area">
           <TaskMainInfo />
-          {isTaskStart ? <TaskSelector /> : ''}
+          {isTaskStart && <TaskSelector />}
           <Card
             size="small"
             title="Additional information"
@@ -203,7 +203,7 @@ const MentorMode: React.FC = () => {
               </Button>
             }
           >
-            {isTaskWithSections ? (
+            {isTaskWithSections && (
               <React.Fragment key={changedInd.toString()}>
                 {sections
                   .filter((el) => el.id !== 'place')
@@ -222,7 +222,6 @@ const MentorMode: React.FC = () => {
                           </h2>
 
                           {isEditMode ? (
-                            // <div>CKEditor</div>
                             <CKEditor
                               editor={ClassicEditor}
                               data={
@@ -251,21 +250,17 @@ const MentorMode: React.FC = () => {
                         key={changedInd.toString().concat(index.toString())}
                       >
                         <h2 className="task-main-headline">Место встречи</h2>
-                        {isEditMode ? (
+                        {isEditMode && (
                           <Search
                             placeholder="Input address"
                             onSearch={searchAddress}
                             style={{ width: 200, marginBottom: '20px' }}
                           />
-                        ) : (
-                          ''
                         )}
                       </React.Fragment>
                     );
                   })}
               </React.Fragment>
-            ) : (
-              ''
             )}
             {address && <EventMap address={address} />}
             {isEditMode ? (

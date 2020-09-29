@@ -5,13 +5,11 @@ import { Modal } from 'antd';
 import { RootState } from 'store';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeEventPage } from 'reducers/eventId';
-import EventMap from 'components/EventMap';
 import { HeartTwoTone } from '@ant-design/icons';
 import { changeEvent } from 'reducers/events';
 import { putEventUrl } from '@constants/api';
 import MentorMode from './MentorMode';
 import StudentMode from './StudentMode';
-import TaskSelector from './TaskSelector';
 
 const TaskDescription: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.events.loading);
@@ -21,9 +19,6 @@ const TaskDescription: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
   const changedInd = events.findIndex((event) => event.id === eventId);
   const role = useSelector((state: RootState) => state.role.currentRole);
-  const details = useSelector(
-    (state: RootState) => state.events.data[changedInd].details,
-  );
 
   const heartColor = events[changedInd].favourite ? 'red' : 'blue';
 

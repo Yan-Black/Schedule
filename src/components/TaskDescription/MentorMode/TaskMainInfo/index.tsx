@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useState } from 'react';
+import axios from 'utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { columns, eventTypes } from '@constants';
 import { RootState } from 'store';
@@ -16,6 +18,7 @@ import {
 import moment from 'moment';
 import { changeEvent } from 'reducers/events';
 import { EditOutlined, CheckSquareOutlined } from '@ant-design/icons';
+import { putEventUrl } from '@constants/api';
 
 const TaskMainInfo: React.FC = () => {
   const [isEditMode, toggleEditMode] = useState(false);
@@ -32,7 +35,7 @@ const TaskMainInfo: React.FC = () => {
   const dateFormat = 'DD.MM.YYYY';
   const timeFormat = 'HH:mm';
 
-  const showEditInfo = () => {
+  const showEditMainInfo = () => {
     return (
       <React.Fragment key={changedInd.toString()}>
         {Object.values(columns).map((el, index) => {
@@ -60,13 +63,11 @@ const TaskMainInfo: React.FC = () => {
             <React.Fragment
               key={changedInd.toString().concat(index.toString())}
             >
-              {events[changedInd][Object.keys(columns)[index]] ? (
+              {events[changedInd][Object.keys(columns)[index]] && (
                 <h4 key={changedInd.toString().concat(index.toString())}>
                   <span className="main-info-header">{el}: </span>
                   <span>{events[changedInd][Object.keys(columns)[index]]}</span>
                 </h4>
-              ) : (
-                ''
               )}
             </React.Fragment>
           );
@@ -81,32 +82,56 @@ const TaskMainInfo: React.FC = () => {
     place: events[changedInd].place,
     organizerId: events[changedInd].organizerId,
     comment: events[changedInd].comment,
-    // dateTime: events[changedInd].dateTime,
+    dateTime: events[changedInd].dateTime,
     week: events[changedInd].week.toString(),
-    // eventTime: events[changedInd].eventTime,
+    eventTime: events[changedInd].eventTime,
     description: events[changedInd].description,
     descriptionUrl: events[changedInd].descriptionUrl,
     type: events[changedInd].type,
   };
 
-  const saveMainInfo = (value) => {
+  const saveMainInfo = async (value) => {
     const newOrganizerInd = organizers.findIndex(
       (person) => person.name === value.lector,
     );
+    console.log(`newOrganizerInd: ${newOrganizerInd}`);
     toggleEditMode(false);
     changedEvent.name = value.name;
     changedEvent.place = value.place;
     changedEvent.week = value.week;
-    changedEvent.dateTime = moment(value.date).format(dateFormat);
-    changedEvent.eventTime = moment(value.time).format(timeFormat);
     changedEvent.type = value.type;
-    changedEvent.organizerId = events[changedInd].organizerId
-      ? organizers[newOrganizerInd].id
-      : '';
+    changedEvent.organizerId = organizers[newOrganizerInd].id;
     changedEvent.comment = value.comment;
     changedEvent.description = value.description;
     changedEvent.descriptionUrl = value.descriptionUrl;
 
+    const time: Date = value.time.toDate();
+    const hours: string =
+      time.getHours().toString().length < 2
+        ? `0${time.getHours()}`
+        : time.getHours().toString();
+    const minutes: string =
+      time.getMinutes().toString().length < 2
+        ? `0${time.getMinutes()}`
+        : time.getMinutes().toString();
+    changedEvent.eventTime = `${hours}:${minutes}`;
+
+    const date: Date = value.date.toDate();
+    const dateDate =
+      date.getDate().toString().length < 2
+        ? `0${date.getDate()}`
+        : date.getDate().toString();
+    const dateMonth =
+      (date.getMonth() + 1).toString().length < 2
+        ? `0${date.getMonth() + 1}`
+        : date.getMonth() + 1;
+    const dateYear = date.getFullYear();
+    const dayOfWeek: string = value.date.toDate().toString().slice(0, 3);
+    changedEvent.dateTime = `${dayOfWeek}, ${dateDate}.${dateMonth}.${dateYear}`;
+
+    console.log(value);
+
+    await axios.put(putEventUrl(events[changedInd].id), changedEvent);
     dispatch(changeEvent({ changedEvent, changedInd }));
   };
 
@@ -177,26 +202,28 @@ const TaskMainInfo: React.FC = () => {
           </Form.Item>
           <Form.Item label="Lector" name="lector">
             <Select>
-              {organizers.map((el) => {
-                return (
-                  <Select.Option key={el.id} value={el.name}>
-                    {el.name}
-                  </Select.Option>
-                );
-              })}
+              {organizers
+                .filter((el) => el.name)
+                .map((el) => {
+                  return (
+                    <Select.Option key={el.id} value={el.name}>
+                      {el.name}
+                    </Select.Option>
+                  );
+                })}
             </Select>
           </Form.Item>
           <Form.Item label="Place" name="place">
-            <Input />
+            <Input placeholder="If meetup look map in additional info" />
           </Form.Item>
           <Form.Item label="Comment" name="comment">
             <Input.TextArea />
           </Form.Item>
           <Form.Item label="Description" name="description">
-            <Input.TextArea />
+            <Input.TextArea placeholder="Description for URL below" />
           </Form.Item>
           <Form.Item label="Link" name="descriptionUrl">
-            <Input.TextArea />
+            <Input.TextArea placeholder="URL field for description above" />
           </Form.Item>
           <Form.Item>
             <Button
@@ -210,7 +237,7 @@ const TaskMainInfo: React.FC = () => {
           </Form.Item>
         </Form>
       ) : (
-        showEditInfo()
+        showEditMainInfo()
       )}
     </Card>
   );

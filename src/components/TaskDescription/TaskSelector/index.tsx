@@ -1,9 +1,11 @@
 import * as React from 'react';
+import axios from 'utils';
 import { Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { taskTypes } from '@constants';
 import { RootState } from 'store';
 import { changeEvent } from 'reducers/events';
+import { putEventUrl } from '@constants/api';
 
 const { Option } = Select;
 
@@ -30,8 +32,10 @@ const StudentMode: React.FC = () => {
     return <p>loading...</p>;
   }
 
-  const setTaskType = (value: string) => {
+  const setTaskType = async (value: string) => {
     additionalDetails.taskType = value;
+
+    await axios.put(putEventUrl(events[changedInd].id), changedEvent);
     dispatch(changeEvent({ changedEvent, changedInd }));
   };
 
