@@ -24,9 +24,12 @@ const StudentMode: React.FC = () => {
   const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
-  const feedbacks = events[changedInd].feedBack.comments;
+  const feedbacks =
+    events[changedInd].feedBack && events[changedInd].feedBack.comments;
   let sections: TaskSections = [];
-  const isAddReview = events[changedInd].feedBack.isEnableAddReview;
+  const isAddReview =
+    events[changedInd].feedBack &&
+    events[changedInd].feedBack.isEnableAddReview;
   const organizers = useSelector((state: RootState) => state.organizers.data);
   const changedOrganizerInd = organizers.findIndex(
     (person) => person.id === events[changedInd].organizerId,
@@ -90,7 +93,7 @@ const StudentMode: React.FC = () => {
     );
   };
 
-  switch (details.taskType) {
+  switch (details && details.taskType) {
     case 'codewars':
       sections = codewarsSections;
       break;
