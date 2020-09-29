@@ -163,7 +163,6 @@ export const globalFunctions: {
 export const errorHandler = (): void => {
   globalFunctions.showModalWindow();
 };
-
 export const columns = {
   startDay: 'Date',
   startTime: 'Time',

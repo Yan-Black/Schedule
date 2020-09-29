@@ -8,7 +8,8 @@ import { RootState } from 'store';
 import { putEventUrl } from '@constants/api';
 import { changeEvent } from 'reducers/events';
 import { globalFunctions } from '@constants';
-
+import downloadDocument from 'downloadFiles/downloadDocument';
+import DownloadModal, { getFormat } from './DownloadModal/index';
 import './index.scss';
 import { setEventPageId } from 'reducers/eventId';
 import { StudyEvent } from 'reducers/events/models';
@@ -59,10 +60,14 @@ const ModalWindow: React.FC = () => {
           <Modal
             title="Download Schedule"
             visible={visible}
-            onOk={handleOk}
+            onOk={() => {
+              downloadDocument(getFormat());
+              handleOk();
+            }}
             onCancel={handleCancel}
           >
-            <p>Download logic</p>
+            <p>Choose format:</p>
+            <DownloadModal />
           </Modal>
         );
 
