@@ -145,6 +145,14 @@ const tableColumns = (
       key: 'additional1',
       width: windowSize > 600 ? 120 : 100,
       editable: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address: React.ReactElement) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
       title: column.additional2 ? column.additional2.name : 'Additional',
@@ -152,6 +160,14 @@ const tableColumns = (
       key: 'additional2',
       width: windowSize > 600 ? 120 : 100,
       editable: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address: React.ReactElement) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
       title: column.additional3 ? column.additional3.name : 'Additional',
@@ -159,6 +175,14 @@ const tableColumns = (
       key: 'additional3',
       width: windowSize > 600 ? 120 : 100,
       editable: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address: React.ReactElement) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
       title: 'Action',

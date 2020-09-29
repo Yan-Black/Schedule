@@ -41,7 +41,7 @@ const TableSchedule: React.FC = () => {
   });
 
   const data: WeekData[] = [];
-  for (let i = 0; i < 50; ++i) {
+  for (let i = 0; i <= 50; ++i) {
     data.push({
       key: i,
       name: `Week ${i}`,

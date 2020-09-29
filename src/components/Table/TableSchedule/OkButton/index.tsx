@@ -37,11 +37,15 @@ const OkButton = ({
         !row.lector || row.lector === 'no lector'
           ? ''
           : organizers.find((lector) => lector.name === row.lector).id;
+
       let date: Date;
-      let dateTime: string;
+      let { dateTime } = changed;
       if (row.date) {
         date = row.date.toDate();
-        const dateDate = date.getDate();
+        const dateDate =
+          date.getDate().toString().length < 2
+            ? `0${date.getDate()}`
+            : date.getDate().toString();
         const dateMonth =
           (date.getMonth() + 1).toString().length < 2
             ? `0${date.getMonth() + 1}`
@@ -51,16 +55,18 @@ const OkButton = ({
         dateTime = `${dayOfWeek}, ${dateDate}.${dateMonth}.${dateYear}`;
       }
 
-      const hours =
-        row.time.toDate().getHours().toString().length < 2
-          ? `0${row.time.toDate().getHours()}`
-          : row.time.toDate().getHours();
-      const minutes =
-        row.time.toDate().getMinutes().toString().length < 2
-          ? `0${row.time.toDate().getMinutes()}`
-          : row.time.toDate().getMinutes();
-
-      const eventTime = row.time ? `${hours}:${minutes}` : changed.eventTime;
+      let { eventTime } = changed;
+      if (row.time) {
+        const hours =
+          row.time.toDate().getHours().toString().length < 2
+            ? `0${row.time.toDate().getHours()}`
+            : row.time.toDate().getHours().toString();
+        const minutes =
+          row.time.toDate().getMinutes().toString().length < 2
+            ? `0${row.time.toDate().getMinutes()}`
+            : row.time.toDate().getMinutes().toString();
+        eventTime = `${hours}:${minutes}`;
+      }
 
       const changedEvent = {
         ...changed,
@@ -68,7 +74,7 @@ const OkButton = ({
         place: row.place || changed.place,
         organizerId,
         comment: row.comments || changed.comment,
-        dateTime: dateTime || changed.dateTime,
+        dateTime,
         week: row.week.toString() || changed.week,
         eventTime,
         timeZone: timeZone || changed.timeZone,

@@ -39,7 +39,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   const { loading } = useSelector((state: RootState) => state.organizers);
 
   const placeholder = `Add ${title}`;
-  let inputNode = <Input.TextArea placeholder={placeholder} />;
+  let inputNode = <Input.TextArea placeholder={placeholder} maxLength={150} />;
   let extraNode: JSX.Element;
   let name = '';
   let extraName = '';
@@ -75,8 +75,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
     extraName = 'description';
     label = 'Link';
     extraLabel = 'Description';
-    inputNode = <Input.TextArea placeholder={placeholder} />;
-    extraNode = <Input.TextArea placeholder={placeholder} />;
+    inputNode = <Input.TextArea placeholder={placeholder} maxLength={150} />;
+    extraNode = <Input.TextArea placeholder={placeholder} maxLength={150} />;
   }
   if (inputType === 'time') {
     name = 'time';
