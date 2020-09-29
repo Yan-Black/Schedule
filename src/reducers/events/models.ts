@@ -1,6 +1,5 @@
 export interface StudyEvent {
   organizerId?: string;
-  favourite?: boolean;
   coords?: number[];
   address?: string;
   key?: string;
@@ -21,6 +20,7 @@ export interface StudyEvent {
   additional3?: string;
   feedBack?: Feedbacks;
   totalRaiting?: number;
+  favourite?: boolean;
 }
 
 export interface InitialStudyEventState {
@@ -28,6 +28,7 @@ export interface InitialStudyEventState {
   loading: boolean;
   error: null | string | unknown;
   isLoading: boolean;
+  favourite: boolean;
 }
 
 export interface TaskTypes {

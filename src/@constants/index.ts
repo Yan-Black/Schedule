@@ -224,7 +224,6 @@ export const globalFunctions: {
 export const errorHandler = (): void => {
   globalFunctions.showModalWindow();
 };
-
 export const columns = {
   dateTime: 'Date',
   eventTime: 'Time',

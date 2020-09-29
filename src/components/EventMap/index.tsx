@@ -14,7 +14,7 @@ const EventMap: React.FC<EventMapProp> = ({ address }: EventMapProp) => {
 
   useEffect(() => {
     dispatch(fetchCoords(address));
-  }, []);
+  }, [address]);
 
   return <Map />;
 };

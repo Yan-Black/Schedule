@@ -5,6 +5,7 @@ import {
   getAllOrganizers,
   postEventUrl,
   postOrganizer,
+  putEventUrl,
 } from '@constants/api';
 import { StudyEvent } from 'reducers/events/models';
 import { Organizer } from 'reducers/organizers/models';
@@ -85,7 +86,7 @@ export const fetchCoords = createAsyncThunk(
       );
       const resp: LocationCoordsResponce = await rawResp.json();
       const {
-        results: [, { geometry }],
+        results: [{ geometry }],
       } = resp;
       return geometry;
     } catch (e) {

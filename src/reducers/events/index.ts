@@ -8,6 +8,7 @@ const initialState: InitialStudyEventState = {
   loading: true,
   isLoading: false,
   error: null,
+  favourite: false,
 };
 
 const eventsSlice = createSlice({

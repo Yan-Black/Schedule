@@ -30,6 +30,20 @@
   margin: 0 auto;
 }
 
+.task-favourite:hover .anticon-heart {
+  transition: 0.2s;
+  transform: scale(1.1);
+}
+
+button.task-favourite {
+  border: 0;
+  text-align: left;
+
+  outline: none;
+
+  background-color: white;
+}
+
 .deadline-table {
   width: 400px;
 }

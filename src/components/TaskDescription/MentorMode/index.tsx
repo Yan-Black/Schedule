@@ -16,7 +16,8 @@ import {
 } from '@constants';
 import { RootState } from 'store';
 import { disableEditMode, enableEditMode } from 'reducers/eventId';
-import { TaskTypes } from 'reducers/events/models';
+import { StudyEvent, TaskTypes } from 'reducers/events/models';
+import EventMap from 'components/EventMap';
 import { TaskSections, TaskSection } from '../models';
 import TaskSelector from '../TaskSelector';
 import TaskMainInfo from './TaskMainInfo';
@@ -41,6 +42,10 @@ const MentorMode: React.FC = () => {
   const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
+  const { lat: latitude, lng: longtitude } = useSelector(
+    (state: RootState) => state.eventCoords,
+  );
+  const { address } = events[changedInd];
   let sections: TaskSections = [];
   const isTaskStart =
     events[changedInd].type === 'Task start' ||
@@ -58,6 +63,26 @@ const MentorMode: React.FC = () => {
     submit: details ? details.submit : '',
     howToCheck: details ? details.howToCheck : '',
     materials: details ? details.materials : '',
+    description: details ? details.description : '',
+    requirement: details ? details.requirement : '',
+    questionsExamples: details ? details.questionsExamples : '',
+    marks: details ? details.marks : '',
+    taskDeadline: details ? details.taskDeadline : '',
+    program: details ? details.program : '',
+    language: details ? details.language : '',
+    place: details ? details.place : '',
+    deadline: details ? details.deadline : '',
+    folderName: details ? details.folderName : '',
+    branchName: details ? details.branchName : '',
+    taskGoals: details ? details.taskGoals : '',
+    appFeatures: details ? details.appFeatures : '',
+    taskFeatures: details ? details.taskFeatures : '',
+    demo: details ? details.demo : '',
+    taskSpecification: details ? details.taskSpecification : '',
+    repositoryRequires: details ? details.repositoryRequires : '',
+    technicalRequires: details ? details.technicalRequires : '',
+    answersDoc: details ? details.answersDoc : '',
+    crossCheck: details ? details.crossCheck : '',
   };
 
   const comments = {
@@ -65,19 +90,15 @@ const MentorMode: React.FC = () => {
     isEnableAddReview: isEnable,
   };
 
-  let newAddress = events[changedInd].address ? events[changedInd].address : '';
-
   const changedEvent = {
     ...changed,
-    address: 'test',
     details: additionalDetails,
     feedBack: comments,
+    coords: [latitude, longtitude],
   };
 
   const updateState = () => {
-    // console.log('1');
     dispatch(changeEvent({ changedEvent, changedInd }));
-    // dispatch
     // axios.put(putEventUrl(id), сам объект)
   };
 
@@ -109,9 +130,8 @@ const MentorMode: React.FC = () => {
   }
 
   const showEditInfo = (info: string) => {
-    console.log('showeditinfo');
     let newInfo: string;
-    if (details !== undefined) {
+    if (details) {
       newInfo = details[info];
     } else {
       newInfo = '';
@@ -122,10 +142,12 @@ const MentorMode: React.FC = () => {
     );
   };
 
-  const searchAddress = (value) => {
-    console.log(value);
-    newAddress = value;
-    dispatch(changeEvent({ changedEvent, changedInd }));
+  const searchAddress = (value: string) => {
+    const copy: StudyEvent = {
+      ...changedEvent,
+      address: value,
+    };
+    dispatch(changeEvent({ changedEvent: copy, changedInd }));
   };
 
   if (isLoading) {
@@ -200,6 +222,7 @@ const MentorMode: React.FC = () => {
                           </h2>
 
                           {isEditMode ? (
+                            // <div>CKEditor</div>
                             <CKEditor
                               editor={ClassicEditor}
                               data={
@@ -232,7 +255,7 @@ const MentorMode: React.FC = () => {
                           <Search
                             placeholder="Input address"
                             onSearch={searchAddress}
-                            style={{ width: 200 }}
+                            style={{ width: 200, marginBottom: '20px' }}
                           />
                         ) : (
                           ''
@@ -244,6 +267,7 @@ const MentorMode: React.FC = () => {
             ) : (
               ''
             )}
+            {address && <EventMap address={address} />}
             {isEditMode ? (
               <Checkbox
                 className="toggle-add-review"
@@ -252,7 +276,11 @@ const MentorMode: React.FC = () => {
                 Enable adding reviews
               </Checkbox>
             ) : (
-              <Checkbox disabled defaultChecked={isEnable}>
+              <Checkbox
+                className="toggle-add-review"
+                disabled
+                defaultChecked={isEnable}
+              >
                 Enable adding reviews
               </Checkbox>
             )}
