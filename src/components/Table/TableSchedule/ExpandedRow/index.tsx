@@ -45,9 +45,17 @@ const expandedRow = (ind: number, windowSize: number): JSX.Element => {
 
   const filteredColumns = [];
   mergedColumns.map((col) => {
-    if (columnVisibility[col.key] && currentRole === mentorRole)
+    if (
+      columnVisibility[col.key] &&
+      columnVisibility[col.key].status &&
+      currentRole === mentorRole
+    )
       filteredColumns.push(col);
-    else if (columnVisibility[col.key] && col.key !== operationColKey)
+    else if (
+      columnVisibility[col.key] &&
+      columnVisibility[col.key].status &&
+      col.key !== operationColKey
+    )
       filteredColumns.push(col);
     return col;
   });
@@ -57,19 +65,26 @@ const expandedRow = (ind: number, windowSize: number): JSX.Element => {
       {sortedData.length > 0 && (
         <>
           <div className="table-btns-wrapper">
-            <div className="hide-show-btns" style={font}>
+            <div className="hide-show-btns">
               <HideButton
                 selectedRowKeys={selectedRowKeys}
                 setHiddenRowKeys={setHiddenRowKeys}
+                fontSize={font.fontSize}
               />
               <ShowButton
                 hiddenRowKeys={hiddenRowKeys}
                 setSelectedRowKeys={setSelectedRowKeys}
                 setHiddenRowKeys={setHiddenRowKeys}
+                fontSize={font.fontSize}
               />
             </div>
             {currentRole === mentorRole && (
-              <AddButton sortedData={sortedData} events={events} ind={ind} />
+              <AddButton
+                sortedData={sortedData}
+                events={events}
+                ind={ind}
+                fontSize={font.fontSize}
+              />
             )}
           </div>
           <Form
@@ -88,11 +103,12 @@ const expandedRow = (ind: number, windowSize: number): JSX.Element => {
               pagination={false}
               dataSource={sortedData}
               rowSelection={rowSelection}
-              scroll={{ y: 800 }}
+              scroll={{ y: 1500 }}
               sticky
+              style={font}
               rowClassName={(record) => {
                 const type = getKeyByValue(eventTypes, record.type);
-                const rowClass = eventTypeColors[type] as string;
+                const rowClass = `${eventTypeColors[type] as string}`;
                 return hiddenRowKeys.includes(record.key)
                   ? 'disable'
                   : rowClass;

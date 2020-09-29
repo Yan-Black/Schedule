@@ -35,6 +35,10 @@ export interface TableColumn {
     status: boolean;
     name: string;
   };
+  [x: string]: {
+    status: boolean;
+    name: string;
+  }
 }
 
 export interface TypeColumn {

@@ -38,28 +38,52 @@ const OkButton = ({
           ? ''
           : organizers.find((lector) => lector.name === row.lector).id;
 
-      const date = row.date.toDate();
-      const dateString: string = date.toLocaleDateString();
-      const dayOfWeek: string = row.date.toDate().toString().slice(0, 3);
-      const dateTime = `${dayOfWeek}, ${dateString}`;
-      const eventTime = row.time.toDate().toLocaleTimeString().slice(0, 5);
+      let date: Date;
+      let { dateTime } = changed;
+      if (row.date) {
+        date = row.date.toDate();
+        const dateDate =
+          date.getDate().toString().length < 2
+            ? `0${date.getDate()}`
+            : date.getDate().toString();
+        const dateMonth =
+          (date.getMonth() + 1).toString().length < 2
+            ? `0${date.getMonth() + 1}`
+            : date.getMonth() + 1;
+        const dateYear = date.getFullYear();
+        const dayOfWeek: string = row.date.toDate().toString().slice(0, 3);
+        dateTime = `${dayOfWeek}, ${dateDate}.${dateMonth}.${dateYear}`;
+      }
+
+      let { eventTime } = changed;
+      if (row.time) {
+        const hours =
+          row.time.toDate().getHours().toString().length < 2
+            ? `0${row.time.toDate().getHours()}`
+            : row.time.toDate().getHours().toString();
+        const minutes =
+          row.time.toDate().getMinutes().toString().length < 2
+            ? `0${row.time.toDate().getMinutes()}`
+            : row.time.toDate().getMinutes().toString();
+        eventTime = `${hours}:${minutes}`;
+      }
 
       const changedEvent = {
         ...changed,
-        name: row.name,
-        place: row.place,
+        name: row.name || changed.name,
+        place: row.place || changed.place,
         organizerId,
-        comment: row.comments,
+        comment: row.comments || changed.comment,
         dateTime,
-        week: row.week.toString(),
+        week: row.week.toString() || changed.week,
         eventTime,
-        timeZone,
-        description: row.description,
-        descriptionUrl: row.materials,
-        type: row.type,
-        additional1: row.additional1,
-        additional2: row.additional2,
-        additional3: row.additional3,
+        timeZone: timeZone || changed.timeZone,
+        description: row.description || changed.description,
+        descriptionUrl: row.materials || changed.descriptionUrl,
+        type: row.type || changed.type,
+        additional1: row.additional1 || changed.additional1 || '',
+        additional2: row.additional2 || changed.additional2 || '',
+        additional3: row.additional3 || changed.additional3 || '',
       };
 
       await axios.put(putEventUrl(events[changedInd].id), changedEvent);

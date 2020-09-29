@@ -5,11 +5,12 @@ import { HideButtonProps } from '../models';
 const HideButton = ({
   selectedRowKeys,
   setHiddenRowKeys,
+  fontSize,
 }: HideButtonProps): JSX.Element => {
   const hideHandler = () => setHiddenRowKeys(selectedRowKeys);
   return (
     <Button
-      className="hide-btn"
+      className={`hide-btn font-size-${fontSize}`}
       type="primary"
       disabled={selectedRowKeys.length === 0}
       onClick={hideHandler}

@@ -1,6 +1,7 @@
 import { utcOffsets } from '@constants';
 import { noType } from '@constants/_tableConstants';
 import { Button } from 'antd';
+import { setFont } from 'helpers';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StudyEvent } from 'reducers/events/models';
@@ -13,6 +14,7 @@ const AddButton = ({
   sortedData,
   events,
   ind,
+  fontSize,
 }: AddButtonProps): JSX.Element => {
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.events.isLoading);
@@ -34,7 +36,12 @@ const AddButton = ({
   };
 
   return (
-    <Button type="primary" onClick={add} loading={loading}>
+    <Button
+      className={`font-size-${fontSize}`}
+      type="primary"
+      onClick={add}
+      loading={loading}
+    >
       Add event
     </Button>
   );
