@@ -86,7 +86,7 @@ export const fetchCoords = createAsyncThunk(
       );
       const resp: LocationCoordsResponce = await rawResp.json();
       const {
-        results: [,{ geometry }],
+        results: [{ geometry }],
       } = resp;
       return geometry;
     } catch (e) {

@@ -45,6 +45,6 @@ export default function translite(str: string): string {
         ru[str[i].toLowerCase()].toUpperCase(),
     );
   }
-  
+
   return newStr.join('');
 }

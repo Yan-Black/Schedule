@@ -9,10 +9,10 @@ import { putEventUrl } from '@constants/api';
 import { changeEvent } from 'reducers/events';
 import { globalFunctions } from '@constants';
 import downloadDocument from 'downloadFiles/downloadDocument';
-import DownloadModal, { getFormat } from './DownloadModal/index';
 import './index.scss';
 import { setEventPageId } from 'reducers/eventId';
 import { StudyEvent } from 'reducers/events/models';
+import DownloadModal, { getFormat } from './DownloadModal/index';
 
 const ModalWindow: React.FC = () => {
   const dispatch = useDispatch();

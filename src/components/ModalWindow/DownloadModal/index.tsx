@@ -12,11 +12,11 @@ const DownloadModal: React.FC = () => {
   };
 
   return (
-      <Select onChange={changeHandler} defaultValue="txt">
-        <Option value="txt">Text</Option>
-        <Option value="xls">Excel</Option>
-        <Option value="pdf">PDF</Option>
-      </Select>
+    <Select onChange={changeHandler} defaultValue="txt">
+      <Option value="txt">Text</Option>
+      <Option value="xls">Excel</Option>
+      <Option value="pdf">PDF</Option>
+    </Select>
   );
 };
 

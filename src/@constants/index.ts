@@ -79,8 +79,6 @@ export const userRoles: string[] = ['Student', 'Mentor'];
 export const taskTypes = {
   codewars: 'Codewars',
   coreJS: 'Core JS',
-  interview: 'Interview',
-  meetup: 'Meetup',
   standartTask: 'Standart task',
 };
 
@@ -156,6 +154,69 @@ export const meetupSections: TaskSections = [
   },
 ];
 
+export const standartTaskSections = [
+  {
+    name: 'Deadline',
+    id: 'deadline',
+  },
+  {
+    name: 'Folder name',
+    id: 'folderName',
+  },
+  {
+    name: 'Branch name',
+    id: 'branchName',
+  },
+  {
+    name: 'Цели задания',
+    id: 'taskGoals',
+  },
+  {
+    name: 'Особенности приложения',
+    id: 'appFeatures',
+  },
+  {
+    name: 'Особенности задания',
+    id: 'taskFeatures',
+  },
+  {
+    name: 'Дэмо',
+    id: 'demo',
+  },
+  {
+    name: 'Описание приложения',
+    id: 'taskSpecification',
+  },
+  {
+    name: 'Требования к репозиторию',
+    id: 'repositoryRequires',
+  },
+  {
+    name: 'Технические требования',
+    id: 'technicalRequires',
+  },
+  {
+    name: 'Критерии оценки',
+    id: 'criteria',
+  },
+  {
+    name: 'Как сабмитнуть',
+    id: 'submit',
+  },
+  {
+    name: 'Полезные ссылки',
+    id: 'materials',
+  },
+  {
+    name: 'Документ для вопросов',
+    id: 'answersDoc',
+  },
+  {
+    name: 'Cross-check',
+    id: 'crossCheck',
+  },
+];
+
 export const globalFunctions: {
   [key: string]: (key?: unknown) => void | unknown;
 } = {};
@@ -164,16 +225,17 @@ export const errorHandler = (): void => {
   globalFunctions.showModalWindow();
 };
 export const columns = {
-  startDay: 'Date',
-  startTime: 'Time',
+  dateTime: 'Date',
+  eventTime: 'Time',
   name: 'Name',
   type: 'Type',
   place: 'Place',
   materials: 'Materials',
   lector: 'Lector',
-  comments: 'Comments',
+  comment: 'Comment',
   additional1: 'Additional',
   additional2: 'Additional',
   additional3: 'Additional',
   operation: 'Action',
+  description: 'Description',
 };

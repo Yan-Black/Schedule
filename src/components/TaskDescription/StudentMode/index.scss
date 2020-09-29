@@ -8,6 +8,7 @@
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
+  margin: 20px 0;
 }
 
 .main-task-info {
@@ -27,6 +28,10 @@
 
 .rate-line {
   margin-top: 20px;
+}
+
+.main-info-header {
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 576px) {

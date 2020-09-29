@@ -56,6 +56,7 @@ const tableColumns = (
           href="/"
           target="_blank"
           onClick={(e) => {
+            console.log(record.id);
             e.preventDefault();
             dispatch(setEventPageId(record.id));
           }}
@@ -140,7 +141,7 @@ const tableColumns = (
       ),
     },
     {
-      title: column.additional1 ? column.additional1.name :'Additional',
+      title: column.additional1 ? column.additional1.name : 'Additional',
       dataIndex: 'additional1',
       key: 'additional1',
       width: windowSize > 600 ? 120 : 100,

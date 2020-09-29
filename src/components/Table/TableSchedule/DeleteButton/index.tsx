@@ -19,7 +19,7 @@ const DeleteButton = ({
   const del = async (id: string) => {
     const delId = events.findIndex((event) => event.id === id);
     try {
-      setEditingKey(record.key.toString())
+      setEditingKey(record.key.toString());
       setIsLoad(true);
       await axios.delete(deleteEventUrl(id));
       dispatch(deleteEvent(delId));

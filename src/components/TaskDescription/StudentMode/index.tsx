@@ -27,6 +27,10 @@ const StudentMode: React.FC = () => {
   const feedbacks = events[changedInd].feedBack.comments;
   let sections: TaskSections = [];
   const isAddReview = events[changedInd].feedBack.isEnableAddReview;
+  const organizers = useSelector((state: RootState) => state.organizers.data);
+  const changedOrganizerInd = organizers.findIndex(
+    (person) => person.id === events[changedInd].organizerId,
+  );
 
   if (isLoading) {
     return <p>loading...</p>;
@@ -42,6 +46,47 @@ const StudentMode: React.FC = () => {
     return (
       // eslint-disable-next-line react/no-danger
       <div dangerouslySetInnerHTML={{ __html: newInfo }} />
+    );
+  };
+
+  const showEditMainInfo = () => {
+    return (
+      <React.Fragment key={changedInd.toString()}>
+        {Object.values(columns).map((el, index) => {
+          if (el === 'Description') {
+            return (
+              <h4 key={changedInd.toString().concat(index.toString())}>
+                <span className="main-info-header">Materials: </span>
+                <span>
+                  <a href={events[changedInd].descriptionUrl}>
+                    {events[changedInd].description}
+                  </a>
+                </span>
+              </h4>
+            );
+          }
+          if (el === 'Lector' && events[changedInd].organizerId) {
+            return (
+              <h4 key={changedInd.toString().concat(index.toString())}>
+                <span className="main-info-header">Lector: </span>
+                <span>{organizers[changedOrganizerInd].name}</span>
+              </h4>
+            );
+          }
+          return (
+            <React.Fragment
+              key={changedInd.toString().concat(index.toString())}
+            >
+              {events[changedInd][Object.keys(columns)[index]] && (
+                <h4 key={changedInd.toString().concat(index.toString())}>
+                  <span className="main-info-header">{el}: </span>
+                  <span>{events[changedInd][Object.keys(columns)[index]]}</span>
+                </h4>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </React.Fragment>
     );
   };
 
@@ -89,7 +134,8 @@ const StudentMode: React.FC = () => {
               style={{ width: 300 }}
               className="short-info"
             >
-              {Object.values(columns).map((el, index) => {
+              {showEditMainInfo()}
+              {/* {Object.values(columns).map((el, index) => {
                 return (
                   <h4 key={changedInd.toString().concat(index.toString())}>
                     {el}:
@@ -98,9 +144,9 @@ const StudentMode: React.FC = () => {
                     </span>
                   </h4>
                 );
-              })}
+              })} */}
             </Card>
-            {isAddReview ? <Rating /> : ''}
+            {isAddReview && <Rating />}
           </div>
           {sections.map((el, index) => {
             return (
@@ -114,7 +160,7 @@ const StudentMode: React.FC = () => {
               </React.Fragment>
             );
           })}
-          {isAddReview ? (
+          {isAddReview && (
             <React.Fragment key={changedInd.toString()}>
               <h2 className="task-main-headline">Рейтинг</h2>
               {feedbacks.map((el, index) => {
@@ -140,8 +186,6 @@ const StudentMode: React.FC = () => {
                 );
               })}
             </React.Fragment>
-          ) : (
-            ''
           )}
         </div>
       </div>
