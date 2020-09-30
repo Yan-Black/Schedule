@@ -16,7 +16,7 @@ const Rating: React.FC = () => {
   const events = useSelector((state: RootState) => state.events.data);
   const changedInd = events.findIndex((event) => event.id === eventId);
   const changed = events.find((event) => event.id === eventId);
-  const feedbacks = events[changedInd].feedBack
+  const feedbacks = events[changedInd].feedBack.comments
     ? events[changedInd].feedBack.comments
     : [];
   const isAddReview = events[changedInd].feedBack

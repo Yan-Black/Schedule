@@ -11,6 +11,7 @@ import {
 } from '@constants';
 import { RootState } from 'store';
 import { TaskTypes } from 'reducers/events/models';
+import EventMap from 'components/EventMap';
 import { TaskSections } from '../models';
 import Rating from './Rating';
 
@@ -24,8 +25,9 @@ const StudentMode: React.FC = () => {
   const details: TaskTypes = useSelector(
     (state: RootState) => state.events.data[changedInd].details,
   );
-  const feedbacks =
-    events[changedInd].feedBack && events[changedInd].feedBack.comments;
+  const feedbacks = events[changedInd].feedBack?.comments
+    ? events[changedInd].feedBack.comments
+    : [];
   let sections: TaskSections = [];
   const isAddReview =
     events[changedInd].feedBack &&
@@ -34,6 +36,8 @@ const StudentMode: React.FC = () => {
   const changedOrganizerInd = organizers.findIndex(
     (person) => person.id === events[changedInd].organizerId,
   );
+
+  const { address } = events[changedInd];
 
   if (isLoading) {
     return <p>loading...</p>;
@@ -51,6 +55,8 @@ const StudentMode: React.FC = () => {
       <div dangerouslySetInnerHTML={{ __html: newInfo }} />
     );
   };
+
+  console.log(changedInd);
 
   const showEditMainInfo = () => {
     return (
@@ -120,74 +126,78 @@ const StudentMode: React.FC = () => {
             defaultOpenKeys={['sub1']}
             mode="inline"
           >
-            {sections.map((el, index) => {
-              return (
-                <Menu.Item key={changedInd.toString().concat(index.toString())}>
-                  <a href={'#'.concat(el.id)}>{el.name}</a>
-                </Menu.Item>
-              );
-            })}
+            {events[changedInd].details &&
+              sections
+                .filter((el) => events[changedInd].details[el.id])
+                .map((el, index) => {
+                  return (
+                    <Menu.Item
+                      key={changedInd.toString().concat(index.toString())}
+                    >
+                      <a href={'#'.concat(el.id)}>{el.name}</a>
+                    </Menu.Item>
+                  );
+                })}
           </Menu>
         </div>
         <div className="task-desc-area">
           <div className="main-task-info">
             <Card
               size="small"
-              title="Краткая информация"
+              title="Main information"
               style={{ width: 300 }}
               className="short-info"
             >
               {showEditMainInfo()}
-              {/* {Object.values(columns).map((el, index) => {
-                return (
-                  <h4 key={changedInd.toString().concat(index.toString())}>
-                    {el}:
-                    <span>
-                      {events[changedInd][Object.keys(columns)[index]]}
-                    </span>
-                  </h4>
-                );
-              })} */}
             </Card>
             {isAddReview && <Rating />}
           </div>
-          {sections.map((el, index) => {
-            return (
-              <React.Fragment
-                key={changedInd.toString().concat(index.toString())}
-              >
-                <h2 className="task-main-headline" id={el.id}>
-                  {el.name}
-                </h2>
-                {showEditInfo(el.id)}
-              </React.Fragment>
-            );
-          })}
-          {isAddReview && (
-            <React.Fragment key={changedInd.toString()}>
-              <h2 className="task-main-headline">Рейтинг</h2>
-              {feedbacks.map((el, index) => {
+          {events[changedInd].details &&
+            sections
+              .filter(
+                (el) => events[changedInd].details[el.id] && el.id !== 'place',
+              )
+              .map((el, index) => {
                 return (
                   <React.Fragment
                     key={changedInd.toString().concat(index.toString())}
                   >
-                    <Rate
-                      className="user-stars"
-                      disabled
-                      defaultValue={el.raiting}
-                    />
-                    <Meta
-                      className="user-rating"
-                      avatar={
-                        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                      }
-                      title={el.author}
-                      description={el.text}
-                    />
-                    <hr className="rate-line" />
+                    <h2 className="task-main-headline" id={el.id}>
+                      {el.name}
+                    </h2>
+                    {showEditInfo(el.id)}
                   </React.Fragment>
                 );
               })}
+          {events[changedInd].address && (
+            <h2 className="task-main-headline">Место встречи</h2>
+          )}
+          {address && <EventMap address={address} />}
+          {feedbacks.length !== 0 && (
+            <React.Fragment key={changedInd.toString()}>
+              <h2 className="task-main-headline">Рейтинг</h2>
+              {feedbacks.length !== 0 && (feedbacks.map((el, index) => {
+                  return (
+                    <React.Fragment
+                      key={changedInd.toString().concat(index.toString())}
+                    >
+                      <Rate
+                        className="user-stars"
+                        disabled
+                        defaultValue={el.raiting}
+                      />
+                      <Meta
+                        className="user-rating"
+                        avatar={
+                          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                        }
+                        title={el.author}
+                        description={el.text}
+                      />
+                      <hr className="rate-line" />
+                    </React.Fragment>
+                );
+              }))}
             </React.Fragment>
           )}
         </div>
