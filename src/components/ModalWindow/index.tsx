@@ -8,8 +8,11 @@ import { RootState } from 'store';
 import { putEventUrl } from '@constants/api';
 import { changeEvent } from 'reducers/events';
 import { globalFunctions } from '@constants';
-
+import downloadDocument from 'downloadFiles/downloadDocument';
 import './index.scss';
+import { setEventPageId } from 'reducers/eventId';
+import { StudyEvent } from 'reducers/events/models';
+import DownloadModal, { getFormat } from './DownloadModal/index';
 
 const ModalWindow: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,14 +26,14 @@ const ModalWindow: React.FC = () => {
   const handleCancel = () => {
     setVisible(false);
   };
-  const showModalWindow = (windowType) => {
+  const showModalWindow = (windowType: string) => {
     setType(windowType);
     setVisible(true);
   };
 
   const items = events.filter((item) => item.favourite === true);
 
-  const handleFavourite = async (fav) => {
+  const handleFavourite = async (fav: StudyEvent) => {
     const favEvent = {
       ...fav,
       favourite: false,
@@ -40,6 +43,11 @@ const ModalWindow: React.FC = () => {
 
     await axios.put(putEventUrl(favEvent.id), favEvent);
     dispatch(changeEvent({ changedEvent: favEvent, changedInd }));
+  };
+
+  const handleClick = (id: string) => {
+    dispatch(setEventPageId(id));
+    setVisible(false);
   };
 
   useEffect(() => {
@@ -52,10 +60,14 @@ const ModalWindow: React.FC = () => {
           <Modal
             title="Download Schedule"
             visible={visible}
-            onOk={handleOk}
+            onOk={() => {
+              downloadDocument(getFormat());
+              handleOk();
+            }}
             onCancel={handleCancel}
           >
-            <p>Download logic</p>
+            <p>Choose format:</p>
+            <DownloadModal />
           </Modal>
         );
 
@@ -85,9 +97,14 @@ const ModalWindow: React.FC = () => {
                     <span style={{ color: 'green' }}>{fav.dateTime}</span>
                     &nbsp;
                     <span>{fav.eventTime}</span>&nbsp;
-                    <span style={{ fontWeight: 'bold' }}>
+                    <button
+                      type="button"
+                      className="list__button"
+                      style={{ fontWeight: 'bold' }}
+                      onClick={() => handleClick(fav.id)}
+                    >
                       {fav.description}
-                    </span>
+                    </button>
                     <button
                       type="button"
                       className="modal-favourite"
@@ -120,7 +137,7 @@ const ModalWindow: React.FC = () => {
         );
     }
   };
-  return <>{currentModalWindow(type)}</>;
+  return currentModalWindow(type);
 };
 
 export default ModalWindow;

@@ -6,7 +6,7 @@ import { RootState } from 'store';
 import { StudyEvent } from 'reducers/events/models';
 import { eventTypes } from '@constants';
 import { getKeyByValue, setFont } from 'helpers';
-import useWindowSize from 'hooks';
+import useWindowSize from 'custom';
 import { setEventPageId } from 'reducers/eventId';
 import { ListData } from './models';
 

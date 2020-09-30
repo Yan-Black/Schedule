@@ -89,6 +89,11 @@ const List: React.FC = () => {
             ? 'list__button up_button'
             : 'list__button up_button button_disabled'
         }
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
         onClick={clickHandler}
       >
         <ArrowUpOutlined />

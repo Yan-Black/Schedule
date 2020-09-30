@@ -1,7 +1,7 @@
 import React from 'react';
 import { HeartTwoTone } from '@ant-design/icons';
 
-import { globalFunctions } from '../../@constants';
+import { globalFunctions } from '@constants';
 
 import './index.scss';
 
@@ -12,7 +12,7 @@ const Favourite: React.FC = () => {
 
   return (
     <button type="button" onClick={handleListFavourite}>
-      <HeartTwoTone twoToneColor="#eb2f96" />
+      <HeartTwoTone style={{ cursor: 'pointer' }} twoToneColor="#eb2f96" />
     </button>
   );
 };

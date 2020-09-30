@@ -23,6 +23,7 @@ const tableColumns = (
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const organizers = useSelector((state: RootState) => state.organizers.data);
+  const { column } = useSelector((state: RootState) => state);
   const [editingKey, setEditingKey] = useState('');
   const [isLoad, setIsLoad] = useState(false);
   const isEditing = (record: ScheduleData) =>
@@ -55,6 +56,7 @@ const tableColumns = (
           href="/"
           target="_blank"
           onClick={(e) => {
+            console.log(record.id);
             e.preventDefault();
             dispatch(setEventPageId(record.id));
           }}
@@ -139,25 +141,49 @@ const tableColumns = (
       ),
     },
     {
-      title: 'Additional',
+      title: column.additional1 ? column.additional1.name : 'Additional',
       dataIndex: 'additional1',
       key: 'additional1',
       width: windowSize > 600 ? 120 : 100,
       editable: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address: React.ReactElement) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
-      title: 'Additional',
+      title: column.additional2 ? column.additional2.name : 'Additional',
       dataIndex: 'additional2',
       key: 'additional2',
       width: windowSize > 600 ? 120 : 100,
       editable: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address: React.ReactElement) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
-      title: 'Additional',
+      title: column.additional3 ? column.additional3.name : 'Additional',
       dataIndex: 'additional3',
       key: 'additional3',
       width: windowSize > 600 ? 120 : 100,
       editable: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address: React.ReactElement) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
       title: 'Action',

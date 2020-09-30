@@ -6,6 +6,7 @@ const ShowButton = ({
   hiddenRowKeys,
   setSelectedRowKeys,
   setHiddenRowKeys,
+  fontSize,
 }: ShowButtonProps): JSX.Element => {
   const showHandler = () => {
     setSelectedRowKeys([]);
@@ -14,6 +15,7 @@ const ShowButton = ({
 
   return (
     <Button
+      className={`font-size-${fontSize}`}
       type="primary"
       disabled={hiddenRowKeys.length === 0}
       onClick={showHandler}
