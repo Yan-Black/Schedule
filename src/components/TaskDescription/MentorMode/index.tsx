@@ -37,7 +37,7 @@ const MentorMode: React.FC = () => {
   const isEditMode = useSelector(
     (state: RootState) => state.eventId.isEditMode,
   );
-  const feedbacks = events[changedInd].feedBack
+  const feedbacks = events[changedInd].feedBack?.comments
     ? events[changedInd].feedBack.comments
     : [];
   const details: TaskTypes = useSelector(
